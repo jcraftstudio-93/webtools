@@ -3369,6 +3369,74 @@
       }
     }
 
+
+    /* ==================================================
+       PDF Splitter 레이아웃 보정
+       - 선택 카드는 항상 한 줄에 하나
+       - 이용방법 영역은 sticky/fixed 없이 일반 흐름
+       - 태블릿/모바일에서도 사이드 카드는 한 줄에 하나
+    ================================================== */
+
+    .split-mode-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .tool-sidebar {
+      display: block !important;
+      position: static !important;
+      top: auto !important;
+      align-self: auto !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    .tool-side-card {
+      position: static !important;
+      top: auto !important;
+      width: 100%;
+      margin-bottom: 14px !important;
+    }
+
+    .tool-side-card:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    @media (max-width: 980px) {
+      .tool-sidebar {
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+
+      .tool-side-card {
+        width: 100%;
+        margin-bottom: 14px !important;
+      }
+
+      .tool-side-card:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .tool-layout {
+        display: block;
+      }
+
+      .tool-shell {
+        width: 100%;
+      }
+
+      .tool-sidebar {
+        width: 100%;
+        margin-top: 18px;
+      }
+
+      .split-mode-card {
+        min-height: auto;
+      }
+    }
+
   </style>
 </head>
 
