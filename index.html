@@ -1,0 +1,4570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="JCraft Studio는 PDF, 랜덤, 계산기, 일정, 기록 등 일상과 업무에 필요한 앱과 웹 도구를 제공합니다."
+  >
+
+  <meta
+    name="keywords"
+    content="JCraft Studio, PDF 도구, 랜덤 도구, 계산기, 웹툴, 안드로이드 앱"
+  >
+
+  <meta name="author" content="JCraft Studio">
+  <meta name="theme-color" content="#ffffff">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JCraft Studio">
+  <meta
+    property="og:description"
+    content="일상과 업무에 필요한 실용적인 앱과 웹 도구"
+  >
+
+  <title>JCraft Studio | Apps & Web Tools</title>
+
+  <style>
+    /* ==================================================
+       기본 설정
+    ================================================== */
+
+    :root {
+      --primary: #1769e0;
+      --primary-dark: #0d54bd;
+      --primary-soft: #edf5ff;
+
+      --background: #f5f7fa;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+
+      --text-primary: #172033;
+      --text-secondary: #526071;
+      --text-muted: #8b96a5;
+
+      --border: #e2e7ed;
+      --border-dark: #d2d9e1;
+
+      --header-height: 78px;
+      --container-width: 1240px;
+
+      --shadow-small:
+        0 5px 20px rgba(32, 48, 72, 0.06);
+
+      --shadow-medium:
+        0 16px 40px rgba(32, 48, 72, 0.12);
+
+      --radius-small: 10px;
+      --radius-medium: 17px;
+      --radius-large: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text-primary);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.mobile-menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    .container {
+      width: min(
+        calc(100% - 40px),
+        var(--container-width)
+      );
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .section-label {
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    .section-title {
+      font-size: clamp(27px, 3.5vw, 38px);
+      font-weight: 850;
+      line-height: 1.25;
+      letter-spacing: -1.3px;
+    }
+
+    .section-description {
+      margin-top: 10px;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .section-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 750;
+      transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .section-more:hover {
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+
+    .section-more svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ==================================================
+       헤더
+    ================================================== */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 13px;
+      background:
+        linear-gradient(
+          145deg,
+          #4a9cff,
+          var(--primary)
+        );
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow:
+        0 8px 18px rgba(23, 105, 224, 0.22);
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    /* ==================================================
+       데스크톱 메뉴
+    ================================================== */
+
+    .desktop-navigation {
+      align-self: stretch;
+      display: flex;
+      align-items: stretch;
+      margin-left: auto;
+    }
+
+    .desktop-menu {
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+    }
+
+    .desktop-menu-item {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .desktop-menu-button,
+    .desktop-menu-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 17px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 780;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .desktop-menu-button::after,
+    .desktop-menu-link::after {
+      position: absolute;
+      right: 17px;
+      bottom: -1px;
+      left: 17px;
+      height: 3px;
+      border-radius: 999px 999px 0 0;
+      background: var(--primary);
+      content: "";
+      opacity: 0;
+      transform: scaleX(0.45);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .desktop-menu-item:hover .desktop-menu-button,
+    .desktop-menu-item.active .desktop-menu-button,
+    .desktop-menu-link:hover {
+      color: var(--primary);
+    }
+
+    .desktop-menu-item:hover .desktop-menu-button::after,
+    .desktop-menu-item.active .desktop-menu-button::after,
+    .desktop-menu-link:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .menu-chevron {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .desktop-menu-item:hover .menu-chevron,
+    .desktop-menu-item.active .menu-chevron {
+      transform: rotate(180deg);
+    }
+
+    .header-store-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      align-self: center;
+      min-height: 43px;
+      margin-left: 12px;
+      padding: 0 16px;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .header-store-link:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .header-store-link svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ==================================================
+       데스크톱 메가메뉴
+    ================================================== */
+
+    .mega-menu-area {
+      position: absolute;
+      top: var(--header-height);
+      right: 0;
+      left: 0;
+      z-index: 990;
+      overflow: hidden;
+      max-height: 0;
+      border-bottom: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.985);
+      box-shadow: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-12px);
+      transition:
+        max-height 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.22s ease,
+        transform 0.32s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .mega-menu-area.open {
+      max-height: 410px;
+      border-color: var(--border);
+      box-shadow:
+        0 22px 40px rgba(31, 48, 72, 0.11);
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .mega-menu-inner {
+      min-height: 280px;
+      padding: 34px 0 38px;
+    }
+
+    .mega-panel {
+      display: none;
+      grid-template-columns: 270px 1fr;
+      gap: 48px;
+      animation: megaPanelIn 0.3s ease;
+    }
+
+    .mega-panel.active {
+      display: grid;
+    }
+
+    @keyframes megaPanelIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mega-intro {
+      padding-right: 38px;
+      border-right: 1px solid var(--border);
+    }
+
+    .mega-icon {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 15px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .mega-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .mega-title {
+      font-size: 24px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .mega-description {
+      margin-top: 10px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .mega-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 22px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mega-all-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .mega-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 20px;
+      align-content: start;
+    }
+
+    .mega-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 68px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .mega-link:hover {
+      background: var(--primary-soft);
+      transform: translateY(-2px);
+    }
+
+    .mega-link-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .mega-link:hover .mega-link-icon {
+      border-color: #bfd9ff;
+      color: var(--primary);
+    }
+
+    .mega-link-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .mega-link-title {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mega-link-description {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .mega-menu-overlay {
+      position: fixed;
+      inset: var(--header-height) 0 0;
+      z-index: 980;
+      display: none;
+      background: rgba(12, 24, 40, 0.22);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .mega-menu-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ==================================================
+       모바일 메뉴
+    ================================================== */
+
+    .mobile-menu-button {
+      display: none;
+      width: 43px;
+      height: 43px;
+      place-items: center;
+      border-radius: 11px;
+      color: var(--text-primary);
+    }
+
+    .mobile-menu-button:hover {
+      background: var(--surface-soft);
+    }
+
+    .mobile-menu-button svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .mobile-navigation {
+      position: fixed;
+      top: var(--header-height);
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 995;
+      display: none;
+      overflow-y: auto;
+      padding: 16px 16px 40px;
+      background: #ffffff;
+    }
+
+    .mobile-navigation.open {
+      display: block;
+    }
+
+    .mobile-category {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-category-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 60px;
+      padding: 0 7px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .mobile-category-button svg {
+      width: 19px;
+      height: 19px;
+      color: var(--text-muted);
+      transition: transform 0.25s ease;
+    }
+
+    .mobile-category.open .mobile-category-button {
+      color: var(--primary);
+    }
+
+    .mobile-category.open .mobile-category-button svg {
+      transform: rotate(180deg);
+    }
+
+    .mobile-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
+    }
+
+    .mobile-category.open .mobile-submenu {
+      grid-template-rows: 1fr;
+    }
+
+    .mobile-submenu-inner {
+      overflow: hidden;
+    }
+
+    .mobile-submenu-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 0 17px;
+    }
+
+    .mobile-submenu-link {
+      padding: 13px;
+      border-radius: 11px;
+      background: var(--surface-soft);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .mobile-submenu-link:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .mobile-single-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+      padding: 0 7px;
+      border-bottom: 1px solid var(--border);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .mobile-single-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .mobile-store-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      margin-top: 18px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    /* ==================================================
+       메인 환영 배너
+    ================================================== */
+
+    .hero {
+      padding: 34px 0 0;
+    }
+
+    .hero-slider {
+      position: relative;
+      min-height: 500px;
+      overflow: hidden;
+      border-radius: var(--radius-large);
+      background: #142c50;
+      box-shadow:
+        0 20px 48px rgba(26, 52, 89, 0.17);
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(350px, 0.92fr);
+      align-items: center;
+      padding: 65px 70px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.65s ease;
+    }
+
+    .hero-slide.active {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-slide::before,
+    .hero-slide::after {
+      position: absolute;
+      border-radius: 999px;
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero-slide::before {
+      top: -180px;
+      right: -80px;
+      width: 540px;
+      height: 540px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hero-slide::after {
+      right: 290px;
+      bottom: -280px;
+      width: 490px;
+      height: 490px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .hero-slide-one {
+      background:
+        linear-gradient(
+          120deg,
+          #0f4f9d 0%,
+          #1769e0 48%,
+          #4a9cff 100%
+        );
+    }
+
+    .hero-slide-two {
+      background:
+        linear-gradient(
+          120deg,
+          #15375f 0%,
+          #24547e 50%,
+          #3d83ad 100%
+        );
+    }
+
+    .hero-slide-three {
+      background:
+        linear-gradient(
+          120deg,
+          #263d74 0%,
+          #4e5fc5 50%,
+          #7f75e7 100%
+        );
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      color: #ffffff;
+    }
+
+    .hero-small-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 21px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .hero-small-title::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ffffff;
+      content: "";
+    }
+
+    .hero-title {
+      font-size: clamp(41px, 5vw, 61px);
+      font-weight: 900;
+      line-height: 1.17;
+      letter-spacing: -2.7px;
+    }
+
+    .hero-description {
+      max-width: 600px;
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.79);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 31px;
+    }
+
+    .hero-primary-button,
+    .hero-secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 51px;
+      padding: 0 19px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 850;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .hero-primary-button {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .hero-secondary-button {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .hero-primary-button:hover,
+    .hero-secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-secondary-button:hover {
+      background: rgba(255, 255, 255, 0.17);
+    }
+
+    .hero-primary-button svg,
+    .hero-secondary-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      min-height: 330px;
+    }
+
+    .hero-visual-board {
+      position: relative;
+      width: min(100%, 385px);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.21);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .visual-board-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 19px;
+    }
+
+    .visual-board-title {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .visual-board-status {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .visual-board-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .visual-board-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .visual-board-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.17);
+      color: #ffffff;
+    }
+
+    .visual-board-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .visual-board-name {
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .visual-board-description {
+      margin-top: 1px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 9px;
+    }
+
+    .hero-slider-controls {
+      position: absolute;
+      right: 24px;
+      bottom: 22px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.4);
+      transition:
+        width 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .hero-dot.active {
+      width: 28px;
+      background: #ffffff;
+    }
+
+    .hero-slider-button {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      margin-left: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .hero-slider-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ==================================================
+       빠른 서비스 메뉴
+    ================================================== */
+
+    .quick-service-wrap {
+      position: relative;
+      z-index: 20;
+      margin-top: -34px;
+      padding: 0 28px;
+    }
+
+    .quick-service-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .quick-service {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      min-height: 91px;
+      padding: 13px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 780;
+      text-align: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .quick-service + .quick-service {
+      border-left: 1px solid var(--border);
+    }
+
+    .quick-service:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .quick-service-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--primary);
+    }
+
+    .quick-service-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ==================================================
+       주요 서비스
+    ================================================== */
+
+    .service-category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .service-category-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      background: var(--surface);
+      transition:
+        transform 0.23s ease,
+        box-shadow 0.23s ease,
+        border-color 0.23s ease;
+    }
+
+    .service-category-card:hover {
+      border-color: #c6daf5;
+      box-shadow: var(--shadow-medium);
+      transform: translateY(-4px);
+    }
+
+    .category-card-header {
+      position: relative;
+      min-height: 170px;
+      overflow: hidden;
+      padding: 26px;
+      background:
+        linear-gradient(
+          135deg,
+          #eef6ff,
+          #f8fbff
+        );
+    }
+
+    .category-card-header.random {
+      background:
+        linear-gradient(
+          135deg,
+          #f4f0ff,
+          #fbfaff
+        );
+    }
+
+    .category-card-header.calculator {
+      background:
+        linear-gradient(
+          135deg,
+          #eaf9f3,
+          #f8fdfb
+        );
+    }
+
+    .category-card-header::after {
+      position: absolute;
+      top: -80px;
+      right: -65px;
+      width: 210px;
+      height: 210px;
+      border-radius: 999px;
+      background: rgba(23, 105, 224, 0.06);
+      content: "";
+    }
+
+    .category-card-icon {
+      display: grid;
+      width: 50px;
+      height: 50px;
+      place-items: center;
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-small);
+    }
+
+    .category-card-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .category-card-title {
+      margin-top: 18px;
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.6px;
+    }
+
+    .category-card-description {
+      margin-top: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .category-card-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-card-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      padding: 0 18px;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 750;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .category-card-link:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+
+    .category-card-link:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .category-card-link svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ==================================================
+       소개 영역
+    ================================================== */
+
+    .about-section {
+      background: #eef2f7;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: 68px;
+    }
+
+    .about-visual {
+      position: relative;
+      display: grid;
+      min-height: 390px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          145deg,
+          #1769e0,
+          #4b9fff
+        );
+      box-shadow:
+        0 20px 45px rgba(23, 105, 224, 0.19);
+    }
+
+    .about-visual::before,
+    .about-visual::after {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      content: "";
+    }
+
+    .about-visual::before {
+      top: -110px;
+      right: -90px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .about-visual::after {
+      bottom: -130px;
+      left: -100px;
+      width: 330px;
+      height: 330px;
+    }
+
+    .about-logo {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      width: 150px;
+      height: 150px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 43px;
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -4px;
+      box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .about-copy .section-description {
+      max-width: 630px;
+      line-height: 1.85;
+    }
+
+    .about-points {
+      display: grid;
+      gap: 16px;
+      margin-top: 29px;
+    }
+
+    .about-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .about-check {
+      display: grid;
+      flex: 0 0 auto;
+      width: 29px;
+      height: 29px;
+      margin-top: 1px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .about-check svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .about-point-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .about-point-description {
+      margin-top: 3px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+
+    /* ==================================================
+       푸터
+    ================================================== */
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 0.7fr);
+      gap: 50px;
+      padding: 57px 0 40px;
+    }
+
+    .footer-brand-description {
+      max-width: 380px;
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .footer-title {
+      margin-bottom: 14px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 650;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 21px 0 29px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ==================================================
+       상단 이동
+    ================================================== */
+
+    .scroll-top-button {
+      position: fixed;
+      right: 21px;
+      bottom: 21px;
+      z-index: 900;
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-medium);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .scroll-top-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .scroll-top-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ==================================================
+       반응형
+    ================================================== */
+
+    @media (max-width: 1080px) {
+      .desktop-menu-button,
+      .desktop-menu-link {
+        padding: 0 11px;
+        font-size: 13px;
+      }
+
+      .desktop-menu-button::after,
+      .desktop-menu-link::after {
+        right: 11px;
+        left: 11px;
+      }
+
+      .header-store-link {
+        padding: 0 12px;
+      }
+
+      .hero-slide {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .quick-service-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .quick-service:nth-child(4) {
+        border-left: 0;
+      }
+
+      .quick-service:nth-child(n + 4) {
+        border-top: 1px solid var(--border);
+      }
+
+      .service-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --header-height: 68px;
+      }
+
+      .container {
+        width: min(
+          calc(100% - 28px),
+          var(--container-width)
+        );
+      }
+
+      .desktop-navigation,
+      .header-store-link,
+      .mega-menu-area,
+      .mega-menu-overlay {
+        display: none !important;
+      }
+
+      .mobile-menu-button {
+        display: grid;
+      }
+
+      .hero {
+        padding-top: 21px;
+      }
+
+      .hero-slider {
+        min-height: 465px;
+      }
+
+      .hero-slide {
+        padding: 53px 38px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      .about-visual {
+        min-height: 330px;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-main > div:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(
+          calc(100% - 20px),
+          var(--container-width)
+        );
+      }
+
+      .section {
+        padding: 65px 0;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand-name {
+        font-size: 17px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero-slider {
+        min-height: 500px;
+        border-radius: 19px;
+      }
+
+      .hero-slide {
+        padding: 43px 24px 65px;
+      }
+
+      .hero-title {
+        font-size: 37px;
+        letter-spacing: -2px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-primary-button,
+      .hero-secondary-button {
+        width: 100%;
+      }
+
+      .quick-service-wrap {
+        margin-top: -25px;
+        padding: 0 8px;
+      }
+
+      .quick-service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .quick-service:nth-child(odd) {
+        border-left: 0;
+      }
+
+      .quick-service:nth-child(even) {
+        border-left: 1px solid var(--border);
+      }
+
+      .quick-service:nth-child(n + 3) {
+        border-top: 1px solid var(--border);
+      }
+
+      .quick-service {
+        min-height: 78px;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 11px;
+      }
+
+      .quick-service-icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .service-category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-submenu-links {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-main > div:first-child {
+        grid-column: auto;
+      }
+
+      .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==================================================
+       헤더
+  =================================================== -->
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+
+      <a
+        href="#home"
+        class="brand"
+        aria-label="JCraft Studio 홈"
+      >
+        <span class="brand-mark">J</span>
+        <span class="brand-name">JCraft Studio</span>
+      </a>
+
+      <!-- 데스크톱 메뉴 -->
+
+      <nav
+        class="desktop-navigation"
+        aria-label="주요 카테고리"
+      >
+        <ul class="desktop-menu">
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaPdf"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              PDF 툴
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaRandom"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              랜덤 툴
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaCalculator"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              계산기
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaRecord"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              생활·기록
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaApps"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              Android 앱
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li class="desktop-menu-item">
+            <a href="#about" class="desktop-menu-link">
+              소개
+            </a>
+          </li>
+
+        </ul>
+
+        <!-- 실제 Google Play 주소로 교체 -->
+        <a
+          href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+          class="header-store-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Play
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M7 17 17 7"></path>
+            <path d="M7 7h10v10"></path>
+          </svg>
+        </a>
+      </nav>
+
+      <!-- 모바일 메뉴 버튼 -->
+
+      <button
+        type="button"
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        aria-label="메뉴 열기"
+        aria-expanded="false"
+      >
+        <svg
+          id="mobileMenuIcon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M4 7h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 17h16"></path>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- ==================================================
+         데스크톱 메가메뉴
+    =================================================== -->
+
+    <div
+      class="mega-menu-area"
+      id="megaMenuArea"
+      aria-hidden="true"
+    >
+      <div class="container mega-menu-inner">
+
+        <!-- PDF 메뉴 -->
+
+        <div class="mega-panel" id="megaPdf">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 3h7l5 5v13H7z"></path>
+                <path d="M14 3v5h5"></path>
+                <path d="M10 13h6"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">PDF 툴</h2>
+
+            <p class="mega-description">
+              PDF 파일을 합치고, 자르고, 잠그거나
+              페이지 순서를 변경하는 도구를 확인하세요.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a href="./tools/pdf-merge/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M8 4h8v6H8z"></path>
+                  <path d="M5 14h14v6H5z"></path>
+                  <path d="M12 10v4"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF Merge
+                </span>
+
+                <span class="mega-link-description">
+                  여러 PDF 파일 합치기
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/pdf-split/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 3v18"></path>
+                  <path d="M4 6h5v12H4z"></path>
+                  <path d="M15 6h5v12h-5z"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF Splitter
+                </span>
+
+                <span class="mega-link-description">
+                  원하는 페이지 자르기
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/pdf-order/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m8 7-3 3 3 3"></path>
+                  <path d="M5 10h14"></path>
+                  <path d="m16 17 3-3-3-3"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF 순서 변경
+                </span>
+
+                <span class="mega-link-description">
+                  페이지 순서 재배치
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/pdf-unlock/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+                  <path d="M9 10V7a3 3 0 0 1 6 0"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF 잠금 해제
+                </span>
+
+                <span class="mega-link-description">
+                  비밀번호 보호 해제
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/pdf-lock/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF 잠금
+                </span>
+
+                <span class="mega-link-description">
+                  PDF 비밀번호 설정
+                </span>
+              </span>
+            </a>
+
+            <a
+              href="./tools/pdf-watermark/"
+              class="mega-link"
+            >
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 3h12v18H6z"></path>
+                  <path d="m8 15 8-6"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  PDF 워터마크
+                </span>
+
+                <span class="mega-link-description">
+                  문서에 워터마크 추가
+                </span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- 랜덤 메뉴 -->
+
+        <div class="mega-panel" id="megaRandom">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M4 7h5l2 3 2-3h7"></path>
+                <path d="m17 4 3 3-3 3"></path>
+                <path d="M4 17h5l2-3 2 3h7"></path>
+                <path d="m17 14 3 3-3 3"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">랜덤 툴</h2>
+
+            <p class="mega-description">
+              팀 나누기, 순서 정하기, 추첨과 대진표 등
+              다양한 랜덤 도구를 이용할 수 있습니다.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a href="./tools/random-team/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="8" cy="8" r="3"></circle>
+                  <circle cx="16" cy="8" r="3"></circle>
+                  <path d="M2 20c0-4 2-7 6-7"></path>
+                  <path d="M22 20c0-4-2-7-6-7"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  랜덤 팀 나누기
+                </span>
+
+                <span class="mega-link-description">
+                  참여자를 무작위로 팀 구성
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/random-order/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M4 7h12"></path>
+                  <path d="m13 4 3 3-3 3"></path>
+                  <path d="M4 17h12"></path>
+                  <path d="m13 14 3 3-3 3"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  랜덤 순서 정하기
+                </span>
+
+                <span class="mega-link-description">
+                  발표·경기 순서 생성
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/ladder/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 3v18"></path>
+                  <path d="M17 3v18"></path>
+                  <path d="M7 7h10"></path>
+                  <path d="M7 13h10"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  사다리타기
+                </span>
+
+                <span class="mega-link-description">
+                  간편한 랜덤 선택
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/pair-maker/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="8" cy="9" r="3"></circle>
+                  <circle cx="16" cy="9" r="3"></circle>
+                  <path d="M4 20c0-4 1.5-7 4-7"></path>
+                  <path d="M20 20c0-4-1.5-7-4-7"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  짝꿍 만들기
+                </span>
+
+                <span class="mega-link-description">
+                  인원별 랜덤 짝 구성
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/tournament/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 3v5a4 4 0 0 0 4 4h4"></path>
+                  <path d="M6 21v-5a4 4 0 0 1 4-4"></path>
+                  <path d="M18 3v7"></path>
+                  <path d="M18 14v7"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  토너먼트 생성기
+                </span>
+
+                <span class="mega-link-description">
+                  경기 대진표 생성
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/yes-or-no/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M9 12h6"></path>
+                  <path d="M12 9v6"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  예 또는 아니오
+                </span>
+
+                <span class="mega-link-description">
+                  두 선택지 무작위 결정
+                </span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- 계산기 메뉴 -->
+
+        <div class="mega-panel" id="megaCalculator">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="4" y="2" width="16" height="20" rx="3"></rect>
+                <path d="M8 7h8"></path>
+                <path d="M8 12h2"></path>
+                <path d="M14 12h2"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">계산기</h2>
+
+            <p class="mega-description">
+              연차, 급여, 나이, 날짜처럼 일상과 업무에서
+              자주 사용하는 계산 기능을 제공합니다.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a
+              href="./tools/annual-leave/"
+              class="mega-link"
+            >
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                  <path d="M8 2v4"></path>
+                  <path d="M16 2v4"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  연차 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  입사일 기준 연차 계산
+                </span>
+              </span>
+            </a>
+
+            <a
+              href="./tools/age-calculator/"
+              class="mega-link"
+            >
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 7v5l3 2"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  만 나이 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  생년월일 기준 나이 계산
+                </span>
+              </span>
+            </a>
+
+            <a
+              href="./tools/salary-calculator/"
+              class="mega-link"
+            >
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="3"></rect>
+                  <path d="M7 10h10"></path>
+                  <path d="M7 14h4"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  급여 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  근무시간과 시급 계산
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/dutch-pay/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="8" cy="8" r="3"></circle>
+                  <circle cx="16" cy="8" r="3"></circle>
+                  <path d="M3 20c0-4 2-7 5-7"></path>
+                  <path d="M21 20c0-4-2-7-5-7"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  더치페이 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  인원별 금액 분배
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/date-calculator/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                  <path d="M3 10h18"></path>
+                  <path d="M8 15h8"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  날짜 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  날짜 사이 기간 계산
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/caffeine/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M4 7h13v8a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"></path>
+                  <path d="M17 9h2a3 3 0 0 1 0 6h-2"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  카페인 계산기
+                </span>
+
+                <span class="mega-link-description">
+                  카페인 섭취량 계산
+                </span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- 생활 기록 메뉴 -->
+
+        <div class="mega-panel" id="megaRecord">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                <path d="M8 2v4"></path>
+                <path d="M16 2v4"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">생활·기록</h2>
+
+            <p class="mega-description">
+              일정, 작업, 집중 시간과 생활 기록을
+              관리하는 다양한 서비스를 확인하세요.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a href="./tools/shift-planner/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  교대근무 계획표
+                </span>
+
+                <span class="mega-link-description">
+                  근무 패턴과 일정 관리
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/work-log/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 3h12v18H6z"></path>
+                  <path d="M9 8h6"></path>
+                  <path d="M9 12h6"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  작업일지
+                </span>
+
+                <span class="mega-link-description">
+                  작업 내용과 메모 기록
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/countdown/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="13" r="8"></circle>
+                  <path d="M12 9v4l2 2"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  카운트다운
+                </span>
+
+                <span class="mega-link-description">
+                  목표일까지 남은 기간
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/focus-timer/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="13" r="8"></circle>
+                  <path d="M12 9v4"></path>
+                  <path d="M9 2h6"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  집중 타이머
+                </span>
+
+                <span class="mega-link-description">
+                  집중 시간 관리
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/multi-counter/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5v14"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  멀티 카운터
+                </span>
+
+                <span class="mega-link-description">
+                  여러 항목 동시 카운트
+                </span>
+              </span>
+            </a>
+
+            <a href="./tools/lunar-calendar/" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 15a8 8 0 1 1-11-11 6 6 0 0 0 11 11Z"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  음력 달력
+                </span>
+
+                <span class="mega-link-description">
+                  음력 날짜 확인
+                </span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Android 앱 메뉴: 개별 앱 대신 고정 카테고리 중심 -->
+        <div class="mega-panel" id="megaApps">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                <path d="M10 18h4"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">Android 앱</h2>
+
+            <p class="mega-description">
+              개별 앱 목록은 Google Play에서 최신 상태로 확인할 수 있습니다.
+              메인 페이지는 앱이 추가될 때마다 수정하지 않아도 됩니다.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 3h7l5 5v13H7z"></path>
+                  <path d="M14 3v5h5"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">PDF·문서 앱</span>
+                <span class="mega-link-description">PDF와 파일 관리 도구</span>
+              </span>
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">일정·기록 앱</span>
+                <span class="mega-link-description">근무와 일상 기록 관리</span>
+              </span>
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="2" width="16" height="20" rx="3"></rect>
+                  <path d="M8 7h8"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">계산기 앱</span>
+                <span class="mega-link-description">생활과 업무 계산 도구</span>
+              </span>
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 7h5l2 3 2-3h7"></path>
+                  <path d="m17 4 3 3-3 3"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">랜덤·게임 앱</span>
+                <span class="mega-link-description">팀, 추첨과 순서 도구</span>
+              </span>
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-5-5L5 21"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">이미지·유틸 앱</span>
+                <span class="mega-link-description">이미지와 생활 편의 도구</span>
+              </span>
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mega-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="mega-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </span>
+              <span>
+                <span class="mega-link-title">모든 Android 앱</span>
+                <span class="mega-link-description">Google Play 최신 목록</span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div
+    class="mega-menu-overlay"
+    id="megaMenuOverlay"
+  ></div>
+
+  <!-- ==================================================
+       모바일 메뉴
+  =================================================== -->
+
+  <nav
+    class="mobile-navigation"
+    id="mobileNavigation"
+    aria-label="모바일 카테고리"
+  >
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        PDF 툴
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+            <a
+              href="./tools/pdf-merge/"
+              class="mobile-submenu-link"
+            >
+              PDF Merge
+            </a>
+
+            <a
+              href="./tools/pdf-split/"
+              class="mobile-submenu-link"
+            >
+              PDF Splitter
+            </a>
+
+            <a
+              href="./tools/pdf-order/"
+              class="mobile-submenu-link"
+            >
+              PDF 순서 변경
+            </a>
+
+            <a
+              href="./tools/pdf-unlock/"
+              class="mobile-submenu-link"
+            >
+              PDF 잠금 해제
+            </a>
+
+            <a
+              href="./tools/pdf-lock/"
+              class="mobile-submenu-link"
+            >
+              PDF 잠금
+            </a>
+
+            <a
+              href="./tools/pdf-watermark/"
+              class="mobile-submenu-link"
+            >
+              PDF 워터마크
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        랜덤 툴
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+            <a
+              href="./tools/random-team/"
+              class="mobile-submenu-link"
+            >
+              랜덤 팀 나누기
+            </a>
+
+            <a
+              href="./tools/random-order/"
+              class="mobile-submenu-link"
+            >
+              랜덤 순서 정하기
+            </a>
+
+            <a
+              href="./tools/ladder/"
+              class="mobile-submenu-link"
+            >
+              사다리타기
+            </a>
+
+            <a
+              href="./tools/pair-maker/"
+              class="mobile-submenu-link"
+            >
+              짝꿍 만들기
+            </a>
+
+            <a
+              href="./tools/tournament/"
+              class="mobile-submenu-link"
+            >
+              토너먼트 생성기
+            </a>
+
+            <a
+              href="./tools/yes-or-no/"
+              class="mobile-submenu-link"
+            >
+              예 또는 아니오
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        계산기
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+            <a
+              href="./tools/annual-leave/"
+              class="mobile-submenu-link"
+            >
+              연차 계산기
+            </a>
+
+            <a
+              href="./tools/age-calculator/"
+              class="mobile-submenu-link"
+            >
+              만 나이 계산기
+            </a>
+
+            <a
+              href="./tools/salary-calculator/"
+              class="mobile-submenu-link"
+            >
+              급여 계산기
+            </a>
+
+            <a
+              href="./tools/dutch-pay/"
+              class="mobile-submenu-link"
+            >
+              더치페이 계산기
+            </a>
+
+            <a
+              href="./tools/date-calculator/"
+              class="mobile-submenu-link"
+            >
+              날짜 계산기
+            </a>
+
+            <a
+              href="./tools/caffeine/"
+              class="mobile-submenu-link"
+            >
+              카페인 계산기
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        생활·기록
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+            <a
+              href="./tools/shift-planner/"
+              class="mobile-submenu-link"
+            >
+              교대근무 계획표
+            </a>
+
+            <a
+              href="./tools/work-log/"
+              class="mobile-submenu-link"
+            >
+              작업일지
+            </a>
+
+            <a
+              href="./tools/countdown/"
+              class="mobile-submenu-link"
+            >
+              카운트다운
+            </a>
+
+            <a
+              href="./tools/focus-timer/"
+              class="mobile-submenu-link"
+            >
+              집중 타이머
+            </a>
+
+            <a
+              href="./tools/multi-counter/"
+              class="mobile-submenu-link"
+            >
+              멀티 카운터
+            </a>
+
+            <a
+              href="./tools/lunar-calendar/"
+              class="mobile-submenu-link"
+            >
+              음력 달력
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        Android 앱
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              PDF·문서 앱
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              일정·기록 앱
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              계산기 앱
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              랜덤·게임 앱
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              이미지·유틸 앱
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="mobile-submenu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              모든 Android 앱
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#about" class="mobile-single-link">
+      JCraft Studio 소개
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </a>
+
+    <a
+      href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+      class="mobile-store-link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Google Play에서 앱 보기
+    </a>
+
+  </nav>
+
+  <main id="home">
+
+    <!-- ==================================================
+         메인 환영 배너
+    =================================================== -->
+
+    <section class="hero">
+      <div class="container">
+
+        <div class="hero-slider" id="heroSlider">
+
+          <!-- 첫 번째 배너 -->
+
+          <article
+            class="hero-slide hero-slide-one active"
+          >
+            <div class="hero-copy">
+
+              <p class="hero-small-title">
+                Welcome to JCraft Studio
+              </p>
+
+              <h1 class="hero-title">
+                JCraft Studio에<br>
+                방문해 주셔서 감사합니다
+              </h1>
+
+              <p class="hero-description">
+                일상과 업무에서 자주 필요한 기능을
+                누구나 편리하게 사용할 수 있도록 앱과 웹 도구로 만들고 있습니다.
+                필요한 서비스를 카테고리에서 찾아보세요.
+              </p>
+
+              <div class="hero-actions">
+
+                <a
+                  href="#mainServices"
+                  class="hero-primary-button"
+                >
+                  주요 서비스 보기
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="m13 6 6 6-6 6"></path>
+                  </svg>
+                </a>
+
+                <a
+                  href="#about"
+                  class="hero-secondary-button"
+                >
+                  JCraft Studio 소개
+                </a>
+
+              </div>
+            </div>
+
+            <div class="hero-visual">
+              <div class="hero-visual-board">
+
+                <div class="visual-board-top">
+                  <p class="visual-board-title">
+                    JCraft Services
+                  </p>
+
+                  <span class="visual-board-status">
+                    Web & Android
+                  </span>
+                </div>
+
+                <div class="visual-board-list">
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M7 3h7l5 5v13H7z"></path>
+                        <path d="M14 3v5h5"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        PDF 도구
+                      </span>
+
+                      <span class="visual-board-description">
+                        병합·분할·잠금·순서 변경
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M4 7h5l2 3 2-3h7"></path>
+                        <path d="m17 4 3 3-3 3"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        랜덤 도구
+                      </span>
+
+                      <span class="visual-board-description">
+                        팀·순서·추첨·토너먼트
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect x="4" y="2" width="16" height="20" rx="3"></rect>
+                        <path d="M8 7h8"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        생활 계산기
+                      </span>
+
+                      <span class="visual-board-description">
+                        연차·급여·나이·날짜 계산
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 두 번째 배너 -->
+
+          <article class="hero-slide hero-slide-two">
+            <div class="hero-copy">
+
+              <p class="hero-small-title">
+                Simple Web Tools
+              </p>
+
+              <h2 class="hero-title">
+                설치 없이 웹에서<br>
+                바로 사용해 보세요
+              </h2>
+
+              <p class="hero-description">
+                PDF, 랜덤, 계산기와 생활 도구를
+                별도의 프로그램 설치 없이 웹 브라우저에서 간편하게 이용할 수 있습니다.
+              </p>
+
+              <div class="hero-actions">
+                <a
+                  href="./tools.html"
+                  class="hero-primary-button"
+                >
+                  웹툴 전체 보기
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="m13 6 6 6-6 6"></path>
+                  </svg>
+                </a>
+              </div>
+
+            </div>
+
+            <div class="hero-visual">
+              <div class="hero-visual-board">
+
+                <div class="visual-board-top">
+                  <p class="visual-board-title">
+                    Web Tools
+                  </p>
+
+                  <span class="visual-board-status">
+                    No Installation
+                  </span>
+                </div>
+
+                <div class="visual-board-list">
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M8 4h8v6H8z"></path>
+                        <path d="M5 14h14v6H5z"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        PDF Merge
+                      </span>
+
+                      <span class="visual-board-description">
+                        PDF 파일을 하나로 병합
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="8" cy="8" r="3"></circle>
+                        <circle cx="16" cy="8" r="3"></circle>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        랜덤 팀 나누기
+                      </span>
+
+                      <span class="visual-board-description">
+                        참여자를 무작위로 팀 구성
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                        <path d="M8 2v4"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        연차 계산기
+                      </span>
+
+                      <span class="visual-board-description">
+                        입사일 기준 연차 계산
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 세 번째 배너 -->
+
+          <article class="hero-slide hero-slide-three">
+            <div class="hero-copy">
+
+              <p class="hero-small-title">
+                JCraft Android Apps
+              </p>
+
+              <h2 class="hero-title">
+                반복해서 사용하는 기능은<br>
+                앱으로 더 편리하게
+              </h2>
+
+              <p class="hero-description">
+                기록 저장과 반복 관리가 필요한 기능은
+                JCraft Studio의 Android 앱을 통해 더욱 편리하게 사용할 수 있습니다.
+              </p>
+
+              <div class="hero-actions">
+                <a
+                  href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+                  class="hero-primary-button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Google Play 바로가기
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17 17 7"></path>
+                    <path d="M7 7h10v10"></path>
+                  </svg>
+                </a>
+              </div>
+
+            </div>
+
+            <div class="hero-visual">
+              <div class="hero-visual-board">
+
+                <div class="visual-board-top">
+                  <p class="visual-board-title">
+                    Android Apps
+                  </p>
+
+                  <span class="visual-board-status">
+                    Google Play
+                  </span>
+                </div>
+
+                <div class="visual-board-list">
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        교대근무 계획표
+                      </span>
+
+                      <span class="visual-board-description">
+                        근무 패턴과 일정 관리
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M6 3h12v18H6z"></path>
+                        <path d="M9 8h6"></path>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        작업일지
+                      </span>
+
+                      <span class="visual-board-description">
+                        작업 기록과 PDF 보고서
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="visual-board-item">
+                    <span class="visual-board-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="7" cy="7" r="2"></circle>
+                        <circle cx="17" cy="7" r="2"></circle>
+                      </svg>
+                    </span>
+
+                    <span>
+                      <span class="visual-board-name">
+                        멍냥노트
+                      </span>
+
+                      <span class="visual-board-description">
+                        반려동물 건강과 일정 기록
+                      </span>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 배너 컨트롤 -->
+
+          <div class="hero-slider-controls">
+
+            <button
+              type="button"
+              class="hero-dot active"
+              data-slide-index="0"
+              aria-label="첫 번째 배너"
+            ></button>
+
+            <button
+              type="button"
+              class="hero-dot"
+              data-slide-index="1"
+              aria-label="두 번째 배너"
+            ></button>
+
+            <button
+              type="button"
+              class="hero-dot"
+              data-slide-index="2"
+              aria-label="세 번째 배너"
+            ></button>
+
+            <button
+              type="button"
+              class="hero-slider-button"
+              id="heroPauseButton"
+              aria-label="자동 슬라이드 일시정지"
+            >
+              <svg
+                id="heroPauseIcon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M7 5h4v14H7z"></path>
+                <path d="M13 5h4v14h-4z"></path>
+              </svg>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- 빠른 카테고리: 개별 서비스가 추가되어도 수정할 필요가 없는 고정 메뉴 -->
+
+        <div class="quick-service-wrap">
+          <div class="quick-service-grid">
+
+            <a href="./tools.html#pdf" class="quick-service">
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 3h7l5 5v13H7z"></path>
+                  <path d="M14 3v5h5"></path>
+                </svg>
+              </span>
+              PDF 툴
+            </a>
+
+            <a href="./tools.html#random" class="quick-service">
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 7h5l2 3 2-3h7"></path>
+                  <path d="m17 4 3 3-3 3"></path>
+                </svg>
+              </span>
+              랜덤 툴
+            </a>
+
+            <a href="./tools.html#calculator" class="quick-service">
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="2" width="16" height="20" rx="3"></rect>
+                  <path d="M8 7h8"></path>
+                </svg>
+              </span>
+              계산기
+            </a>
+
+            <a href="./tools.html#record" class="quick-service">
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="17" rx="3"></rect>
+                  <path d="M8 2v4"></path>
+                  <path d="M16 2v4"></path>
+                </svg>
+              </span>
+              생활·기록
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/developer?id=YOUR_DEVELOPER_ID"
+              class="quick-service"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                </svg>
+              </span>
+              Android 앱
+            </a>
+
+            <a href="#about" class="quick-service">
+              <span class="quick-service-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 10v6"></path>
+                  <path d="M12 7h.01"></path>
+                </svg>
+              </span>
+              소개
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================================================
+         주요 서비스 카테고리
+    =================================================== -->
+
+    <section class="section" id="mainServices">
+      <div class="container">
+
+        <div class="section-header">
+
+          <div>
+            <p class="section-label">MAIN SERVICES</p>
+
+            <h2 class="section-title">
+              주요 서비스
+            </h2>
+
+            <p class="section-description">
+              많이 사용하는 도구를 카테고리별로 확인해 보세요.
+            </p>
+          </div>
+
+          <a href="./tools.html" class="section-more">
+            전체 서비스 보기
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+          </a>
+
+        </div>
+
+        <div class="service-category-grid">
+
+          <!-- PDF -->
+
+          <article class="service-category-card">
+
+            <div class="category-card-header">
+
+              <div class="category-card-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 3h7l5 5v13H7z"></path>
+                  <path d="M14 3v5h5"></path>
+                </svg>
+              </div>
+
+              <h3 class="category-card-title">
+                PDF 툴
+              </h3>
+
+              <p class="category-card-description">
+                PDF 파일을 간편하게 관리하는 도구
+              </p>
+            </div>
+
+            <div class="category-card-links">
+
+              <a
+                href="./tools/pdf-merge/"
+                class="category-card-link"
+              >
+                PDF Merge
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/pdf-split/"
+                class="category-card-link"
+              >
+                PDF Splitter
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/pdf-order/"
+                class="category-card-link"
+              >
+                순서 변경
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/pdf-watermark/"
+                class="category-card-link"
+              >
+                워터마크
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+            </div>
+          </article>
+
+          <!-- 랜덤 -->
+
+          <article class="service-category-card">
+
+            <div class="category-card-header random">
+
+              <div class="category-card-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M4 7h5l2 3 2-3h7"></path>
+                  <path d="m17 4 3 3-3 3"></path>
+                  <path d="M4 17h5l2-3 2 3h7"></path>
+                </svg>
+              </div>
+
+              <h3 class="category-card-title">
+                랜덤 툴
+              </h3>
+
+              <p class="category-card-description">
+                팀, 순서와 선택을 무작위로 결정
+              </p>
+            </div>
+
+            <div class="category-card-links">
+
+              <a
+                href="./tools/random-team/"
+                class="category-card-link"
+              >
+                랜덤 팀
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/random-order/"
+                class="category-card-link"
+              >
+                랜덤 순서
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/ladder/"
+                class="category-card-link"
+              >
+                사다리타기
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/tournament/"
+                class="category-card-link"
+              >
+                토너먼트
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+            </div>
+          </article>
+
+          <!-- 계산기 -->
+
+          <article class="service-category-card">
+
+            <div class="category-card-header calculator">
+
+              <div class="category-card-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="4" y="2" width="16" height="20" rx="3"></rect>
+                  <path d="M8 7h8"></path>
+                  <path d="M8 12h2"></path>
+                  <path d="M14 12h2"></path>
+                </svg>
+              </div>
+
+              <h3 class="category-card-title">
+                계산기
+              </h3>
+
+              <p class="category-card-description">
+                일상과 업무에 필요한 간편 계산 도구
+              </p>
+            </div>
+
+            <div class="category-card-links">
+
+              <a
+                href="./tools/annual-leave/"
+                class="category-card-link"
+              >
+                연차 계산
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/age-calculator/"
+                class="category-card-link"
+              >
+                만 나이
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/salary-calculator/"
+                class="category-card-link"
+              >
+                급여 계산
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a
+                href="./tools/dutch-pay/"
+                class="category-card-link"
+              >
+                더치페이
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================
+         JCraft Studio 소개
+    =================================================== -->
+
+    <section class="section about-section" id="about">
+      <div class="container">
+
+        <div class="about-grid">
+
+          <div class="about-visual">
+            <div class="about-logo">
+              JC
+            </div>
+          </div>
+
+          <div class="about-copy">
+
+            <p class="section-label">
+              ABOUT JCRAFT STUDIO
+            </p>
+
+            <h2 class="section-title">
+              작지만 꼭 필요한 기능을<br>
+              쉽고 편리하게 만듭니다
+            </h2>
+
+            <p class="section-description">
+              JCraft Studio는 PDF, 계산, 랜덤, 일정, 기록처럼
+              일상과 업무에서 자주 사용하는 기능을 누구나 쉽게 이용할 수 있도록
+              앱과 웹 도구로 만들고 있습니다.
+            </p>
+
+            <div class="about-points">
+
+              <div class="about-point">
+                <span class="about-check">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path d="m5 12 4 4L19 6"></path>
+                  </svg>
+                </span>
+
+                <div>
+                  <p class="about-point-title">
+                    간단하고 직관적인 사용 방법
+                  </p>
+
+                  <p class="about-point-description">
+                    복잡한 절차 없이 필요한 기능을 빠르게 사용할 수 있습니다.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-point">
+                <span class="about-check">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path d="m5 12 4 4L19 6"></path>
+                  </svg>
+                </span>
+
+                <div>
+                  <p class="about-point-title">
+                    웹과 Android 앱 연결
+                  </p>
+
+                  <p class="about-point-description">
+                    간단한 기능은 웹에서, 저장과 반복 사용은 앱에서 이용할 수 있습니다.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-point">
+                <span class="about-check">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path d="m5 12 4 4L19 6"></path>
+                  </svg>
+                </span>
+
+                <div>
+                  <p class="about-point-title">
+                    지속적인 서비스 추가와 개선
+                  </p>
+
+                  <p class="about-point-description">
+                    새로운 생활 도구와 앱을 꾸준히 추가하고 개선합니다.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- ==================================================
+       푸터
+  =================================================== -->
+
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="footer-main">
+
+        <div>
+          <a href="#home" class="brand">
+            <span class="brand-mark">J</span>
+            <span class="brand-name">JCraft Studio</span>
+          </a>
+
+          <p class="footer-brand-description">
+            JCraft Studio는 일상과 업무에 필요한
+            간단하고 실용적인 앱과 웹 도구를 만듭니다.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title">
+            웹툴
+          </h3>
+
+          <ul class="footer-links">
+            <li>
+              <a href="./tools.html#pdf" class="footer-link">
+                PDF 툴
+              </a>
+            </li>
+
+            <li>
+              <a href="./tools.html#random" class="footer-link">
+                랜덤 툴
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="./tools.html#calculator"
+                class="footer-link"
+              >
+                계산기
+              </a>
+            </li>
+
+            <li>
+              <a href="./tools.html#record" class="footer-link">
+                생활·기록
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-title">
+            지원
+          </h3>
+
+          <ul class="footer-links">
+            <li>
+              <a href="./contact.html" class="footer-link">
+                문의하기
+              </a>
+            </li>
+
+            <li>
+              <a href="./privacy.html" class="footer-link">
+                개인정보처리방침
+              </a>
+            </li>
+
+            <li>
+              <a href="./terms.html" class="footer-link">
+                이용약관
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          © <span id="currentYear"></span>
+          JCraft Studio. All rights reserved.
+        </p>
+
+        <p>한국어</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <button
+    type="button"
+    class="scroll-top-button"
+    id="scrollTopButton"
+    aria-label="페이지 상단으로 이동"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="m6 15 6-6 6 6"></path>
+    </svg>
+  </button>
+
+  <script>
+    (() => {
+      "use strict";
+
+      /* ==================================================
+         데스크톱 메가메뉴
+      ================================================== */
+
+      const desktopMenuItems =
+        document.querySelectorAll(
+          ".desktop-menu-item[data-mega-target]"
+        );
+
+      const megaMenuArea =
+        document.getElementById("megaMenuArea");
+
+      const megaMenuOverlay =
+        document.getElementById("megaMenuOverlay");
+
+      const megaPanels =
+        document.querySelectorAll(".mega-panel");
+
+      let megaCloseTimer = null;
+
+      const openMegaMenu = (targetId, menuItem) => {
+        if (window.innerWidth <= 860) {
+          return;
+        }
+
+        window.clearTimeout(megaCloseTimer);
+
+        megaPanels.forEach((panel) => {
+          panel.classList.toggle(
+            "active",
+            panel.id === targetId
+          );
+        });
+
+        desktopMenuItems.forEach((item) => {
+          item.classList.toggle(
+            "active",
+            item === menuItem
+          );
+        });
+
+        megaMenuArea.classList.add("open");
+        megaMenuOverlay.classList.add("open");
+
+        megaMenuArea.setAttribute(
+          "aria-hidden",
+          "false"
+        );
+      };
+
+      const closeMegaMenu = () => {
+        desktopMenuItems.forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        megaMenuArea.classList.remove("open");
+        megaMenuOverlay.classList.remove("open");
+
+        megaMenuArea.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+      };
+
+      const scheduleMegaMenuClose = () => {
+        megaCloseTimer = window.setTimeout(
+          closeMegaMenu,
+          160
+        );
+      };
+
+      desktopMenuItems.forEach((menuItem) => {
+        const targetId =
+          menuItem.dataset.megaTarget;
+
+        menuItem.addEventListener(
+          "mouseenter",
+          () => {
+            openMegaMenu(targetId, menuItem);
+          }
+        );
+
+        menuItem.addEventListener(
+          "focusin",
+          () => {
+            openMegaMenu(targetId, menuItem);
+          }
+        );
+
+        menuItem.addEventListener(
+          "mouseleave",
+          scheduleMegaMenuClose
+        );
+      });
+
+      megaMenuArea.addEventListener(
+        "mouseenter",
+        () => {
+          window.clearTimeout(megaCloseTimer);
+        }
+      );
+
+      megaMenuArea.addEventListener(
+        "mouseleave",
+        scheduleMegaMenuClose
+      );
+
+      megaMenuOverlay.addEventListener(
+        "mouseenter",
+        scheduleMegaMenuClose
+      );
+
+      megaMenuOverlay.addEventListener(
+        "click",
+        closeMegaMenu
+      );
+
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          if (event.key === "Escape") {
+            closeMegaMenu();
+            closeMobileMenu();
+          }
+        }
+      );
+
+      /* ==================================================
+         모바일 메뉴
+      ================================================== */
+
+      const mobileMenuButton =
+        document.getElementById("mobileMenuButton");
+
+      const mobileMenuIcon =
+        document.getElementById("mobileMenuIcon");
+
+      const mobileNavigation =
+        document.getElementById("mobileNavigation");
+
+      const mobileCategories =
+        document.querySelectorAll(".mobile-category");
+
+      const mobileNavigationLinks =
+        mobileNavigation.querySelectorAll("a");
+
+      const updateMobileMenuIcon = (isOpen) => {
+        if (isOpen) {
+          mobileMenuIcon.innerHTML = `
+            <path d="M6 6l12 12"></path>
+            <path d="M18 6 6 18"></path>
+          `;
+        } else {
+          mobileMenuIcon.innerHTML = `
+            <path d="M4 7h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 17h16"></path>
+          `;
+        }
+      };
+
+      const closeMobileMenu = () => {
+        mobileNavigation.classList.remove("open");
+        document.body.classList.remove(
+          "mobile-menu-open"
+        );
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        mobileMenuButton.setAttribute(
+          "aria-label",
+          "메뉴 열기"
+        );
+
+        updateMobileMenuIcon(false);
+      };
+
+      mobileMenuButton.addEventListener(
+        "click",
+        () => {
+          const isOpen =
+            mobileNavigation.classList.toggle("open");
+
+          document.body.classList.toggle(
+            "mobile-menu-open",
+            isOpen
+          );
+
+          mobileMenuButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+          );
+
+          mobileMenuButton.setAttribute(
+            "aria-label",
+            isOpen ? "메뉴 닫기" : "메뉴 열기"
+          );
+
+          updateMobileMenuIcon(isOpen);
+        }
+      );
+
+      mobileCategories.forEach((category) => {
+        const button = category.querySelector(
+          ".mobile-category-button"
+        );
+
+        button.addEventListener("click", () => {
+          const willOpen =
+            !category.classList.contains("open");
+
+          mobileCategories.forEach((item) => {
+            item.classList.remove("open");
+          });
+
+          if (willOpen) {
+            category.classList.add("open");
+          }
+        });
+      });
+
+      mobileNavigationLinks.forEach((link) => {
+        link.addEventListener(
+          "click",
+          closeMobileMenu
+        );
+      });
+
+      /* ==================================================
+         메인 배너 슬라이드
+      ================================================== */
+
+      const heroSlides =
+        document.querySelectorAll(".hero-slide");
+
+      const heroDots =
+        document.querySelectorAll(".hero-dot");
+
+      const heroPauseButton =
+        document.getElementById("heroPauseButton");
+
+      const heroPauseIcon =
+        document.getElementById("heroPauseIcon");
+
+      let currentSlideIndex = 0;
+      let heroInterval = null;
+      let heroIsPlaying = true;
+
+      const showHeroSlide = (index) => {
+        currentSlideIndex =
+          (index + heroSlides.length) %
+          heroSlides.length;
+
+        heroSlides.forEach((slide, slideIndex) => {
+          slide.classList.toggle(
+            "active",
+            slideIndex === currentSlideIndex
+          );
+        });
+
+        heroDots.forEach((dot, dotIndex) => {
+          dot.classList.toggle(
+            "active",
+            dotIndex === currentSlideIndex
+          );
+        });
+      };
+
+      const startHeroSlider = () => {
+        window.clearInterval(heroInterval);
+
+        heroInterval = window.setInterval(
+          () => {
+            showHeroSlide(currentSlideIndex + 1);
+          },
+          6000
+        );
+      };
+
+      const stopHeroSlider = () => {
+        window.clearInterval(heroInterval);
+      };
+
+      const updateHeroPauseIcon = () => {
+        if (heroIsPlaying) {
+          heroPauseIcon.innerHTML = `
+            <path d="M7 5h4v14H7z"></path>
+            <path d="M13 5h4v14h-4z"></path>
+          `;
+
+          heroPauseButton.setAttribute(
+            "aria-label",
+            "자동 슬라이드 일시정지"
+          );
+        } else {
+          heroPauseIcon.innerHTML = `
+            <path d="m8 5 11 7-11 7z"></path>
+          `;
+
+          heroPauseButton.setAttribute(
+            "aria-label",
+            "자동 슬라이드 재생"
+          );
+        }
+      };
+
+      heroDots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const index = Number(
+            dot.dataset.slideIndex
+          );
+
+          showHeroSlide(index);
+
+          if (heroIsPlaying) {
+            startHeroSlider();
+          }
+        });
+      });
+
+      heroPauseButton.addEventListener(
+        "click",
+        () => {
+          heroIsPlaying = !heroIsPlaying;
+
+          if (heroIsPlaying) {
+            startHeroSlider();
+          } else {
+            stopHeroSlider();
+          }
+
+          updateHeroPauseIcon();
+        }
+      );
+
+      startHeroSlider();
+
+      /* ==================================================
+         연도 및 상단 이동 버튼
+      ================================================== */
+
+      const currentYear =
+        document.getElementById("currentYear");
+
+      const scrollTopButton =
+        document.getElementById("scrollTopButton");
+
+      currentYear.textContent =
+        String(new Date().getFullYear());
+
+      const handleScroll = () => {
+        scrollTopButton.classList.toggle(
+          "visible",
+          window.scrollY > 550
+        );
+      };
+
+      scrollTopButton.addEventListener(
+        "click",
+        () => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      );
+
+      window.addEventListener(
+        "scroll",
+        handleScroll,
+        { passive: true }
+      );
+
+      window.addEventListener(
+        "resize",
+        () => {
+          if (window.innerWidth <= 860) {
+            closeMegaMenu();
+          } else {
+            closeMobileMenu();
+          }
+        }
+      );
+
+      handleScroll();
+    })();
+  </script>
+
+</body>
+</html>
