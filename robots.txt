@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jcraftstudio-93.github.io/webtools/sitemap.xml
