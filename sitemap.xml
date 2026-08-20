@@ -11,15 +11,6 @@
         <priority>1.0</priority>
     </url>
 
-    <!-- About 
-    <url>
-        <loc>https://jcraftstudio-93.github.io/webtools/about/about.html</loc>
-        <lastmod>2026-08-20</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    -->
-  
     <!-- Privacy -->
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/privacy/privacy.html</loc>
@@ -42,14 +33,6 @@
         <lastmod>2026-08-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
-    </url>
-
-    <!-- PDF Lock -->
-    <url>
-        <loc>https://jcraftstudio-93.github.io/webtools/pdf/pdf_lock.html</loc>
-        <lastmod>2026-08-20</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
     </url>
 
     <!-- PDF Unlock -->
