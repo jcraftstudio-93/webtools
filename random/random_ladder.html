@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="이름과 결과를 입력해 사다리를 만들고, 한 명씩 경로를 따라가거나 전체 결과를 한 번에 확인할 수 있는 무료 온라인 사다리타기입니다.">
+  <meta name="keywords" content="사다리타기, 사다리 게임, 랜덤 사다리, 온라인 사다리타기, 벌칙 정하기, 무료 랜덤 도구, JCraft Studio">
+  <meta name="author" content="JCraft Studio">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="사다리타기 | JCraft Studio">
+  <meta property="og:description" content="최대 8명까지 이름과 결과를 입력하고 재미있게 사다리 경로를 확인해 보세요.">
+  <title>사다리타기 - 무료 온라인 랜덤 사다리 게임 | JCraft Studio</title>
+
+  <style>
+    :root {
+      --primary: #1769e0;
+      --primary-dark: #0d54bd;
+      --primary-soft: #edf5ff;
+      --background: #f5f7fa;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --text-primary: #172033;
+      --text-secondary: #526071;
+      --text-muted: #8b96a5;
+      --border: #e2e7ed;
+      --border-dark: #d2d9e1;
+      --success: #0f9f6e;
+      --danger: #e5484d;
+      --container-width: 1240px;
+      --shadow-small: 0 5px 20px rgba(32, 48, 72, 0.06);
+      --shadow-medium: 0 16px 40px rgba(32, 48, 72, 0.12);
+      --radius-small: 10px;
+      --radius-medium: 17px;
+      --radius-large: 26px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text-primary);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button { border: 0; background: none; cursor: pointer; }
+    svg { display: block; }
+    .container { width: min(calc(100% - 40px), var(--container-width)); margin: 0 auto; }
+    .hidden { display: none !important; }
+
+    .tool-hero { padding: 48px 0 22px; }
+    .tool-hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      padding: 44px 48px;
+      border-radius: var(--radius-large);
+      background: linear-gradient(135deg, #4b39a9 0%, #6d5ce7 52%, #8f80f5 100%);
+      color: #fff;
+      box-shadow: 0 22px 50px rgba(78, 64, 170, .22);
+    }
+    .tool-hero-card::before, .tool-hero-card::after {
+      position: absolute; border-radius: 999px; background: rgba(255,255,255,.08); content: "";
+    }
+    .tool-hero-card::before { width: 360px; height: 360px; top: -210px; right: -70px; }
+    .tool-hero-card::after { width: 300px; height: 300px; right: 240px; bottom: -230px; }
+    .tool-hero-content { position: relative; z-index: 2; max-width: 760px; }
+    .tool-category-label {
+      display: inline-flex; align-items: center; gap: 7px; margin-bottom: 16px; padding: 7px 11px;
+      border: 1px solid rgba(255,255,255,.22); border-radius: 999px; background: rgba(255,255,255,.1);
+      font-size: 12px; font-weight: 850;
+    }
+    .tool-category-label::before { width: 7px; height: 7px; border-radius: 999px; background: #fff; content: ""; }
+    .tool-hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 950; letter-spacing: -2.2px; line-height: 1.13; }
+    .tool-hero-description { max-width: 680px; margin-top: 16px; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.8; }
+    .hero-mini-ladder {
+      position: absolute; right: 62px; top: 50%; z-index: 2; width: 250px; height: 170px;
+      transform: translateY(-50%); opacity: .9;
+    }
+    .hero-mini-ladder span { position: absolute; display: block; border-radius: 999px; background: rgba(255,255,255,.72); }
+    .hero-mini-ladder .v1 { left: 25px; top: 5px; width: 4px; height: 160px; }
+    .hero-mini-ladder .v2 { left: 92px; top: 5px; width: 4px; height: 160px; }
+    .hero-mini-ladder .v3 { left: 159px; top: 5px; width: 4px; height: 160px; }
+    .hero-mini-ladder .v4 { left: 226px; top: 5px; width: 4px; height: 160px; }
+    .hero-mini-ladder .h1 { left: 29px; top: 38px; width: 63px; height: 4px; }
+    .hero-mini-ladder .h2 { left: 96px; top: 70px; width: 63px; height: 4px; }
+    .hero-mini-ladder .h3 { left: 163px; top: 104px; width: 63px; height: 4px; }
+    .hero-mini-ladder .h4 { left: 29px; top: 130px; width: 63px; height: 4px; }
+
+    .ad-area {
+      display: grid; min-height: 96px; place-items: center; margin: 26px 0;
+      border: 1px dashed #ccd5df; border-radius: 14px; background: #f9fbfd;
+      color: #9aa5b1; font-size: 11px; font-weight: 800; letter-spacing: 1px;
+    }
+
+    .tool-layout { display: grid; grid-template-columns: minmax(0, 1fr) 315px; gap: 24px; align-items: start; }
+    .tool-shell, .side-card, .content-card {
+      border: 1px solid var(--border); border-radius: var(--radius-medium); background: var(--surface); box-shadow: var(--shadow-small);
+    }
+    .tool-shell { padding: 24px; }
+    .side-card { position: sticky; top: 96px; padding: 24px; }
+    .side-card-title { font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
+    .side-step-list { display: grid; gap: 16px; margin-top: 20px; }
+    .side-step { display: flex; gap: 12px; align-items: flex-start; }
+    .side-step-number {
+      display: grid; flex: 0 0 auto; width: 30px; height: 30px; place-items: center;
+      border-radius: 9px; background: var(--primary-soft); color: var(--primary); font-size: 12px; font-weight: 900;
+    }
+    .side-step strong { display: block; font-size: 13px; font-weight: 850; }
+    .side-step p { margin-top: 3px; color: var(--text-secondary); font-size: 11px; line-height: 1.6; }
+    .privacy-note {
+      margin-top: 22px; padding: 14px; border-radius: 12px; background: #effaf5; color: #19724f;
+      font-size: 11px; font-weight: 700; line-height: 1.65;
+    }
+
+    .input-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .input-title { font-size: 23px; font-weight: 930; letter-spacing: -.8px; }
+    .input-description { margin-top: 5px; color: var(--text-secondary); font-size: 13px; }
+    .sample-button {
+      display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 13px;
+      border: 1px solid var(--border); border-radius: 11px; color: var(--primary); font-size: 12px; font-weight: 850;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .sample-button:hover { background: var(--primary-soft); transform: translateY(-1px); }
+    .sample-button svg { width: 16px; height: 16px; }
+
+    .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-label { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .field-label strong { font-size: 13px; font-weight: 850; }
+    .field-label span { color: var(--text-muted); font-size: 10px; font-weight: 700; }
+    .multi-input {
+      width: 100%; min-height: 176px; resize: vertical; padding: 15px 16px;
+      border: 1px solid var(--border); border-radius: 14px; outline: 0; background: var(--surface-soft);
+      color: var(--text-primary); font-size: 14px; font-weight: 650; line-height: 1.75;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .multi-input:focus { border-color: #84b5f5; background: #fff; box-shadow: 0 0 0 4px rgba(23,105,224,.09); }
+
+    .input-summary {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px;
+    }
+    .summary-box { padding: 14px; border: 1px solid var(--border); border-radius: 13px; background: var(--surface-soft); }
+    .summary-box span { display: block; color: var(--text-muted); font-size: 10px; font-weight: 750; }
+    .summary-box strong { display: block; margin-top: 3px; font-size: 18px; font-weight: 920; }
+
+    .validation-message { display: none; margin-top: 13px; padding: 12px 14px; border-radius: 11px; background: #fff1f1; color: #b4232c; font-size: 12px; font-weight: 750; }
+    .validation-message.visible { display: block; }
+    .primary-action {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 56px; margin-top: 16px;
+      border-radius: 14px; background: var(--primary); color: #fff; font-size: 15px; font-weight: 900;
+      box-shadow: 0 10px 22px rgba(23,105,224,.2); transition: background .2s ease, transform .2s ease;
+    }
+    .primary-action:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .primary-action:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .primary-action svg { width: 19px; height: 19px; }
+
+    .ladder-section { display: none; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
+    .ladder-section.visible { display: block; animation: sectionIn .4s ease both; }
+    @keyframes sectionIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .ladder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .ladder-toolbar-title { font-size: 19px; font-weight: 900; }
+    .ladder-toolbar p { margin-top: 3px; color: var(--text-secondary); font-size: 11px; }
+    .toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .secondary-action {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 0 13px;
+      border: 1px solid var(--border); border-radius: 11px; background: #fff; color: var(--text-secondary); font-size: 11px; font-weight: 850;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .secondary-action:hover { background: var(--primary-soft); color: var(--primary); transform: translateY(-1px); }
+    .secondary-action:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .secondary-action svg { width: 15px; height: 15px; }
+
+    .ladder-scroll { overflow-x: auto; padding: 4px 2px 12px; scrollbar-width: thin; }
+    .ladder-board {
+      position: relative; min-width: 660px; min-height: 520px; overflow: hidden;
+      border: 1px solid var(--border); border-radius: 18px;
+      background: linear-gradient(180deg, #fbfcff 0%, #f7f9fd 100%);
+    }
+    .ladder-top, .ladder-bottom {
+      position: absolute; right: 18px; left: 18px; z-index: 3; display: grid; gap: 8px;
+    }
+    .ladder-top { top: 16px; }
+    .ladder-bottom { bottom: 16px; }
+    .ladder-chip {
+      min-width: 0; min-height: 52px; padding: 7px 5px; border: 1px solid var(--border); border-radius: 13px;
+      background: #fff; color: var(--text-primary); font-size: 12px; font-weight: 850; text-align: center;
+      box-shadow: 0 4px 12px rgba(35,51,75,.05); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    button.ladder-chip:hover { border-color: #b9d4f8; color: var(--primary); transform: translateY(-2px); }
+    .ladder-chip.active { color: #fff; border-color: transparent; box-shadow: 0 9px 20px rgba(34,50,75,.15); }
+    .ladder-chip.matched { color: #fff; border-color: transparent; }
+    .ladder-chip:disabled { cursor: not-allowed; }
+    #ladderCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    .result-panel { display: none; margin-top: 16px; }
+    .result-panel.visible { display: block; }
+    .result-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+    .result-icon { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 11px; background: var(--primary-soft); color: var(--primary); }
+    .result-icon svg { width: 19px; height: 19px; }
+    .result-title { font-size: 17px; font-weight: 900; }
+    .result-list { display: grid; gap: 9px; }
+    .result-item {
+      display: grid; grid-template-columns: minmax(0,1fr) 28px minmax(0,1fr); align-items: center; gap: 9px;
+      padding: 13px 14px; border: 1px solid var(--item-border, var(--border)); border-radius: 13px;
+      background: var(--item-bg, var(--surface-soft)); animation: resultItemIn .35s ease both;
+    }
+    @keyframes resultItemIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    .result-name, .result-value { min-width: 0; font-size: 13px; font-weight: 850; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .result-value { text-align: right; }
+    .result-arrow { color: var(--item-color, var(--primary)); font-size: 18px; font-weight: 900; text-align: center; }
+
+    .history-section { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
+    .history-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .history-title { font-size: 18px; font-weight: 900; }
+    .history-count { color: var(--text-muted); font-size: 11px; font-weight: 750; }
+    .history-list { display: grid; gap: 10px; }
+    .history-empty { padding: 22px; border-radius: 13px; background: var(--surface-soft); color: var(--text-muted); font-size: 12px; text-align: center; }
+    .history-card { padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-soft); }
+    .history-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .history-date { font-size: 11px; font-weight: 850; }
+    .history-delete { color: var(--text-muted); font-size: 11px; font-weight: 800; }
+    .history-delete:hover { color: var(--danger); }
+    .history-matches { display: grid; gap: 6px; margin-top: 10px; }
+    .history-match { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+    .history-match span:first-child, .history-match span:last-child { flex: 1; font-weight: 750; }
+    .history-match span:last-child { text-align: right; }
+    .history-match b { color: var(--primary); }
+
+    .content-section { padding: 72px 0; }
+    .content-section.soft { background: #eef2f7; }
+    .section-heading { max-width: 760px; margin-bottom: 30px; }
+    .section-kicker { margin-bottom: 7px; color: var(--primary); font-size: 11px; font-weight: 900; letter-spacing: .8px; }
+    .section-title { font-size: clamp(27px, 4vw, 38px); font-weight: 920; letter-spacing: -1.3px; line-height: 1.25; }
+    .section-text { margin-top: 12px; color: var(--text-secondary); font-size: 14px; line-height: 1.85; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .content-card { padding: 23px; }
+    .content-card-icon { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 13px; background: var(--primary-soft); color: var(--primary); }
+    .content-card-icon svg { width: 21px; height: 21px; }
+    .content-card h3 { margin-top: 15px; font-size: 16px; font-weight: 900; }
+    .content-card p { margin-top: 7px; color: var(--text-secondary); font-size: 12px; line-height: 1.75; }
+    .faq-list { display: grid; gap: 10px; }
+    .faq-item { border: 1px solid var(--border); border-radius: 14px; background: #fff; overflow: hidden; }
+    .faq-button { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 18px; text-align: left; font-size: 13px; font-weight: 850; }
+    .faq-button svg { width: 17px; height: 17px; transition: transform .25s ease; }
+    .faq-item.open .faq-button svg { transform: rotate(180deg); }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s ease; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-answer-inner { overflow: hidden; }
+    .faq-answer p { padding: 0 18px 18px; color: var(--text-secondary); font-size: 12px; line-height: 1.8; }
+    .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .related-card { padding: 20px; border: 1px solid var(--border); border-radius: 15px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .related-card:hover { border-color: #c7daf5; box-shadow: var(--shadow-medium); transform: translateY(-3px); }
+    .related-card strong { display: block; font-size: 14px; font-weight: 900; }
+    .related-card span { display: block; margin-top: 5px; color: var(--text-secondary); font-size: 11px; }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 28px; z-index: 1200; padding: 12px 17px; border-radius: 12px;
+      background: rgba(24,33,48,.94); color: #fff; font-size: 12px; font-weight: 800;
+      opacity: 0; pointer-events: none; transform: translate(-50%,12px); transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.visible { opacity: 1; transform: translate(-50%,0); }
+
+    @media (max-width: 1040px) {
+      .hero-mini-ladder { display: none; }
+      .tool-layout { grid-template-columns: 1fr; }
+      .side-card { position: static; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(calc(100% - 24px), var(--container-width)); }
+      .tool-hero-card { min-height: auto; padding: 35px 27px; }
+      .tool-shell { padding: 18px; }
+      .input-grid, .feature-grid, .related-grid { grid-template-columns: 1fr; }
+      .input-summary { grid-template-columns: 1fr 1fr; }
+      .input-summary .summary-box:last-child { grid-column: 1 / -1; }
+      .input-header, .ladder-toolbar { align-items: stretch; flex-direction: column; }
+      .toolbar-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .secondary-action { width: 100%; }
+      .content-section { padding: 58px 0; }
+    }
+    @media (max-width: 480px) {
+      .tool-hero-title { font-size: 34px; }
+      .input-summary { grid-template-columns: 1fr; }
+      .input-summary .summary-box:last-child { grid-column: auto; }
+      .toolbar-actions { grid-template-columns: 1fr; }
+      .result-item { grid-template-columns: minmax(0,1fr) 22px minmax(0,1fr); padding: 12px 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="siteHeaderContainer"></div>
+
+  <main>
+    <section class="tool-hero">
+      <div class="container">
+        <div class="tool-hero-card">
+          <div class="tool-hero-content">
+            <p class="tool-category-label">RANDOM TOOL</p>
+            <h1 class="tool-hero-title">사다리타기</h1>
+            <p class="tool-hero-description">참가자와 결과를 입력하고 사다리를 생성하세요. 한 명씩 경로를 따라가거나 전체 결과를 한 번에 확인할 수 있습니다.</p>
+          </div>
+          <div class="hero-mini-ladder" aria-hidden="true">
+            <span class="v1"></span><span class="v2"></span><span class="v3"></span><span class="v4"></span>
+            <span class="h1"></span><span class="h2"></span><span class="h3"></span><span class="h4"></span>
+          </div>
+        </div>
+
+        <div class="ad-area">ADVERTISEMENT</div>
+
+        <div class="tool-layout">
+          <section class="tool-shell" aria-label="사다리타기 도구">
+            <div class="input-header">
+              <div>
+                <h2 class="input-title">사다리 만들기</h2>
+                <p class="input-description">이름과 결과를 같은 개수로 입력하세요. 최대 8명까지 사용할 수 있습니다.</p>
+              </div>
+              <button class="sample-button" id="sampleButton" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"></path></svg>
+                예시 입력
+              </button>
+            </div>
+
+            <div class="input-grid">
+              <label>
+                <span class="field-label"><strong>참가자 이름</strong><span>줄바꿈으로 구분</span></span>
+                <textarea id="namesInput" class="multi-input" spellcheck="false">민수
+지훈
+서연
+도윤</textarea>
+              </label>
+              <label>
+                <span class="field-label"><strong>결과 또는 벌칙</strong><span>줄바꿈으로 구분</span></span>
+                <textarea id="resultsInput" class="multi-input" spellcheck="false">커피 사기
+면제
+청소하기
+간식 사기</textarea>
+              </label>
+            </div>
+
+            <div class="input-summary">
+              <div class="summary-box"><span>참가자</span><strong id="nameCount">4명</strong></div>
+              <div class="summary-box"><span>결과</span><strong id="resultCount">4개</strong></div>
+              <div class="summary-box"><span>사용 가능</span><strong id="countStatus">준비 완료</strong></div>
+            </div>
+
+            <div class="validation-message" id="validationMessage"></div>
+
+            <button class="primary-action" id="generateButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3v18"></path><path d="M17 3v18"></path><path d="M7 8h10"></path><path d="M7 15h10"></path></svg>
+              사다리 생성하기
+            </button>
+
+            <section class="ladder-section" id="ladderSection">
+              <div class="ladder-toolbar">
+                <div>
+                  <h3 class="ladder-toolbar-title">생성된 사다리</h3>
+                  <p>위쪽 이름을 눌러 경로를 확인하세요.</p>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="secondary-action" id="revealAllButton" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9"></path><path d="m14 7 3-3 3 3"></path><path d="M17 4v7"></path></svg>
+                    전체 결과 보기
+                  </button>
+                  <button class="secondary-action" id="regenerateButton" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-5l-2-3-2 3H4"></path><path d="m17 4 3 3-3 3"></path><path d="M4 17h5l2-3 2 3h7"></path></svg>
+                    다시 만들기
+                  </button>
+                </div>
+              </div>
+
+              <div class="ladder-scroll">
+                <div class="ladder-board" id="ladderBoard">
+                  <canvas id="ladderCanvas"></canvas>
+                  <div class="ladder-top" id="ladderTop"></div>
+                  <div class="ladder-bottom" id="ladderBottom"></div>
+                </div>
+              </div>
+
+              <div class="result-panel" id="resultPanel">
+                <div class="result-title-row">
+                  <span class="result-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M7 6H4v2a4 4 0 0 0 4 4"></path><path d="M17 6h3v2a4 4 0 0 1-4 4"></path></svg></span>
+                  <h3 class="result-title">사다리 결과</h3>
+                </div>
+                <div class="result-list" id="resultList"></div>
+              </div>
+            </section>
+
+            <section class="history-section">
+              <div class="history-header">
+                <div><h3 class="history-title">최근 기록</h3><span class="history-count" id="historyCount">0개</span></div>
+                <button class="history-delete" id="clearHistoryButton" type="button">전체 삭제</button>
+              </div>
+              <div class="history-list" id="historyList"></div>
+            </section>
+          </section>
+
+          <aside class="side-card">
+            <h2 class="side-card-title">사용 방법</h2>
+            <div class="side-step-list">
+              <div class="side-step"><span class="side-step-number">1</span><div><strong>이름과 결과 입력</strong><p>참가자와 결과를 줄바꿈으로 각각 입력하세요.</p></div></div>
+              <div class="side-step"><span class="side-step-number">2</span><div><strong>사다리 생성</strong><p>입력 개수가 같으면 무작위 사다리가 만들어집니다.</p></div></div>
+              <div class="side-step"><span class="side-step-number">3</span><div><strong>이름 선택</strong><p>위쪽 이름을 눌러 애니메이션 경로를 확인하세요.</p></div></div>
+              <div class="side-step"><span class="side-step-number">4</span><div><strong>전체 확인</strong><p>전체 결과 보기를 누르면 모든 연결 결과가 표시됩니다.</p></div></div>
+            </div>
+            <div class="privacy-note">입력한 이름과 결과는 서버로 전송되지 않습니다. 최근 기록은 현재 브라우저에만 저장됩니다.</div>
+          </aside>
+        </div>
+
+        <div class="ad-area">ADVERTISEMENT</div>
+      </div>
+    </section>
+
+    <section class="content-section soft">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">HOW TO USE</p>
+          <h2 class="section-title">모임과 게임에서 간편하게 결과를 정하세요</h2>
+          <p class="section-text">회식 벌칙, 간식 담당, 발표 순서, 팀별 미션처럼 여러 사람에게 결과를 무작위로 연결해야 할 때 사용할 수 있습니다.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="content-card"><span class="content-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3v18"></path><path d="M17 3v18"></path><path d="M7 8h10"></path><path d="M7 15h10"></path></svg></span><h3>무작위 사다리 생성</h3><p>인원 수에 따라 충분한 수의 가로 연결선을 자동으로 배치합니다.</p></article>
+          <article class="content-card"><span class="content-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4v16"></path><path d="M19 4v16"></path><path d="m5 8 7 4 7-4"></path></svg></span><h3>경로 애니메이션</h3><p>선택한 참가자의 경로가 색상으로 표시되며 아래 결과까지 자연스럽게 이동합니다.</p></article>
+          <article class="content-card"><span class="content-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></span><h3>전체 결과 확인</h3><p>한 명씩 확인하거나 모든 참가자의 결과를 한 번에 비교할 수 있습니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="container">
+        <div class="section-heading"><p class="section-kicker">FAQ</p><h2 class="section-title">자주 묻는 질문</h2></div>
+        <div class="faq-list">
+          <article class="faq-item"><button class="faq-button" type="button">최대 몇 명까지 사용할 수 있나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"></path></svg></button><div class="faq-answer"><div class="faq-answer-inner"><p>화면 가독성과 경로 확인 편의성을 위해 현재 버전은 2명부터 최대 8명까지 지원합니다.</p></div></div></article>
+          <article class="faq-item"><button class="faq-button" type="button">같은 이름이나 같은 결과를 입력해도 되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"></path></svg></button><div class="faq-answer"><div class="faq-answer-inner"><p>가능합니다. 다만 결과 기록을 구분하기 어려울 수 있으므로 같은 이름에는 번호나 별칭을 붙이는 것을 권장합니다.</p></div></div></article>
+          <article class="faq-item"><button class="faq-button" type="button">결과가 정말 무작위인가요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"></path></svg></button><div class="faq-answer"><div class="faq-answer-inner"><p>사다리 가로선과 결과 순서를 생성할 때 브라우저의 난수를 사용합니다. 다시 만들기를 누를 때마다 새로운 배치가 생성됩니다.</p></div></div></article>
+          <article class="faq-item"><button class="faq-button" type="button">입력한 데이터가 저장되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"></path></svg></button><div class="faq-answer"><div class="faq-answer-inner"><p>서버로 전송하지 않습니다. 완료된 결과 기록만 브라우저 localStorage에 저장되며 언제든 전체 삭제할 수 있습니다.</p></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section soft">
+      <div class="container">
+        <div class="section-heading"><p class="section-kicker">RELATED TOOLS</p><h2 class="section-title">다른 랜덤 도구</h2></div>
+        <div class="related-grid">
+          <a class="related-card" href="./random_team.html"><strong>랜덤 팀 나누기</strong><span>참가자를 여러 팀으로 균등하게 나눕니다.</span></a>
+          <a class="related-card" href="./random_Tournament.html"><strong>토너먼트 생성기</strong><span>랜덤 대진표를 만들고 우승자까지 진행합니다.</span></a>
+          <a class="related-card" href="/webtools/index.html#random"><strong>랜덤 도구 전체 보기</strong><span>JCraft Studio의 다른 랜덤 도구를 확인합니다.</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooterContainer"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const STORAGE_KEY = 'jcraft_ladder_history_v1';
+      const pathColors = ['#6366F1','#EC4899','#10B981','#F59E0B','#06B6D4','#EF4444','#8B5CF6','#84CC16'];
+      const els = {
+        namesInput: document.getElementById('namesInput'),
+        resultsInput: document.getElementById('resultsInput'),
+        nameCount: document.getElementById('nameCount'),
+        resultCount: document.getElementById('resultCount'),
+        countStatus: document.getElementById('countStatus'),
+        validationMessage: document.getElementById('validationMessage'),
+        sampleButton: document.getElementById('sampleButton'),
+        generateButton: document.getElementById('generateButton'),
+        ladderSection: document.getElementById('ladderSection'),
+        ladderBoard: document.getElementById('ladderBoard'),
+        ladderCanvas: document.getElementById('ladderCanvas'),
+        ladderTop: document.getElementById('ladderTop'),
+        ladderBottom: document.getElementById('ladderBottom'),
+        revealAllButton: document.getElementById('revealAllButton'),
+        regenerateButton: document.getElementById('regenerateButton'),
+        resultPanel: document.getElementById('resultPanel'),
+        resultList: document.getElementById('resultList'),
+        historyList: document.getElementById('historyList'),
+        historyCount: document.getElementById('historyCount'),
+        clearHistoryButton: document.getElementById('clearHistoryButton'),
+        toast: document.getElementById('toast')
+      };
+
+      let state = {
+        names: [], results: [], bridges: [], selectedColumn: null,
+        allMatches: new Map(), revealAllMode: false, running: false,
+        animationProgress: 0, animationFrame: null
+      };
+      let histories = loadHistories();
+
+      function parseLines(value) {
+        return value.split(/\n/).map(v => v.trim()).filter(Boolean);
+      }
+      function shuffle(items) {
+        const result = [...items];
+        for (let i = result.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+      }
+      function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+      }
+      function hexToRgba(hex, alpha) {
+        const value = hex.replace('#','');
+        const r = parseInt(value.slice(0,2),16), g = parseInt(value.slice(2,4),16), b = parseInt(value.slice(4,6),16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      function formatDate(dateValue) {
+        const d = new Date(dateValue), two = n => String(n).padStart(2,'0');
+        return `${d.getFullYear()}-${two(d.getMonth()+1)}-${two(d.getDate())} ${two(d.getHours())}:${two(d.getMinutes())}`;
+      }
+      function showValidation(message) {
+        els.validationMessage.textContent = message;
+        els.validationMessage.classList.toggle('visible', Boolean(message));
+      }
+      function showToast(message) {
+        els.toast.textContent = message;
+        els.toast.classList.add('visible');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => els.toast.classList.remove('visible'), 1800);
+      }
+      function updateCounts() {
+        const names = parseLines(els.namesInput.value);
+        const results = parseLines(els.resultsInput.value);
+        els.nameCount.textContent = `${names.length}명`;
+        els.resultCount.textContent = `${results.length}개`;
+        let status = '준비 완료';
+        if (names.length < 2 || results.length < 2) status = '2개 이상 필요';
+        else if (names.length !== results.length) status = '개수 불일치';
+        else if (names.length > 8) status = '최대 8명';
+        els.countStatus.textContent = status;
+      }
+      function createBridges(count) {
+        const rowCount = count <= 4 ? 11 : 13;
+        const bridges = Array.from({length: rowCount}, () => Array(count - 1).fill(false));
+        for (let r = 0; r < rowCount; r++) {
+          let c = 0;
+          while (c < count - 1) {
+            if (Math.random() < 0.42) {
+              bridges[r][c] = true;
+              c += 2;
+            } else c++;
+          }
+        }
+        return bridges;
+      }
+      function traceColumn(startColumn) {
+        let column = startColumn;
+        for (let r = 0; r < state.bridges.length; r++) {
+          if (column > 0 && state.bridges[r][column - 1]) column--;
+          else if (column < state.names.length - 1 && state.bridges[r][column]) column++;
+        }
+        return column;
+      }
+      function buildAllMatches() {
+        const map = new Map();
+        state.names.forEach((_, index) => map.set(index, traceColumn(index)));
+        return map;
+      }
+      function generateLadder(scroll = true) {
+        const names = parseLines(els.namesInput.value);
+        const results = parseLines(els.resultsInput.value);
+        if (names.length < 2 || results.length < 2) return showValidation('이름과 결과를 각각 2개 이상 입력하세요.');
+        if (names.length !== results.length) return showValidation('참가자와 결과의 개수가 같아야 합니다.');
+        if (names.length > 8) return showValidation('최대 8명까지 사용할 수 있습니다.');
+        showValidation('');
+        cancelAnimation();
+        state = {
+          names, results: shuffle(results), bridges: createBridges(names.length),
+          selectedColumn: null, allMatches: new Map(), revealAllMode: false,
+          running: false, animationProgress: 0, animationFrame: null
+        };
+        els.ladderSection.classList.add('visible');
+        els.resultPanel.classList.remove('visible');
+        renderLabels();
+        resizeCanvas();
+        drawLadder();
+        if (scroll) els.ladderSection.scrollIntoView({behavior:'smooth', block:'start'});
+        showToast('새 사다리를 만들었습니다.');
+      }
+      function renderLabels() {
+        const columns = `repeat(${state.names.length}, minmax(0, 1fr))`;
+        els.ladderTop.style.gridTemplateColumns = columns;
+        els.ladderBottom.style.gridTemplateColumns = columns;
+        els.ladderTop.innerHTML = state.names.map((name, index) =>
+          `<button class="ladder-chip" type="button" data-start="${index}" title="${escapeHtml(name)}">${escapeHtml(name)}</button>`
+        ).join('');
+        els.ladderBottom.innerHTML = state.results.map((result, index) =>
+          `<div class="ladder-chip" data-end="${index}" title="${escapeHtml(result)}">${escapeHtml(result)}</div>`
+        ).join('');
+        els.ladderTop.querySelectorAll('[data-start]').forEach(button => {
+          button.addEventListener('click', () => runSingle(Number(button.dataset.start)));
+        });
+      }
+      function resizeCanvas() {
+        const rect = els.ladderBoard.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        els.ladderCanvas.width = Math.round(rect.width * ratio);
+        els.ladderCanvas.height = Math.round(rect.height * ratio);
+        els.ladderCanvas.style.width = `${rect.width}px`;
+        els.ladderCanvas.style.height = `${rect.height}px`;
+        const ctx = els.ladderCanvas.getContext('2d');
+        ctx.setTransform(ratio,0,0,ratio,0,0);
+      }
+      function geometry() {
+        const width = els.ladderBoard.clientWidth, height = els.ladderBoard.clientHeight;
+        const left = 46, right = width - 46, top = 86, bottom = height - 86;
+        const xFor = column => left + ((right-left)/(state.names.length-1))*column;
+        const rowGap = (bottom-top)/(state.bridges.length+1);
+        return {width,height,left,right,top,bottom,xFor,rowGap};
+      }
+      function pathPoints(startColumn) {
+        const g = geometry();
+        const points = [];
+        let column = startColumn;
+        points.push({x:g.xFor(column), y:g.top});
+        for (let r = 0; r < state.bridges.length; r++) {
+          const y = g.top + g.rowGap*(r+1);
+          points.push({x:g.xFor(column), y});
+          if (column > 0 && state.bridges[r][column-1]) {
+            points.push({x:g.xFor(column-1), y}); column--;
+          } else if (column < state.names.length-1 && state.bridges[r][column]) {
+            points.push({x:g.xFor(column+1), y}); column++;
+          }
+        }
+        points.push({x:g.xFor(column), y:g.bottom});
+        return points;
+      }
+      function drawBase(ctx, g) {
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#ccd5df'; ctx.lineWidth = 3;
+        for (let c=0;c<state.names.length;c++) {
+          ctx.beginPath(); ctx.moveTo(g.xFor(c),g.top); ctx.lineTo(g.xFor(c),g.bottom); ctx.stroke();
+        }
+        ctx.strokeStyle = '#9aa8b8'; ctx.lineWidth = 3.2;
+        for (let r=0;r<state.bridges.length;r++) {
+          const y=g.top+g.rowGap*(r+1);
+          for (let c=0;c<state.names.length-1;c++) if(state.bridges[r][c]) {
+            ctx.beginPath(); ctx.moveTo(g.xFor(c),y); ctx.lineTo(g.xFor(c+1),y); ctx.stroke();
+          }
+        }
+      }
+      function drawPath(ctx, startColumn, progress, color, width = 7) {
+        const points = pathPoints(startColumn);
+        const lengths = []; let total = 0;
+        for (let i=0;i<points.length-1;i++) {
+          const len=Math.hypot(points[i+1].x-points[i].x,points[i+1].y-points[i].y); lengths.push(len); total+=len;
+        }
+        let remaining = total * progress;
+        ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+        let current=points[0];
+        for(let i=0;i<lengths.length;i++) {
+          if(remaining<=0) break;
+          const a=points[i], b=points[i+1], segment=Math.min(remaining,lengths[i]), ratio=segment/lengths[i];
+          current={x:a.x+(b.x-a.x)*ratio,y:a.y+(b.y-a.y)*ratio};
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(current.x,current.y); ctx.stroke();
+          remaining-=segment;
+        }
+        if(progress>0 && progress<1) { ctx.beginPath(); ctx.arc(current.x,current.y,7,0,Math.PI*2); ctx.fill(); }
+        if(progress>=1) { const last=points[points.length-1]; ctx.beginPath(); ctx.arc(last.x,last.y,6,0,Math.PI*2); ctx.fill(); }
+      }
+      function drawLadder() {
+        if (!state.names.length) return;
+        const ctx = els.ladderCanvas.getContext('2d');
+        const g = geometry();
+        ctx.clearRect(0,0,g.width,g.height);
+        drawBase(ctx,g);
+        if(state.revealAllMode && state.allMatches.size) {
+          state.names.forEach((_,index)=>drawPath(ctx,index,1,pathColors[index%pathColors.length],5));
+        } else if(state.selectedColumn !== null) {
+          drawPath(ctx,state.selectedColumn,state.animationProgress,pathColors[state.selectedColumn%pathColors.length],7);
+        }
+      }
+      function updateLabelStates() {
+        els.ladderTop.querySelectorAll('[data-start]').forEach((el,index)=>{
+          el.classList.remove('active'); el.style.background='';
+          if(state.revealAllMode || state.selectedColumn===index) {
+            const color=pathColors[index%pathColors.length]; el.classList.add('active'); el.style.background=color;
+          }
+          el.disabled=state.running;
+        });
+        els.ladderBottom.querySelectorAll('[data-end]').forEach(el=>{ el.classList.remove('matched'); el.style.background=''; });
+        if(state.revealAllMode) {
+          state.allMatches.forEach((end,start)=>{
+            const el=els.ladderBottom.querySelector(`[data-end="${end}"]`); if(el){el.classList.add('matched');el.style.background=pathColors[start%pathColors.length];}
+          });
+        } else if(state.selectedColumn!==null && state.animationProgress>=1) {
+          const end=traceColumn(state.selectedColumn), el=els.ladderBottom.querySelector(`[data-end="${end}"]`);
+          if(el){el.classList.add('matched');el.style.background=pathColors[state.selectedColumn%pathColors.length];}
+        }
+        els.revealAllButton.disabled=state.running;
+        els.regenerateButton.disabled=state.running;
+      }
+      function cancelAnimation() {
+        if(state.animationFrame) cancelAnimationFrame(state.animationFrame);
+        state.animationFrame=null; state.running=false;
+      }
+      function runSingle(column) {
+        if(state.running || !state.names.length) return;
+        cancelAnimation();
+        state.selectedColumn=column; state.revealAllMode=false; state.allMatches=new Map(); state.running=true; state.animationProgress=0;
+        els.resultPanel.classList.remove('visible'); updateLabelStates();
+        const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const duration=reduce?10:1900, started=performance.now();
+        function frame(now) {
+          const raw=Math.min(1,(now-started)/duration);
+          state.animationProgress=1-Math.pow(1-raw,2);
+          drawLadder(); updateLabelStates();
+          if(raw<1) state.animationFrame=requestAnimationFrame(frame);
+          else {
+            state.running=false; state.animationProgress=1; state.animationFrame=null;
+            const matches=new Map([[column,traceColumn(column)]]);
+            renderResults(matches); updateLabelStates(); saveHistory(matches); showToast('결과가 도착했습니다.');
+          }
+        }
+        state.animationFrame=requestAnimationFrame(frame);
+      }
+      function revealAll() {
+        if(state.running || !state.names.length) return;
+        cancelAnimation();
+        state.selectedColumn=null; state.revealAllMode=true; state.allMatches=buildAllMatches(); state.animationProgress=1;
+        drawLadder(); updateLabelStates(); renderResults(state.allMatches); saveHistory(state.allMatches); showToast('전체 결과를 표시했습니다.');
+      }
+      function renderResults(matches) {
+        const entries=[...matches.entries()];
+        els.resultList.innerHTML=entries.map(([start,end],index)=>{
+          const color=pathColors[start%pathColors.length];
+          return `<div class="result-item" style="--item-color:${color};--item-bg:${hexToRgba(color,.08)};--item-border:${hexToRgba(color,.22)};animation-delay:${index*45}ms"><span class="result-name">${escapeHtml(state.names[start])}</span><span class="result-arrow">→</span><span class="result-value">${escapeHtml(state.results[end])}</span></div>`;
+        }).join('');
+        els.resultPanel.classList.add('visible');
+      }
+      function saveHistory(matches) {
+        const object={}; matches.forEach((end,start)=>object[state.names[start]]=state.results[end]);
+        if(!Object.keys(object).length) return;
+        histories.unshift({id:`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,createdAt:new Date().toISOString(),matches:object});
+        histories=histories.slice(0,30); persistHistories(); renderHistories();
+      }
+      function loadHistories() {
+        try { const raw=localStorage.getItem(STORAGE_KEY); const parsed=raw?JSON.parse(raw):[]; return Array.isArray(parsed)?parsed:[]; }
+        catch { return []; }
+      }
+      function persistHistories() { try { localStorage.setItem(STORAGE_KEY,JSON.stringify(histories)); } catch {} }
+      function renderHistories() {
+        els.historyCount.textContent=`${histories.length}개`;
+        els.clearHistoryButton.style.display=histories.length?'inline-block':'none';
+        if(!histories.length) { els.historyList.innerHTML='<div class="history-empty">아직 저장된 사다리 결과가 없습니다.</div>'; return; }
+        els.historyList.innerHTML=histories.map(item=>`<article class="history-card"><div class="history-card-top"><span class="history-date">${formatDate(item.createdAt)}</span><button class="history-delete" type="button" data-delete-history="${escapeHtml(item.id)}">삭제</button></div><div class="history-matches">${Object.entries(item.matches||{}).map(([name,result])=>`<div class="history-match"><span>${escapeHtml(name)}</span><b>→</b><span>${escapeHtml(result)}</span></div>`).join('')}</div></article>`).join('');
+        els.historyList.querySelectorAll('[data-delete-history]').forEach(button=>button.addEventListener('click',()=>{
+          histories=histories.filter(item=>item.id!==button.dataset.deleteHistory); persistHistories(); renderHistories();
+        }));
+      }
+
+      els.namesInput.addEventListener('input',updateCounts);
+      els.resultsInput.addEventListener('input',updateCounts);
+      els.sampleButton.addEventListener('click',()=>{
+        els.namesInput.value='민수\n지훈\n서연\n도윤';
+        els.resultsInput.value='커피 사기\n면제\n청소하기\n간식 사기';
+        updateCounts(); generateLadder(false);
+      });
+      els.generateButton.addEventListener('click',()=>generateLadder(true));
+      els.regenerateButton.addEventListener('click',()=>generateLadder(false));
+      els.revealAllButton.addEventListener('click',revealAll);
+      els.clearHistoryButton.addEventListener('click',()=>{
+        if(!histories.length) return;
+        histories=[]; persistHistories(); renderHistories(); showToast('기록을 모두 삭제했습니다.');
+      });
+      document.querySelectorAll('.faq-button').forEach(button=>button.addEventListener('click',()=>button.closest('.faq-item').classList.toggle('open')));
+      window.addEventListener('resize',()=>{
+        if(!state.names.length) return;
+        clearTimeout(window.__ladderResizeTimer);
+        window.__ladderResizeTimer=setTimeout(()=>{resizeCanvas();drawLadder();},100);
+      });
+
+      updateCounts(); renderHistories(); generateLadder(false);
+    })();
+  </script>
+  <script src="/webtools/assets/js/layout.js"></script>
+</body>
+</html>
