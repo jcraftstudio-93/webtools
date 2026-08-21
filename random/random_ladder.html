@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="사다리타기 | JCraft Studio">
   <meta property="og:description" content="최대 8명까지 이름과 결과를 입력하고 재미있게 사다리 경로를 확인해 보세요.">
-  <title>사다리타기 - 무료 온라인 랜덤 사다리 게임 | JCraft Studio</title>
+  <title>사다리타기 - 무료 랜덤 사다리 게임 | JCraft Studio</title>
 
   <style>
     :root {
@@ -53,44 +53,107 @@
     .container { width: min(calc(100% - 40px), var(--container-width)); margin: 0 auto; }
     .hidden { display: none !important; }
 
-    .tool-hero { padding: 48px 0 22px; }
-    .tool-hero-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 250px;
-      padding: 44px 48px;
-      border-radius: var(--radius-large);
-      background: linear-gradient(135deg, #4b39a9 0%, #6d5ce7 52%, #8f80f5 100%);
+    .tool-page {
+      padding-bottom: 90px;
+    }
+
+    .tool-breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 28px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tool-breadcrumb a { transition: color .2s ease; }
+    .tool-breadcrumb a:hover { color: var(--primary); }
+    .tool-breadcrumb svg { width: 14px; height: 14px; }
+
+    .tool-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 40px;
+      padding: 54px 0 38px;
+    }
+
+    .tool-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .7px;
+    }
+
+    .tool-hero-label::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(38px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -2.5px;
+    }
+
+    .tool-hero h1 span { color: var(--primary); }
+
+    .tool-hero-description {
+      max-width: 690px;
+      margin-top: 17px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .tool-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .tool-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .tool-hero-badge svg {
+      width: 15px;
+      height: 15px;
+      color: var(--primary);
+    }
+
+    .tool-hero-icon {
+      display: grid;
+      width: 132px;
+      height: 132px;
+      place-items: center;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #4a9cff, var(--primary));
       color: #fff;
-      box-shadow: 0 22px 50px rgba(78, 64, 170, .22);
+      box-shadow: 0 22px 44px rgba(23,105,224,.2);
     }
-    .tool-hero-card::before, .tool-hero-card::after {
-      position: absolute; border-radius: 999px; background: rgba(255,255,255,.08); content: "";
-    }
-    .tool-hero-card::before { width: 360px; height: 360px; top: -210px; right: -70px; }
-    .tool-hero-card::after { width: 300px; height: 300px; right: 240px; bottom: -230px; }
-    .tool-hero-content { position: relative; z-index: 2; max-width: 760px; }
-    .tool-category-label {
-      display: inline-flex; align-items: center; gap: 7px; margin-bottom: 16px; padding: 7px 11px;
-      border: 1px solid rgba(255,255,255,.22); border-radius: 999px; background: rgba(255,255,255,.1);
-      font-size: 12px; font-weight: 850;
-    }
-    .tool-category-label::before { width: 7px; height: 7px; border-radius: 999px; background: #fff; content: ""; }
-    .tool-hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 950; letter-spacing: -2.2px; line-height: 1.13; }
-    .tool-hero-description { max-width: 680px; margin-top: 16px; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.8; }
-    .hero-mini-ladder {
-      position: absolute; right: 62px; top: 50%; z-index: 2; width: 250px; height: 170px;
-      transform: translateY(-50%); opacity: .9;
-    }
-    .hero-mini-ladder span { position: absolute; display: block; border-radius: 999px; background: rgba(255,255,255,.72); }
-    .hero-mini-ladder .v1 { left: 25px; top: 5px; width: 4px; height: 160px; }
-    .hero-mini-ladder .v2 { left: 92px; top: 5px; width: 4px; height: 160px; }
-    .hero-mini-ladder .v3 { left: 159px; top: 5px; width: 4px; height: 160px; }
-    .hero-mini-ladder .v4 { left: 226px; top: 5px; width: 4px; height: 160px; }
-    .hero-mini-ladder .h1 { left: 29px; top: 38px; width: 63px; height: 4px; }
-    .hero-mini-ladder .h2 { left: 96px; top: 70px; width: 63px; height: 4px; }
-    .hero-mini-ladder .h3 { left: 163px; top: 104px; width: 63px; height: 4px; }
-    .hero-mini-ladder .h4 { left: 29px; top: 130px; width: 63px; height: 4px; }
+
+    .tool-hero-icon svg { width: 58px; height: 58px; }
 
     .ad-area {
       display: grid; min-height: 96px; place-items: center; margin: 26px 0;
@@ -98,12 +161,17 @@
       color: #9aa5b1; font-size: 11px; font-weight: 800; letter-spacing: 1px;
     }
 
-    .tool-layout { display: grid; grid-template-columns: minmax(0, 1fr) 315px; gap: 24px; align-items: start; }
+    .tool-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      align-items: start;
+      gap: 22px;
+    }
     .tool-shell, .side-card, .content-card {
       border: 1px solid var(--border); border-radius: var(--radius-medium); background: var(--surface); box-shadow: var(--shadow-small);
     }
-    .tool-shell { padding: 24px; }
-    .side-card { position: sticky; top: 96px; padding: 24px; }
+    .tool-shell { padding: 25px; border-radius: 22px; }
+    .side-card { position: sticky; top: 96px; padding: 24px; border-radius: 18px; }
     .side-card-title { font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
     .side-step-list { display: grid; gap: 16px; margin-top: 20px; }
     .side-step { display: flex; gap: 12px; align-items: flex-start; }
@@ -267,13 +335,13 @@
     .toast.visible { opacity: 1; transform: translate(-50%,0); }
 
     @media (max-width: 1040px) {
-      .hero-mini-ladder { display: none; }
+      .tool-hero-icon { display: none; }
       .tool-layout { grid-template-columns: 1fr; }
       .side-card { position: static; }
     }
     @media (max-width: 760px) {
       .container { width: min(calc(100% - 24px), var(--container-width)); }
-      .tool-hero-card { min-height: auto; padding: 35px 27px; }
+      .tool-hero { padding: 42px 0 30px; }
       .tool-shell { padding: 18px; }
       .input-grid, .feature-grid, .related-grid { grid-template-columns: 1fr; }
       .input-summary { grid-template-columns: 1fr 1fr; }
@@ -284,7 +352,7 @@
       .content-section { padding: 58px 0; }
     }
     @media (max-width: 480px) {
-      .tool-hero-title { font-size: 34px; }
+      .tool-hero h1 { font-size: 34px; letter-spacing: -1.8px; }
       .input-summary { grid-template-columns: 1fr; }
       .input-summary .summary-box:last-child { grid-column: auto; }
       .toolbar-actions { grid-template-columns: 1fr; }
@@ -299,22 +367,35 @@
 <body>
   <div id="siteHeaderContainer"></div>
 
-  <main>
-    <section class="tool-hero">
-      <div class="container">
-        <div class="tool-hero-card">
-          <div class="tool-hero-content">
-            <p class="tool-category-label">RANDOM TOOL</p>
-            <h1 class="tool-hero-title">사다리타기</h1>
-            <p class="tool-hero-description">참가자와 결과를 입력하고 사다리를 생성하세요. 한 명씩 경로를 따라가거나 전체 결과를 한 번에 확인할 수 있습니다.</p>
-          </div>
-          <div class="hero-mini-ladder" aria-hidden="true">
-            <span class="v1"></span><span class="v2"></span><span class="v3"></span><span class="v4"></span>
-            <span class="h1"></span><span class="h2"></span><span class="h3"></span><span class="h4"></span>
+  <main class="tool-page" id="home">
+    <div class="container">
+      <nav class="tool-breadcrumb" aria-label="현재 위치">
+        <a href="../index.html">홈</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg>
+        <a href="../index.html#random">랜덤 툴</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg>
+        <span>사다리타기</span>
+      </nav>
+
+      <section class="tool-hero">
+        <div>
+          <p class="tool-hero-label">RANDOM TOOL</p>
+          <h1>이름과 결과를 연결하는<br><span>랜덤 사다리타기</span></h1>
+          <p class="tool-hero-description">
+            참가자와 결과를 같은 개수로 입력하면 무작위 사다리를 생성합니다. 이름을 눌러 경로 애니메이션을 확인하거나 모든 결과를 한 번에 공개할 수 있습니다.
+          </p>
+          <div class="tool-hero-badges">
+            <span class="tool-hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"></path></svg>설치 없이 사용</span>
+            <span class="tool-hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3v18"></path><path d="M17 3v18"></path><path d="M7 8h10"></path><path d="M7 15h10"></path></svg>무작위 사다리</span>
+            <span class="tool-hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4v16"></path><path d="M19 4v16"></path><path d="m5 8 7 4 7-4"></path></svg>경로 애니메이션</span>
           </div>
         </div>
+        <div class="tool-hero-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v18"></path><path d="M12 3v18"></path><path d="M18 3v18"></path><path d="M6 7h6"></path><path d="M12 12h6"></path><path d="M6 17h6"></path></svg>
+        </div>
+      </section>
 
-        <div class="ad-area">ADVERTISEMENT</div>
+    <div class="ad-area">ADVERTISEMENT</div>
 
         <div class="tool-layout">
           <section class="tool-shell" aria-label="사다리타기 도구">
@@ -417,7 +498,6 @@
 
         <div class="ad-area">ADVERTISEMENT</div>
       </div>
-    </section>
 
     <section class="content-section soft">
       <div class="container">
