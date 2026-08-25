@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="ko">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="JPG, PNG, WEBP, BMP, HEIC 이미지를 JPG, PNG 또는 BMP로 변환하는 JCraft Studio 이미지 컨버터입니다." name="description"/>
+  <meta content="이미지 컨버터 | JCraft Studio" property="og:title"/>
+  <meta content="이미지 확장자를 JPG, PNG 또는 BMP로 변환하세요." property="og:description"/>
+  <title>
+   이미지 컨버터 | JCraft Studio
+  </title>
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js">
+  </script>
+  <style>
+
+:root {
+    --p:#1769e0;
+    --pd:#0e54bc;
+    --ps:#edf5ff;
+    --bg:#f5f7fa;
+    --s:#fff;
+    --ss:#f8fafc;
+    --t:#172033;
+    --ts:#526071;
+    --tm:#8b96a5;
+    --b:#e2e7ed;
+    --sh:0 7px 24px rgba(32,48,72,.07);
+    --hh:78px;
+    --cw:1240px;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+html {
+    scroll-behavior:smooth;
+}
+
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--t);
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+a {
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select {
+    font:inherit;
+}
+
+button {
+    cursor:pointer;
+}
+
+.container {
+    width:min(calc(100% - 40px),var(--cw));
+    margin:auto;
+}
+
+.hero {
+    padding:42px 0 34px;
+    border-bottom:1px solid var(--b);
+    background:linear-gradient(#f8fbff,#f5f7fa);
+}
+
+.crumb {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+    color:var(--tm);
+    font-size:12px;
+    font-weight:700;
+}
+
+.crumb svg {
+    width:14px;
+}
+
+.hero-grid {
+    display:grid;
+    grid-template-columns:1fr 180px;
+    align-items:center;
+    gap:48px;
+}
+
+.label {
+    margin:0 0 13px;
+    color:var(--p);
+    font-size:12px;
+    font-weight:850;
+    letter-spacing:.7px;
+}
+
+.hero h1 {
+    margin:0;
+    font-size:clamp(36px,5vw,54px);
+    line-height:1.16;
+    font-weight:900;
+    letter-spacing:-2.2px;
+}
+
+.hero h1 span {
+    color:var(--p);
+}
+
+.lead {
+    max-width:760px;
+    margin:16px 0 0;
+    color:var(--ts);
+    font-size:15px;
+    line-height:1.8;
+}
+
+.hero-icon {
+    display:grid;
+    width:160px;
+    height:160px;
+    place-items:center;
+    justify-self:end;
+    border-radius:40px;
+    background:linear-gradient(145deg,#4a9cff,#1769e0);
+    color:#fff;
+    box-shadow:0 22px 48px rgba(23,105,224,.22);
+}
+
+.hero-icon svg {
+    width:70px;
+}
+
+.content {
+    padding:44px 0 86px;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 350px;
+    gap:22px;
+    align-items:start;
+}
+
+.panel {
+    overflow:hidden;
+    border:1px solid var(--b);
+    border-radius:20px;
+    background:var(--s);
+    box-shadow:var(--sh);
+}
+
+.ph {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:20px 22px;
+    border-bottom:1px solid var(--b);
+    background:var(--ss);
+}
+
+.ph h2 {
+    margin:0;
+    font-size:16px;
+    font-weight:850;
+}
+
+.ph p {
+    margin:3px 0 0;
+    color:var(--tm);
+    font-size:10px;
+}
+
+.pb {
+    padding:22px;
+}
+
+.drop {
+    position:relative;
+    display:grid;
+    min-height:190px;
+    place-items:center;
+    padding:24px;
+    border:2px dashed #c9d5e3;
+    border-radius:17px;
+    background:#fbfdff;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.drop:hover,
+.drop.over {
+    border-color:var(--p);
+    background:var(--ps);
+}
+
+.fi {
+    position:absolute;
+    width:1px;
+    height:1px;
+    opacity:0;
+}
+
+.di {
+    display:grid;
+    width:60px;
+    height:60px;
+    place-items:center;
+    margin:0 auto 14px;
+    border-radius:17px;
+    background:var(--ps);
+    color:var(--p);
+}
+
+.di svg {
+    width:29px;
+}
+
+.drop h3 {
+    margin:0;
+    font-size:17px;
+}
+
+.drop p {
+    margin:7px 0 0;
+    color:var(--ts);
+    font-size:12px;
+}
+
+.selected {
+    display:none;
+    align-items:center;
+    gap:14px;
+    margin-top:16px;
+    padding:15px;
+    border:1px solid var(--b);
+    border-radius:14px;
+    background:var(--ss);
+}
+
+.selected.show {
+    display:flex;
+}
+
+.thumb {
+    width:64px;
+    height:54px;
+    border-radius:11px;
+    object-fit:cover;
+    background:#eef1f5;
+}
+
+.file-info {
+    min-width:0;
+    flex:1;
+}
+
+.file-info strong {
+    display:block;
+    overflow:hidden;
+    font-size:13px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.file-info span {
+    display:block;
+    margin-top:4px;
+    color:var(--tm);
+    font-size:10px;
+}
+
+.icon-btn {
+    display:grid;
+    width:36px;
+    height:36px;
+    place-items:center;
+    border:1px solid var(--b);
+    border-radius:10px;
+    background:#fff;
+    color:var(--ts);
+}
+
+.icon-btn svg {
+    width:18px;
+}
+
+.format {
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:14px;
+    margin-top:18px;
+    padding:18px;
+    border:1px solid var(--b);
+    border-radius:15px;
+    background:var(--ss);
+}
+
+.fb {
+    padding:15px;
+    border:1px solid var(--b);
+    border-radius:13px;
+    background:#fff;
+    text-align:center;
+}
+
+.fb small {
+    display:block;
+    color:var(--tm);
+    font-size:9px;
+    font-weight:800;
+}
+
+.fb strong {
+    display:block;
+    margin-top:5px;
+    font-size:21px;
+}
+
+.fa {
+    display:grid;
+    width:40px;
+    height:40px;
+    place-items:center;
+    border-radius:12px;
+    background:var(--ps);
+    color:var(--p);
+}
+
+.fa svg {
+    width:20px;
+}
+
+.preview {
+    display:grid;
+    min-height:500px;
+    place-items:center;
+    margin-top:18px;
+    overflow:auto;
+    padding:24px;
+    border:1px solid var(--b);
+    border-radius:16px;
+    background:#eef1f5;
+}
+
+.empty {
+    text-align:center;
+    color:var(--tm);
+}
+
+.empty svg {
+    width:48px;
+}
+
+.empty strong {
+    display:block;
+    margin-top:12px;
+    color:var(--ts);
+    font-size:13px;
+}
+
+.empty span {
+    display:block;
+    margin-top:5px;
+    font-size:10px;
+}
+
+.preview img {
+    display:none;
+    max-width:100%;
+    max-height:650px;
+    object-fit:contain;
+    box-shadow:0 14px 32px rgba(31,48,72,.2);
+}
+
+.preview img.show {
+    display:block;
+}
+
+.sec+.sec {
+    margin-top:22px;
+    padding-top:21px;
+    border-top:1px solid var(--b);
+}
+
+.sec h3 {
+    margin:0 0 12px;
+    font-size:13px;
+}
+
+.field {
+    display:grid;
+    gap:7px;
+}
+
+.field+.field {
+    margin-top:13px;
+}
+
+.field label,
+.rh label {
+    color:var(--ts);
+    font-size:10px;
+    font-weight:800;
+}
+
+.select {
+    width:100%;
+    min-height:46px;
+    padding:0 12px;
+    border:1px solid var(--b);
+    border-radius:11px;
+    background:#fff;
+    color:var(--t);
+    font-size:12px;
+}
+
+.quality {
+    margin-top:14px;
+}
+
+.quality.hide {
+    display:none;
+}
+
+.rh {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:7px;
+}
+
+.rv {
+    color:var(--p);
+    font-size:10px;
+    font-weight:850;
+}
+
+.range {
+    width:100%;
+    accent-color:var(--p);
+}
+
+.support {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.support span {
+    padding:10px;
+    border:1px solid var(--b);
+    border-radius:10px;
+    background:#fff;
+    color:var(--ts);
+    font-size:9px;
+    font-weight:800;
+    text-align:center;
+}
+
+.warn {
+    display:none;
+    margin-top:12px;
+    padding:12px;
+    border:1px solid #f0d6a6;
+    border-radius:11px;
+    background:#fff8e8;
+    color:#8b5c0a;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.warn.show {
+    display:block;
+}
+
+.primary {
+    display:flex;
+    width:100%;
+    min-height:52px;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    margin-top:22px;
+    border:0;
+    border-radius:13px;
+    background:var(--p);
+    color:#fff;
+    font-size:13px;
+    font-weight:850;
+    box-shadow:0 10px 22px rgba(23,105,224,.2);
+}
+
+.primary:hover {
+    background:var(--pd);
+}
+
+.primary:disabled {
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.primary svg {
+    width:19px;
+}
+
+.progress {
+    display:none;
+    margin-top:15px;
+    padding:14px;
+    border:1px solid var(--b);
+    border-radius:12px;
+    background:var(--ss);
+}
+
+.progress.show {
+    display:block;
+}
+
+.progress-head {
+    display:flex;
+    justify-content:space-between;
+    color:var(--ts);
+    font-size:10px;
+    font-weight:800;
+}
+
+.track {
+    height:8px;
+    margin-top:9px;
+    overflow:hidden;
+    border-radius:999px;
+    background:#e4e8ee;
+}
+
+.bar {
+    width:0;
+    height:100%;
+    background:var(--p);
+    transition:.2s;
+}
+
+.result {
+    display:none;
+    margin-top:16px;
+    padding:16px;
+    border:1px solid #cfe2fb;
+    border-radius:14px;
+    background:var(--ps);
+}
+
+.result.show {
+    display:block;
+}
+
+.result h3 {
+    margin:0;
+    color:var(--pd);
+    font-size:13px;
+}
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    margin-top:12px;
+}
+
+.stat {
+    padding:11px;
+    border-radius:10px;
+    background:#fff;
+}
+
+.stat small {
+    display:block;
+    color:var(--tm);
+    font-size:8px;
+}
+
+.stat strong {
+    display:block;
+    margin-top:3px;
+    font-size:11px;
+}
+
+.actions {
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.small {
+    display:inline-flex;
+    min-height:34px;
+    align-items:center;
+    justify-content:center;
+    padding:0 10px;
+    border:1px solid var(--b);
+    border-radius:9px;
+    background:#fff;
+    color:var(--ts);
+    font-size:9px;
+    font-weight:800;
+}
+
+.actions .small {
+    flex:1;
+}
+
+.privacy {
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+    padding:12px;
+    border-radius:11px;
+    background:#edf8f2;
+    color:#187650;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.privacy svg {
+    width:17px;
+    flex:none;
+}
+
+.history {
+    margin-top:26px;
+}
+
+.history-list {
+    display:grid;
+    gap:10px;
+}
+
+.history-empty {
+    padding:28px;
+    text-align:center;
+    color:var(--tm);
+    font-size:11px;
+}
+
+.history-item {
+    display:grid;
+    grid-template-columns:54px minmax(0,1fr) auto;
+    align-items:center;
+    gap:14px;
+    padding:14px;
+    border:1px solid var(--b);
+    border-radius:13px;
+    background:#fff;
+}
+
+.hf {
+    display:grid;
+    width:54px;
+    height:54px;
+    place-items:center;
+    border-radius:14px;
+    background:var(--ps);
+    color:var(--p);
+    font-size:11px;
+    font-weight:900;
+}
+
+.hn {
+    overflow:hidden;
+    margin:0;
+    font-size:12px;
+    font-weight:800;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.hm {
+    margin:4px 0 0;
+    color:var(--tm);
+    font-size:9px;
+}
+
+.ha {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.danger:hover {
+    color:#d44545;
+    border-color:#efc0c0;
+}
+
+.related {
+    margin-top:50px;
+}
+
+.related h2 {
+    margin:0 0 18px;
+    font-size:23px;
+}
+
+.related-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.related-card {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:19px;
+    border:1px solid var(--b);
+    border-radius:15px;
+    background:#fff;
+}
+
+.related-card strong {
+    font-size:13px;
+}
+
+.related-card span {
+    display:block;
+    margin-top:5px;
+    color:var(--tm);
+    font-size:10px;
+}
+
+.related-card svg {
+    width:18px;
+}
+
+.toast {
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:2000;
+    max-width:340px;
+    padding:13px 16px;
+    border-radius:12px;
+    background:#172033;
+    color:#fff;
+    font-size:11px;
+    font-weight:750;
+    opacity:0;
+    transform:translateY(12px);
+    pointer-events:none;
+    transition:.2s;
+}
+
+.toast.show {
+    opacity:1;
+    transform:none;
+}
+
+.toast.error {
+    background:#b93838;
+}
+
+@media(min-width:1001px) {
+    .controls {
+        position:sticky;
+        top:calc(var(--hh) + 20px);
+    }
+
+}
+
+@media(max-width:1000px) {
+    .grid {
+        grid-template-columns:1fr;
+    }
+
+    .related-grid {
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:760px) {
+    .container {
+        width:min(calc(100% - 24px),var(--cw));
+    }
+
+    .hero-grid {
+        grid-template-columns:1fr;
+    }
+
+    .hero-icon {
+        display:none;
+    }
+
+    .hero h1 {
+        font-size:38px;
+    }
+
+    .ph,.pb {
+        padding:17px;
+    }
+
+    .preview {
+        min-height:380px;
+        padding:14px;
+    }
+
+    .history-item {
+        grid-template-columns:48px 1fr;
+    }
+
+    .ha {
+        grid-column:1/-1;
+    }
+
+}
+
+@media(max-width:520px) {
+    .format {
+        grid-template-columns:1fr;
+    }
+
+    .fa {
+        margin:auto;
+        transform:rotate(90deg);
+    }
+
+    .support,.stats {
+        grid-template-columns:1fr;
+    }
+
+    .actions {
+        flex-direction:column;
+    }
+
+}
+
+  </style>
+ </head>
+ <body>
+  <div id="siteHeaderContainer">
+  </div>
+  <main>
+   <section class="hero">
+    <div class="container">
+     <nav class="crumb">
+      <a href="../index.html">
+       홈
+      </a>
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path d="m9 18 6-6-6-6">
+       </path>
+      </svg>
+      <a href="../index.html#image">
+       이미지 툴
+      </a>
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path d="m9 18 6-6-6-6">
+       </path>
+      </svg>
+      <span>
+       이미지 컨버터
+      </span>
+     </nav>
+     <div class="hero-grid">
+      <div>
+       <p class="label">
+        IMAGE CONVERTER
+       </p>
+       <h1>
+        이미지 확장자를
+        <br/>
+        <span>
+         간편하게 변환
+        </span>
+       </h1>
+       <p class="lead">
+        JPG, JPEG, PNG, WEBP, BMP, HEIC, HEIF 이미지를 불러와 JPG, PNG 또는 BMP 파일로 변환하고 바로 다운로드할 수 있습니다.
+       </p>
+      </div>
+      <div class="hero-icon">
+       <svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24">
+        <path d="M7 7h11">
+        </path>
+        <path d="m15 4 3 3-3 3">
+        </path>
+        <path d="M17 17H6">
+        </path>
+        <path d="m9 14-3 3 3 3">
+        </path>
+       </svg>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="content">
+    <div class="container">
+     <div class="grid">
+      <section class="panel">
+       <header class="ph">
+        <div>
+         <h2>
+          변환할 이미지
+         </h2>
+         <p>
+          이미지를 선택하면 원본 형식과 크기를 확인합니다.
+         </p>
+        </div>
+       </header>
+       <div class="pb">
+        <label class="drop" for="input" id="drop">
+         <input accept=".jpg,.jpeg,.png,.webp,.bmp,.heic,.heif,image/*" class="fi" id="input" type="file"/>
+         <div>
+          <span class="di">
+           <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+            <path d="M12 3v12">
+            </path>
+            <path d="m7 8 5-5 5 5">
+            </path>
+            <path d="M5 21h14">
+            </path>
+           </svg>
+          </span>
+          <h3>
+           이미지를 선택하거나 끌어다 놓으세요
+          </h3>
+          <p>
+           JPG, JPEG, PNG, WEBP, BMP, HEIC, HEIF 지원
+          </p>
+         </div>
+        </label>
+        <div class="selected" id="selected">
+         <img class="thumb" id="thumb"/>
+         <div class="file-info">
+          <strong id="name">
+           -
+          </strong>
+          <span id="meta">
+           -
+          </span>
+         </div>
+         <button class="icon-btn" id="remove" type="button">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path d="M3 6h18">
+           </path>
+           <path d="M8 6V4h8v2">
+           </path>
+           <path d="m19 6-1 15H6L5 6">
+           </path>
+          </svg>
+         </button>
+        </div>
+        <div class="format">
+         <div class="fb">
+          <small>
+           현재 형식
+          </small>
+          <strong id="from">
+           -
+          </strong>
+         </div>
+         <span class="fa">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path d="M5 12h14">
+           </path>
+           <path d="m13 6 6 6-6 6">
+           </path>
+          </svg>
+         </span>
+         <div class="fb">
+          <small>
+           변환 형식
+          </small>
+          <strong id="toPreview">
+           JPG
+          </strong>
+         </div>
+        </div>
+        <div class="preview">
+         <div class="empty" id="empty">
+          <svg fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24">
+           <rect height="18" rx="3" width="18" x="3" y="3">
+           </rect>
+           <circle cx="9" cy="9" r="2">
+           </circle>
+           <path d="m21 15-5-5L5 21">
+           </path>
+          </svg>
+          <strong>
+           아직 선택한 이미지가 없습니다.
+          </strong>
+          <span>
+           이미지를 선택하면 미리보기가 표시됩니다.
+          </span>
+         </div>
+         <img id="preview"/>
+        </div>
+       </div>
+      </section>
+      <aside class="panel controls">
+       <header class="ph">
+        <div>
+         <h2>
+          변환 설정
+         </h2>
+         <p>
+          출력 형식과 품질을 선택하세요.
+         </p>
+        </div>
+       </header>
+       <div class="pb">
+        <section class="sec">
+         <h3>
+          출력 형식
+         </h3>
+         <div class="field">
+          <label for="target">
+           변환할 파일 형식
+          </label>
+          <select class="select" id="target">
+           <option>
+            JPG
+           </option>
+           <option>
+            PNG
+           </option>
+           <option>
+            BMP
+           </option>
+          </select>
+         </div>
+         <div class="quality" id="qualityBox">
+          <div class="rh">
+           <label for="quality">
+            JPG 품질
+           </label>
+           <span class="rv" id="qualityValue">
+            92%
+           </span>
+          </div>
+          <input class="range" id="quality" max="100" min="50" type="range" value="92"/>
+         </div>
+        </section>
+        <section class="sec">
+         <h3>
+          지원 형식
+         </h3>
+         <div class="support">
+          <span>
+           입력: JPG / JPEG
+          </span>
+          <span>
+           입력: PNG / WEBP
+          </span>
+          <span>
+           입력: BMP
+          </span>
+          <span>
+           입력: HEIC / HEIF
+          </span>
+          <span>
+           출력: JPG
+          </span>
+          <span>
+           출력: PNG / BMP
+          </span>
+         </div>
+         <div class="warn" id="warn">
+          HEIC·HEIF 변환은 외부 브라우저 라이브러리를 사용하며 일부 파일이나 브라우저에서는 지원되지 않을 수 있습니다.
+         </div>
+        </section>
+        <button class="primary" disabled="" id="convert">
+         <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+          <path d="M7 7h11">
+          </path>
+          <path d="m15 4 3 3-3 3">
+          </path>
+          <path d="M17 17H6">
+          </path>
+          <path d="m9 14-3 3 3 3">
+          </path>
+         </svg>
+         이미지 변환하기
+        </button>
+        <div class="progress" id="progress">
+         <div class="progress-head">
+          <span id="progressText">
+           준비 중
+          </span>
+          <span id="progressPct">
+           0%
+          </span>
+         </div>
+         <div class="track">
+          <div class="bar" id="bar">
+          </div>
+         </div>
+        </div>
+        <div class="result" id="result">
+         <h3>
+          변환이 완료되었습니다.
+         </h3>
+         <div class="stats">
+          <div class="stat">
+           <small>
+            변환 형식
+           </small>
+           <strong id="resultFormat">
+            -
+           </strong>
+          </div>
+          <div class="stat">
+           <small>
+            결과 용량
+           </small>
+           <strong id="resultSize">
+            -
+           </strong>
+          </div>
+         </div>
+         <div class="actions">
+          <button class="small" id="redownload">
+           다시 다운로드
+          </button>
+          <button class="small" id="share">
+           공유
+          </button>
+         </div>
+        </div>
+        <div class="privacy">
+         <svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z">
+          </path>
+          <path d="m9 12 2 2 4-4">
+          </path>
+         </svg>
+         <span>
+          선택한 이미지는 서버에 업로드되지 않습니다. 변환은 현재 브라우저에서 진행됩니다.
+         </span>
+        </div>
+       </div>
+      </aside>
+     </div>
+     <section class="panel history">
+      <header class="ph">
+       <div>
+        <h2>
+         최근 변환 기록
+        </h2>
+        <p>
+         최근 결과 파일은 이 브라우저에 저장됩니다.
+        </p>
+       </div>
+       <button class="small danger" id="clear">
+        전체 삭제
+       </button>
+      </header>
+      <div class="pb">
+       <div class="history-list" id="history">
+        <div class="history-empty">
+         저장된 변환 기록이 없습니다.
+        </div>
+       </div>
+      </div>
+     </section>
+     <section class="related">
+      <h2>
+       다른 이미지 도구
+      </h2>
+      <div class="related-grid">
+       <a class="related-card" href="./image_resize.html">
+        <div>
+         <strong>
+          이미지 크기 조절
+         </strong>
+         <span>
+          가로·세로 픽셀 크기를 변경합니다.
+         </span>
+        </div>
+       </a>
+       <a class="related-card" href="./image_watermark.html">
+        <div>
+         <strong>
+          이미지 워터마크
+         </strong>
+         <span>
+          텍스트 워터마크를 이미지에 넣습니다.
+         </span>
+        </div>
+       </a>
+       <a class="related-card" href="./image_to_pdf.html">
+        <div>
+         <strong>
+          이미지 PDF 변환
+         </strong>
+         <span>
+          여러 이미지를 하나의 PDF로 만듭니다.
+         </span>
+        </div>
+       </a>
+      </div>
+     </section>
+    </div>
+   </section>
+  </main>
+  <div class="toast" id="toast">
+  </div>
+  <div id="siteFooterContainer">
+  </div>
+  <script src="/webtools/layout.js">
+  </script>
+  <script>
+
+(()=> {
+    "use strict"; const $=id=>document.getElementById(id),S= {
+        file:null,format:"",blob:null,url:"",last:null
+    }
+    ; const E= {
+        input:$("input"),drop:$("drop"),selected:$("selected"),thumb:$("thumb"),name:$("name"),meta:$("meta"),remove:$("remove"),from:$("from"),toPreview:$("toPreview"),empty:$("empty"),preview:$("preview"),target:$("target"),qualityBox:$("qualityBox"),quality:$("quality"),qualityValue:$("qualityValue"),warn:$("warn"),convert:$("convert"),progress:$("progress"),progressText:$("progressText"),progressPct:$("progressPct"),bar:$("bar"),result:$("result"),resultFormat:$("resultFormat"),resultSize:$("resultSize"),redownload:$("redownload"),share:$("share"),clear:$("clear"),history:$("history"),toast:$("toast")
+    }
+    ; let timer;const DB="jcraft_image_converter_v1",STORE="records"; function toast(m,e=false) {
+        clearTimeout(timer);E.toast.textContent=m;E.toast.classList.toggle("error",e);E.toast.classList.add("show");timer=setTimeout(()=>E.toast.classList.remove("show"),2800)
+    }
+    function bytes(n) {
+        if(!n)return"0 B";const u=["B","KB","MB","GB"],i=Math.min(Math.floor(Math.log(n)/Math.log(1024)),3);return`${(n/1024**i).toFixed(i?1:0)} ${u[i]}`
+    }
+    function ext(n) {
+        return(n.toLowerCase().match(/\.([^.]+)$/)||[])[1]||""
+    }
+    function norm(e) {
+        e=e.toUpperCase();return e==="JPEG"?"JPG":e
+    }
+    function heic(f) {
+        return f==="HEIC"||f==="HEIF"
+    }
+    function safe(n) {
+        return n.replace(/\.[^.]+$/,"").replace(/[^a-zA-Z0-9가-힣_-]+/g,"_")||"image"
+    }
+    function stamp() {
+        const d=new Date,p=n=>String(n).padStart(2,"0");return`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`
+    }
+    function load(url) {
+        return new Promise((r,j)=> {
+            const i=new Image;i.onload=()=>r(i);i.onerror=j;i.src=url
+        }
+        )
+    }
+    async function pick(file) {
+        if(!file)return;const f=norm(ext(file.name));if(!["JPG","PNG","WEBP","BMP","HEIC","HEIF"].includes(f))return toast("지원하지 않는 이미지 형식입니다.",true);reset(false);S.file=file;S.format=f;try {
+            let b=file;if(heic(f)) {
+                E.warn.classList.add("show");if(typeof heic2any!=="function")throw 0;const c=await heic2any( {
+                    blob:file,toType:"image/png",quality:.92
+                }
+                );b=Array.isArray(c)?c[0]:c
+            }
+            S.blob=b;S.url=URL.createObjectURL(b);const i=await load(S.url);E.thumb.src=E.preview.src=S.url;E.preview.classList.add("show");E.empty.style.display="none";E.selected.classList.add("show");E.name.textContent=file.name;E.meta.textContent=`${f} · ${i.naturalWidth}×${i.naturalHeight} px · ${bytes(file.size)}`;E.from.textContent=f;stateButton();toast("이미지를 불러왔습니다.")
+        } catch
+        (x) {
+            console.error(x);reset(false);toast(heic(f)?"이 HEIC·HEIF 파일을 읽을 수 없습니다.":"이미지를 읽을 수 없습니다.",true)
+        }
+    }
+    function reset(show=true) {
+        if(S.url)URL.revokeObjectURL(S.url);Object.assign(S, {
+            file:null,format:"",blob:null,url:"",last:null
+        }
+        );E.input.value="";E.selected.classList.remove("show");E.preview.classList.remove("show");E.preview.removeAttribute("src");E.empty.style.display="";E.from.textContent="-";E.convert.disabled=true;E.result.classList.remove("show");E.warn.classList.remove("show");if(show)toast("선택한 이미지를 제거했습니다.")
+    }
+    function stateButton() {
+        E.convert.disabled=!S.file||S.format===E.target.value
+    }
+    function ui() {
+        E.toPreview.textContent=E.target.value;E.qualityBox.classList.toggle("hide",E.target.value!=="JPG");stateButton()
+    }
+    function prog(p,t) {
+        E.progress.classList.add("show");E.bar.style.width=p+"%";E.progressPct.textContent=p+"%";E.progressText.textContent=t
+    }
+    function cblob(c,t,q) {
+        return new Promise((r,j)=>c.toBlob(b=>b?r(b):j(),t,q))
+    }
+    function bmp(c) {
+        const x=c.getContext("2d"),w=c.width,h=c.height,d=x.getImageData(0,0,w,h).data,row=Math.floor((24*w+31)/32)*4,size=row*h,b=new ArrayBuffer(54+size),v=new DataView(b);v.setUint8(0,66);v.setUint8(1,77);v.setUint32(2,54+size,true);v.setUint32(10,54,true);v.setUint32(14,40,true);v.setInt32(18,w,true);v.setInt32(22,h,true);v.setUint16(26,1,true);v.setUint16(28,24,true);v.setUint32(34,size,true);let o=54;for(let y=h-1;y>=0;y--) {
+            let s=o;for(let z=0;z<w;z++) {
+                let i=(y*w+z)*4;v.setUint8(o++,d[i+2]);v.setUint8(o++,d[i+1]);v.setUint8(o++,d[i])
+            }
+            while(o-s<row)v.setUint8(o++,0)
+        }
+        return new Blob([b], {
+            type:"image/bmp"
+        }
+        )
+    }
+    async function convert() {
+        if(!S.file||!S.blob)return;if(S.format===E.target.value)return toast("원본과 다른 출력 형식을 선택하세요.",true);E.convert.disabled=true;E.result.classList.remove("show");try {
+            prog(8,"변환 준비 중");await wait(120);prog(28,"이미지 읽는 중");const u=URL.createObjectURL(S.blob),i=await load(u);URL.revokeObjectURL(u);prog(55,"이미지 변환 중");const c=document.createElement("canvas");c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext("2d"),t=E.target.value;if(t==="JPG") {
+                x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)
+            }
+            x.drawImage(i,0,0);let b,ex;if(t==="JPG") {
+                b=await cblob(c,"image/jpeg",+E.quality.value/100);ex="jpg"
+            } else
+            if(t==="PNG") {
+                b=await cblob(c,"image/png");ex="png"
+            } else
+            {
+                b=bmp(c);ex="bmp"
+            }
+            prog(78,"결과 최적화 중");await wait(120);prog(92,"파일 저장 중");const n=`${safe(S.file.name)}_converted_${stamp()}.${ex}`,r= {
+                id:crypto.randomUUID?crypto.randomUUID():Date.now()+"",inputName:S.file.name,outputName:n,from:S.format,to:t,inputBytes:S.file.size,outputBytes:b.size,createdAt:new Date().toISOString(),blob:b
+            }
+            ;await put(r);S.last=r;await render();prog(100,"변환 완료");E.resultFormat.textContent=`${r.from} → ${r.to}`;E.resultSize.textContent=bytes(r.outputBytes);E.result.classList.add("show");download(b,n);toast("이미지 변환이 완료되었습니다.")
+        } catch
+        (e) {
+            console.error(e);toast("이미지 변환 중 오류가 발생했습니다.",true)
+        } finally
+        {
+            stateButton();setTimeout(()=>E.progress.classList.remove("show"),1500)
+        }
+    }
+    const wait=ms=>new Promise(r=>setTimeout(r,ms));function download(b,n) {
+        const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)
+    }
+    function odb() {
+        return new Promise((r,j)=> {
+            const q=indexedDB.open(DB,1);q.onupgradeneeded=()=> {
+                if(!q.result.objectStoreNames.contains(STORE))q.result.createObjectStore(STORE, {
+                    keyPath:"id"
+                }
+                )
+            }
+            ;q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)
+        }
+        )
+    }
+    async function put(v) {
+        const d=await odb();await new Promise((r,j)=> {
+            const t=d.transaction(STORE,"readwrite");t.objectStore(STORE).put(v);t.oncomplete=r;t.onerror=()=>j(t.error)
+        }
+        );d.close();const all=await getAll();for(const z of all.slice(10))await del(z.id)
+    }
+    async function getAll() {
+        const d=await odb(),a=await new Promise((r,j)=> {
+            const q=d.transaction(STORE).objectStore(STORE).getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)
+        }
+        );d.close();return a.sort((x,y)=>new Date(y.createdAt)-new Date(x.createdAt))
+    }
+    async function get(id) {
+        const d=await odb(),v=await new Promise((r,j)=> {
+            const q=d.transaction(STORE).objectStore(STORE).get(id);q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)
+        }
+        );d.close();return v
+    }
+    async function del(id) {
+        const d=await odb();await new Promise((r,j)=> {
+            const t=d.transaction(STORE,"readwrite");t.objectStore(STORE).delete(id);t.oncomplete=r;t.onerror=()=>j(t.error)
+        }
+        );d.close()
+    }
+    async function clear() {
+        const d=await odb();await new Promise((r,j)=> {
+            const t=d.transaction(STORE,"readwrite");t.objectStore(STORE).clear();t.oncomplete=r;t.onerror=()=>j(t.error)
+        }
+        );d.close()
+    }
+    function esc(v) {
+        return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+async function render(){try{const a=await getAll();if(!a.length){E.history.innerHTML='<div class="history-empty">저장된 변환 기록이 없습니다.</div>';return}E.history.innerHTML=a.map(r=>`<article class="history-item"><span class="hf">${esc(r.to)}</span><div><p class="hn">${esc(r.outputName)}</p><p class="hm">${esc(r.from)} → ${esc(r.to)} · ${bytes(r.outputBytes)} · ${new Date(r.createdAt).toLocaleString("ko-KR")}</p></div><div class="ha"><button class="small" data-a="d" data-id="$ {
+            r.id
+        }
+        ">다운로드</button><button class="small" data-a="s" data-id="$ {
+            r.id
+        }
+        ">공유</button><button class="small danger" data-a="x" data-id="$ {
+            r.id
+        }
+        ">삭제</button></div></article>`).join("");E.history.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>act(b.dataset.a,b.dataset.id))}catch(e){console.error(e);E.history.innerHTML='<div class="history-empty">이 브라우저에서는 변환 기록을 사용할 수 없습니다.</div>'}}
+async function act(a,id){const r=await get(id);if(!r)return;if(a==="d")download(r.blob,r.outputName);else if(a==="x"){await del(id);render()}else share(r)}
+async function share(r){const f=new File([r.blob],r.outputName,{type:r.blob.type});if(navigator.share&&navigator.canShare?.({files:[f]}))await navigator.share({files:[f],title:r.outputName});else{download(r.blob,r.outputName);toast("공유를 지원하지 않아 다운로드했습니다.")}}
+E.input.onchange=()=>pick(E.input.files?.[0]);E.remove.onclick=()=>reset();["dragenter","dragover"].forEach(n=>E.drop.addEventListener(n,e=>{e.preventDefault();E.drop.classList.add("over")}));["dragleave","drop"].forEach(n=>E.drop.addEventListener(n,e=>{e.preventDefault();E.drop.classList.remove("over")}));E.drop.addEventListener("drop",e=>pick(e.dataTransfer?.files?.[0]));E.target.onchange=ui;E.quality.oninput=()=>E.qualityValue.textContent=E.quality.value+"%";E.convert.onclick=convert;E.redownload.onclick=()=>S.last&&download(S.last.blob,S.last.outputName);E.share.onclick=()=>S.last&&share(S.last);E.clear.onclick=async()=>{if(confirm("저장된 변환 기록을 모두 삭제할까요?")){await clear();render();toast("변환 기록을 모두 삭제했습니다.")}};ui();render();
+})();
+
+  </script>
+ </body>
+</html>
