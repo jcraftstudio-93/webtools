@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF 순서 변경 | JCraft Studio</title>
+  <meta name="description" content="PDF 페이지 순서를 드래그로 자유롭게 변경하고 필요 없는 페이지를 삭제한 뒤 새 PDF로 저장하세요. 파일은 브라우저에서 처리됩니다.">
+  <meta name="keywords" content="PDF 순서 변경, PDF 페이지 순서, PDF 페이지 재배치, PDF 페이지 삭제, PDF 편집, JCraft Studio">
+  <meta name="author" content="JCraft Studio">
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    :root {
+      --primary:#1769e0; --primary-dark:#0e54bc; --primary-soft:#edf5ff;
+      --bg:#f5f7fa; --surface:#fff; --surface-soft:#f8fafc;
+      --text:#172033; --sub:#526071; --muted:#8b96a5;
+      --border:#e2e7ed; --border-dark:#d2d9e1;
+      --danger:#d14343; --danger-soft:#fff3f3;
+      --success:#19714f; --success-soft:#eefaf5;
+      --warning:#9a6500; --warning-soft:#fff8e8;
+      --max:1240px; --radius:17px;
+      --shadow:0 8px 25px rgba(32,48,72,.07);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;background:var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none} button,input{font:inherit} button{border:0;background:none;cursor:pointer} button:disabled{cursor:not-allowed;opacity:.55} svg{display:block}
+    .container{width:min(calc(100% - 40px),var(--max));margin:0 auto}.tool-page{padding:38px 0 78px}
+    .breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:18px;color:var(--muted);font-size:12px;font-weight:700}.breadcrumb a:hover{color:var(--primary)}.breadcrumb svg{width:14px;height:14px}
+    .hero{position:relative;overflow:hidden;padding:35px 36px;border:1px solid #cfe1f9;border-radius:24px;background:linear-gradient(135deg,#f8fbff,#edf5ff 60%,#fafcff);box-shadow:var(--shadow)}
+    .hero:after{position:absolute;top:-120px;right:-70px;width:330px;height:330px;border-radius:50%;background:rgba(23,105,224,.055);content:""}.hero-inner{position:relative;z-index:1;max-width:850px}
+    .eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;color:var(--primary);font-size:12px;font-weight:850;letter-spacing:.4px}.eyebrow:before{width:7px;height:7px;border-radius:50%;background:var(--primary);content:""}
+    .hero h1{font-size:clamp(31px,4vw,44px);font-weight:900;line-height:1.2;letter-spacing:-1.7px}.hero p{max-width:760px;margin-top:14px;color:var(--sub);font-size:15px;line-height:1.8}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.tag{padding:7px 10px;border:1px solid #cfe1f9;border-radius:999px;background:rgba(255,255,255,.8);color:#36516f;font-size:11px;font-weight:750}
+    .workspace{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:24px}.card{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
+    .main-card{overflow:hidden}.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:23px 24px;border-bottom:1px solid var(--border)}.card-title{font-size:18px;font-weight:850}.card-desc{margin-top:5px;color:var(--sub);font-size:12px}
+    .file-summary{display:none;max-width:48%;padding:7px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-summary.show{display:block}
+    .upload-wrap{padding:24px}.dropzone{display:grid;min-height:280px;place-items:center;padding:34px;border:2px dashed #c8d5e4;border-radius:16px;background:var(--surface-soft);text-align:center;transition:.2s}.dropzone:hover,.dropzone.dragover{border-color:var(--primary);background:var(--primary-soft)}
+    .drop-icon{display:grid;width:64px;height:64px;place-items:center;margin:0 auto 17px;border-radius:18px;background:#fff;color:var(--primary);box-shadow:var(--shadow)}.drop-icon svg{width:30px;height:30px}.drop-title{font-size:17px;font-weight:850}.drop-desc{margin-top:7px;color:var(--sub);font-size:12px}.pick-btn{display:inline-flex;align-items:center;justify-content:center;min-height:45px;margin-top:18px;padding:0 18px;border-radius:11px;background:var(--primary);color:#fff;font-size:13px;font-weight:850}.pick-btn:hover{background:var(--primary-dark)}.drop-note{margin-top:13px;color:var(--muted);font-size:10px}
+    .editor{display:none}.editor.show{display:block}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--border);background:var(--surface-soft)}.toolbar-group{display:flex;flex-wrap:wrap;gap:8px}
+    .tool-btn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;border:1px solid var(--border-dark);border-radius:10px;background:#fff;color:var(--sub);font-size:11px;font-weight:800}.tool-btn:hover{border-color:#bcd4f3;background:var(--primary-soft);color:var(--primary)}.tool-btn.danger:hover{border-color:#f0c7c7;background:var(--danger-soft);color:var(--danger)}.tool-btn svg{width:15px;height:15px}
+    .grid-wrap{padding:20px}.guide{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--sub);font-size:11px;font-weight:700}.guide svg{width:16px;height:16px;color:var(--primary)}
+    .page-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.page-card{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 5px 16px rgba(32,48,72,.05);transition:.2s;user-select:none}.page-card:hover{border-color:#bcd4f3;box-shadow:0 10px 22px rgba(32,48,72,.09);transform:translateY(-2px)}.page-card.dragging{opacity:.35}.page-card.drag-target{border-color:var(--primary);box-shadow:0 0 0 2px rgba(23,105,224,.13)}
+    .thumb{position:relative;display:grid;aspect-ratio:.72;place-items:center;overflow:hidden;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f5f7fa,#eef2f6)}.thumb canvas{display:block;width:100%;height:100%;object-fit:contain;background:#fff}.loading-text{color:var(--muted);font-size:11px;font-weight:700}.order-badge{position:absolute;top:9px;left:9px;display:grid;min-width:28px;height:28px;place-items:center;padding:0 7px;border-radius:8px;background:rgba(23,105,224,.94);color:#fff;font-size:11px;font-weight:900}.drag-handle{position:absolute;top:9px;right:9px;display:grid;width:29px;height:29px;place-items:center;border-radius:8px;background:rgba(255,255,255,.94);color:var(--sub);box-shadow:0 4px 10px rgba(32,48,72,.12);cursor:grab}.drag-handle svg{width:16px;height:16px}
+    .page-body{padding:11px}.page-title{font-size:12px;font-weight:850}.page-sub{margin-top:2px;color:var(--muted);font-size:10px}.page-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.page-action{display:grid;min-height:31px;place-items:center;border:1px solid var(--border);border-radius:8px;background:var(--surface-soft);color:var(--sub)}.page-action:hover{border-color:#bfd5f0;background:var(--primary-soft);color:var(--primary)}.page-action.delete:hover{border-color:#f0c7c7;background:var(--danger-soft);color:var(--danger)}.page-action svg{width:14px;height:14px}
+    .status{display:none;margin:0 20px 16px;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface-soft);color:var(--sub);font-size:11px;font-weight:700}.status.show{display:block}.status.error{border-color:#efc9c9;background:var(--danger-soft);color:#a53a3a}.status.success{border-color:#cbe8d8;background:var(--success-soft);color:var(--success)}
+    .editor-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 20px 20px;border-top:1px solid var(--border)}.editor-status{color:var(--sub);font-size:11px;font-weight:700}.editor-actions{display:flex;gap:8px}.secondary,.primary{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 17px;border-radius:11px;font-size:12px;font-weight:850}.secondary{border:1px solid var(--border-dark);background:#fff;color:var(--sub)}.secondary:hover{background:var(--primary-soft);color:var(--primary)}.primary{background:var(--primary);color:#fff}.primary:hover:not(:disabled){background:var(--primary-dark)}.secondary svg,.primary svg{width:16px;height:16px}
+    .side{display:grid;align-content:start;gap:14px}.side-card{padding:19px}.side-title{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:850}.side-icon{display:grid;width:31px;height:31px;place-items:center;border-radius:9px;background:var(--primary-soft);color:var(--primary)}.side-icon svg{width:16px;height:16px}.side-list{display:grid;gap:11px;margin-top:15px}.side-item{display:flex;align-items:flex-start;gap:9px;color:var(--sub);font-size:11px;line-height:1.65}.num{display:grid;flex:0 0 auto;width:21px;height:21px;place-items:center;margin-top:1px;border-radius:7px;background:var(--surface-soft);color:var(--primary);font-size:9px;font-weight:900}.privacy{border-color:#d6e9df;background:var(--success-soft)}.privacy .side-icon{background:#dff4e9;color:var(--success)}.notice{border-color:#f0dfb6;background:var(--warning-soft)}.notice .side-icon{background:#fff0ca;color:var(--warning)}
+    .content-section{margin-top:24px}.content-card{padding:28px}.content-title{font-size:20px;font-weight:880;letter-spacing:-.6px}.content-desc{margin-top:8px;color:var(--sub);font-size:13px;line-height:1.8}.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}.how-item{padding:18px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft)}.how-num{display:grid;width:30px;height:30px;place-items:center;border-radius:9px;background:var(--primary);color:#fff;font-size:11px;font-weight:900}.how-title{margin-top:13px;font-size:13px;font-weight:850}.how-desc{margin-top:5px;color:var(--sub);font-size:11px;line-height:1.65}
+    .faq-list{display:grid;gap:10px;margin-top:20px}.faq-item{border:1px solid var(--border);border-radius:12px}.faq-q{display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;min-height:58px;padding:0 17px;color:var(--text);font-size:12px;font-weight:820;text-align:left}.faq-q svg{width:17px;height:17px;color:var(--muted);transition:.2s}.faq-item.open .faq-q svg{transform:rotate(180deg)}.faq-a{display:none;padding:0 17px 17px;color:var(--sub);font-size:11px;line-height:1.75}.faq-item.open .faq-a{display:block}
+    .related{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.related-link{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:76px;padding:16px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft);transition:.2s}.related-link:hover{border-color:#bfd5f0;background:var(--primary-soft);transform:translateY(-2px)}.related-title{font-size:12px;font-weight:850}.related-desc{display:block;margin-top:3px;color:var(--muted);font-size:10px}.related-link svg{width:17px;height:17px;color:var(--primary)}
+    .overlay{position:fixed;inset:0;z-index:99999;display:none;place-items:center;padding:20px;background:rgba(14,25,40,.35);backdrop-filter:blur(4px)}.overlay.show{display:grid}.loading-box{width:min(100%,360px);padding:25px;border-radius:17px;background:#fff;box-shadow:0 18px 50px rgba(20,35,60,.2);text-align:center}.spinner{width:38px;height:38px;margin:0 auto;border:4px solid #d9e7f7;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}.loading-box strong{display:block;margin-top:15px;font-size:14px}.loading-box p{margin-top:6px;color:var(--sub);font-size:11px}@keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:1050px){.workspace{grid-template-columns:1fr}.side{grid-template-columns:repeat(3,1fr)}.page-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:760px){.container{width:min(calc(100% - 24px),var(--max))}.tool-page{padding-top:24px}.hero{padding:27px 22px;border-radius:18px}.hero h1{font-size:31px}.workspace{margin-top:16px}.card-head{flex-direction:column;padding:19px 18px}.file-summary{max-width:100%}.upload-wrap{padding:16px}.dropzone{min-height:245px;padding:26px 18px}.toolbar{align-items:flex-start;flex-direction:column}.toolbar-group:last-child{width:100%}.toolbar-group:last-child .tool-btn{flex:1}.grid-wrap{padding:15px}.page-grid{grid-template-columns:repeat(2,1fr);gap:10px}.editor-footer{align-items:stretch;flex-direction:column}.editor-actions{display:grid;grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr}.how-grid,.related{grid-template-columns:1fr}.content-card{padding:21px 18px}}
+    @media(max-width:420px){.page-grid{grid-template-columns:1fr}.editor-actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div id="siteHeaderContainer"></div>
+
+  <main class="tool-page">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="현재 위치">
+        <a href="/webtools/index.html">홈</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        <span>PDF 툴</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        <strong>PDF 순서 변경</strong>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">PDF PAGE REORDER</p>
+          <h1>PDF 페이지 순서를<br>원하는 대로 바꿔보세요</h1>
+          <p>PDF 파일을 선택하면 각 페이지를 미리보기로 확인할 수 있습니다. 페이지 카드를 드래그해 순서를 변경하거나 필요 없는 페이지를 삭제한 뒤 새 PDF 파일로 저장하세요.</p>
+          <div class="tags"><span class="tag">드래그 순서 변경</span><span class="tag">페이지 미리보기</span><span class="tag">페이지 삭제</span><span class="tag">브라우저 로컬 처리</span></div>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section class="card main-card">
+          <div class="card-head">
+            <div><h2 class="card-title">PDF 순서 변경</h2><p class="card-desc">PDF 파일 1개를 선택한 뒤 페이지 순서를 자유롭게 재배치하세요.</p></div>
+            <span class="file-summary" id="fileSummary"></span>
+          </div>
+
+          <div class="upload-wrap" id="uploadWrap">
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="PDF 파일 선택">
+              <div>
+                <span class="drop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M12 17V10"/><path d="m9 13 3-3 3 3"/></svg></span>
+                <h3 class="drop-title">PDF 파일을 여기에 놓아주세요</h3>
+                <p class="drop-desc">또는 아래 버튼을 눌러 기기에서 PDF 파일을 선택하세요.</p>
+                <button type="button" class="pick-btn" id="pickBtn">PDF 파일 선택</button>
+                <p class="drop-note">PDF 파일 1개 · 선택한 파일은 서버로 업로드되지 않습니다.</p>
+              </div>
+              <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
+            </div>
+          </div>
+
+          <div class="editor" id="editor">
+            <div class="toolbar">
+              <div class="toolbar-group">
+                <button type="button" class="tool-btn" id="changeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>다른 PDF 선택</button>
+                <button type="button" class="tool-btn" id="resetBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>원래 순서</button>
+              </div>
+              <div class="toolbar-group">
+                <button type="button" class="tool-btn" id="reverseBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h11"/><path d="m15 4 3 3-3 3"/><path d="M17 17H6"/><path d="m9 14-3 3 3 3"/></svg>역순</button>
+                <button type="button" class="tool-btn danger" id="clearBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 15H6L5 6"/></svg>초기화</button>
+              </div>
+            </div>
+
+            <div class="grid-wrap">
+              <p class="guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6h6M9 12h6M9 18h6"/><path d="M5 6h.01M5 12h.01M5 18h.01"/></svg>페이지를 드래그해 원하는 위치로 이동할 수 있습니다.</p>
+              <div class="page-grid" id="pageGrid"></div>
+            </div>
+
+            <div class="status" id="status"></div>
+
+            <div class="editor-footer">
+              <p class="editor-status" id="editorStatus">페이지 순서를 확인한 뒤 PDF를 저장하세요.</p>
+              <div class="editor-actions">
+                <button type="button" class="secondary" id="previewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>순서 확인</button>
+                <button type="button" class="primary" id="saveBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>변경된 PDF 저장</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side">
+          <section class="card side-card"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span>사용 방법</h2><div class="side-list"><div class="side-item"><span class="num">1</span><span>순서를 변경할 PDF 파일을 선택합니다.</span></div><div class="side-item"><span class="num">2</span><span>페이지 카드를 드래그해 원하는 순서로 이동합니다.</span></div><div class="side-item"><span class="num">3</span><span>필요한 경우 페이지를 맨 앞으로, 맨 뒤로 보내거나 삭제합니다.</span></div><div class="side-item"><span class="num">4</span><span>변경된 PDF 저장 버튼을 눌러 새 파일을 다운로드합니다.</span></div></div></section>
+          <section class="card side-card privacy"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>브라우저에서 처리</h2><div class="side-list"><div class="side-item"><span class="num">✓</span><span>선택한 PDF 자체는 JCraft Studio 서버로 업로드하지 않고 현재 브라우저에서 처리합니다.</span></div><div class="side-item"><span class="num">✓</span><span>원본 파일은 변경하지 않고 새 PDF를 생성합니다.</span></div></div></section>
+          <section class="card side-card notice"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5M12 18h.01"/></svg></span>큰 PDF 안내</h2><div class="side-list"><div class="side-item"><span class="num">!</span><span>페이지 수가 많거나 용량이 큰 PDF는 미리보기 생성과 저장에 시간이 더 걸릴 수 있습니다.</span></div></div></section>
+        </aside>
+      </div>
+
+      <section class="content-section"><div class="card content-card"><h2 class="content-title">PDF 페이지 순서 변경 방법</h2><p class="content-desc">설치 프로그램 없이 웹 브라우저에서 PDF의 페이지 순서를 변경할 수 있습니다. 원본 파일은 그대로 유지되고 변경된 순서로 새 PDF 파일이 생성됩니다.</p><div class="how-grid"><article class="how-item"><span class="how-num">01</span><h3 class="how-title">PDF 선택</h3><p class="how-desc">순서를 바꿀 PDF 파일을 선택하거나 업로드 영역에 끌어다 놓습니다.</p></article><article class="how-item"><span class="how-num">02</span><h3 class="how-title">페이지 확인</h3><p class="how-desc">PDF의 각 페이지가 미리보기 카드 형태로 표시됩니다.</p></article><article class="how-item"><span class="how-num">03</span><h3 class="how-title">순서 재배치</h3><p class="how-desc">페이지를 드래그하거나 앞·뒤 이동 버튼을 사용해 순서를 정리합니다.</p></article><article class="how-item"><span class="how-num">04</span><h3 class="how-title">새 PDF 저장</h3><p class="how-desc">현재 순서대로 새 PDF를 만들어 기기에 저장합니다.</p></article></div></div></section>
+
+      <section class="content-section"><div class="card content-card"><h2 class="content-title">자주 묻는 질문</h2><div class="faq-list">
+        <div class="faq-item"><button class="faq-q" type="button">PDF 파일이 서버에 업로드되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">아니요. PDF 파일은 브라우저에서 읽고 처리하며 선택한 PDF 자체를 JCraft Studio 서버로 전송하지 않습니다.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button">페이지를 삭제할 수도 있나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">네. 각 페이지 카드의 삭제 버튼을 누르면 해당 페이지를 결과 PDF에서 제외할 수 있습니다. 단 최소 1페이지는 남아 있어야 합니다.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button">원본 PDF 파일이 변경되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">원본 파일은 변경하지 않습니다. 변경한 순서대로 별도의 새 PDF 파일이 생성됩니다.</div></div>
+        <div class="faq-item"><button class="faq-q" type="button">큰 PDF 파일도 사용할 수 있나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">가능하지만 파일 크기와 페이지 수가 많을수록 브라우저 메모리 사용량이 증가하고 미리보기 및 저장 시간이 길어질 수 있습니다.</div></div>
+      </div></div></section>
+
+      <section class="content-section"><div class="card content-card"><h2 class="content-title">관련 PDF 도구</h2><p class="content-desc">PDF 문서를 정리할 때 함께 사용할 수 있는 JCraft Studio 웹 도구입니다.</p><div class="related">
+        <a class="related-link" href="/webtools/pdf/pdf_merge.html"><span><span class="related-title">PDF Merge</span><span class="related-desc">여러 PDF 파일을 하나로 합치기</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        <a class="related-link" href="/webtools/pdf/pdf_splitter.html"><span><span class="related-title">PDF Splitter</span><span class="related-desc">원하는 페이지를 분리해 저장</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        <a class="related-link" href="/webtools/pdf/pdf_watermark.html"><span><span class="related-title">PDF 워터마크</span><span class="related-desc">PDF 문서에 워터마크 추가</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+      </div></div></section>
+    </div>
+  </main>
+
+  <div id="siteFooterContainer"></div>
+
+  <div class="overlay" id="overlay"><div class="loading-box"><div class="spinner"></div><strong id="loadingTitle">PDF를 불러오는 중입니다</strong><p id="loadingDesc">페이지 정보를 확인하고 있습니다.</p></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script type="module">
+    import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
+
+    const $=id=>document.getElementById(id);
+    const pdfInput=$("pdfInput"),pickBtn=$("pickBtn"),changeBtn=$("changeBtn"),dropzone=$("dropzone"),uploadWrap=$("uploadWrap"),editor=$("editor"),pageGrid=$("pageGrid"),fileSummary=$("fileSummary"),editorStatus=$("editorStatus"),resetBtn=$("resetBtn"),reverseBtn=$("reverseBtn"),clearBtn=$("clearBtn"),previewBtn=$("previewBtn"),saveBtn=$("saveBtn"),status=$("status"),overlay=$("overlay"),loadingTitle=$("loadingTitle"),loadingDesc=$("loadingDesc");
+    let sourceFile=null,sourceBytes=null,pdfDoc=null,pages=[],originalPages=[],draggedId=null;
+
+    const fmt=bytes=>{if(!bytes)return"0 KB";const u=["B","KB","MB","GB"],i=Math.min(Math.floor(Math.log(bytes)/Math.log(1024)),u.length-1),v=bytes/Math.pow(1024,i);return `${v.toFixed(i===0?0:1)} ${u[i]}`};
+    function loading(title,desc,on=true){loadingTitle.textContent=title;loadingDesc.textContent=desc;overlay.classList.toggle("show",on)}
+    function message(text,type=""){status.textContent=text;status.className=`status show${type?` ${type}`:""}`}
+    function hideMessage(){status.className="status";status.textContent=""}
+    function valid(file){if(!file)return false;if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf")){message("PDF 파일만 선택할 수 있습니다.","error");return false}return true}
+
+    async function loadPdf(file){if(!valid(file))return;try{hideMessage();loading("PDF를 불러오는 중입니다","페이지 수와 미리보기를 확인하고 있습니다.");const buffer=await file.arrayBuffer();sourceFile=file;sourceBytes=new Uint8Array(buffer);pdfDoc=await pdfjsLib.getDocument({data:sourceBytes.slice()}).promise;pages=Array.from({length:pdfDoc.numPages},(_,i)=>({id:i+1,originalIndex:i}));originalPages=pages.map(p=>({...p}));fileSummary.textContent=`${file.name} · ${fmt(file.size)} · ${pages.length}페이지`;fileSummary.classList.add("show");uploadWrap.style.display="none";editor.classList.add("show");await renderGrid();message(`${pages.length}페이지를 불러왔습니다. 드래그해 순서를 변경하세요.`,"success")}catch(e){console.error(e);resetTool();message("PDF 파일을 읽지 못했습니다. 손상되었거나 지원되지 않는 파일인지 확인해 주세요.","error")}finally{loading("","",false)}}
+
+    async function renderGrid(){pageGrid.innerHTML="";editorStatus.textContent=`현재 ${pages.length}페이지 · 드래그하여 순서를 변경할 수 있습니다.`;const frag=document.createDocumentFragment();for(let i=0;i<pages.length;i++){const p=pages[i],card=document.createElement("article");card.className="page-card";card.draggable=true;card.dataset.id=p.id;card.innerHTML=`<div class="thumb"><span class="loading-text">미리보기 생성 중...</span><span class="order-badge">${i+1}</span><span class="drag-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h.01M15 5h.01M9 12h.01M15 12h.01M9 19h.01M15 19h.01"/></svg></span></div><div class="page-body"><p class="page-title">원본 ${p.originalIndex+1}페이지</p><p class="page-sub">현재 순서 ${i+1}</p><div class="page-actions"><button class="page-action front" title="맨 앞으로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5v14M7 12h12"/><path d="m11 8-4 4 4 4"/></svg></button><button class="page-action back" title="맨 뒤로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5v14M5 12h12"/><path d="m13 8 4 4-4 4"/></svg></button><button class="page-action delete" title="삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6"/></svg></button></div></div>`;bind(card,p.id);frag.appendChild(card)}pageGrid.appendChild(frag);const cards=[...pageGrid.querySelectorAll(".page-card")];await Promise.allSettled(cards.map(card=>{const p=pages.find(x=>x.id===Number(card.dataset.id));return p?thumb(card,p.originalIndex+1):Promise.resolve()}))}
+
+    function bind(card,id){card.addEventListener("dragstart",e=>{draggedId=id;card.classList.add("dragging");e.dataTransfer?.setData("text/plain",String(id))});card.addEventListener("dragend",()=>{draggedId=null;document.querySelectorAll(".page-card").forEach(x=>x.classList.remove("dragging","drag-target"))});card.addEventListener("dragover",e=>{e.preventDefault();if(draggedId!==null&&draggedId!==id)card.classList.add("drag-target")});card.addEventListener("dragleave",()=>card.classList.remove("drag-target"));card.addEventListener("drop",async e=>{e.preventDefault();card.classList.remove("drag-target");if(draggedId===null||draggedId===id)return;const from=pages.findIndex(p=>p.id===draggedId),to=pages.findIndex(p=>p.id===id);if(from<0||to<0)return;const [m]=pages.splice(from,1);pages.splice(to,0,m);await renderGrid()});card.querySelector(".front").onclick=async()=>{const i=pages.findIndex(p=>p.id===id);if(i<=0)return;const [m]=pages.splice(i,1);pages.unshift(m);await renderGrid()};card.querySelector(".back").onclick=async()=>{const i=pages.findIndex(p=>p.id===id);if(i<0||i===pages.length-1)return;const [m]=pages.splice(i,1);pages.push(m);await renderGrid()};card.querySelector(".delete").onclick=async()=>{if(pages.length<=1){message("PDF에는 최소 1페이지가 남아 있어야 합니다.","error");return}const i=pages.findIndex(p=>p.id===id);if(i>=0){pages.splice(i,1);hideMessage();await renderGrid()}}}
+
+    async function thumb(card,pageNo){try{const page=await pdfDoc.getPage(pageNo),vp=page.getViewport({scale:1}),scale=360/vp.width,sv=page.getViewport({scale}),canvas=document.createElement("canvas"),ctx=canvas.getContext("2d",{alpha:false}),ratio=Math.min(window.devicePixelRatio||1,1.6);canvas.width=Math.floor(sv.width*ratio);canvas.height=Math.floor(sv.height*ratio);canvas.style.width=`${sv.width}px`;canvas.style.height=`${sv.height}px`;await page.render({canvasContext:ctx,viewport:sv,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;const holder=card.querySelector(".thumb"),txt=holder.querySelector(".loading-text");txt?.remove();holder.insertBefore(canvas,holder.firstChild)}catch(e){console.error(e);const txt=card.querySelector(".loading-text");if(txt)txt.textContent="미리보기 생성 실패"}}
+
+    async function resetOrder(){if(!sourceFile)return;pages=originalPages.map(p=>({...p}));await renderGrid();message("페이지 순서를 원래 상태로 되돌렸습니다.","success")}
+    async function reverse(){if(!sourceFile)return;pages.reverse();await renderGrid();message("페이지 순서를 역순으로 변경했습니다.","success")}
+    function resetTool(){sourceFile=null;sourceBytes=null;pdfDoc=null;pages=[];originalPages=[];pageGrid.innerHTML="";fileSummary.textContent="";fileSummary.classList.remove("show");editor.classList.remove("show");uploadWrap.style.display="block";pdfInput.value="";hideMessage()}
+    function preview(){if(!pages.length)return;const order=pages.map(p=>p.originalIndex+1).join(" → ");message(`현재 페이지 순서: ${order}`,"success");status.scrollIntoView({behavior:"smooth",block:"nearest"})}
+
+    async function save(){if(!sourceFile||!sourceBytes||!pages.length){message("먼저 PDF 파일을 선택해 주세요.","error");return}if(!window.PDFLib){message("PDF 처리 모듈을 불러오지 못했습니다. 새로고침 후 다시 시도해 주세요.","error");return}try{saveBtn.disabled=true;loading("변경된 PDF를 만드는 중입니다","현재 페이지 순서대로 새 PDF를 생성하고 있습니다.");const src=await PDFLib.PDFDocument.load(sourceBytes.slice()),out=await PDFLib.PDFDocument.create(),idx=pages.map(p=>p.originalIndex),copies=await out.copyPages(src,idx);copies.forEach(p=>out.addPage(p));const bytes=await out.save(),blob=new Blob([bytes],{type:"application/pdf"}),base=sourceFile.name.replace(/\.pdf$/i,""),d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`,url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`${base}_reordered_${stamp}.pdf`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);message(`변경된 PDF를 저장했습니다. (${pages.length}페이지)`,"success")}catch(e){console.error(e);const msg=String(e?.message||"").toLowerCase().includes("encrypt")?"비밀번호로 보호된 PDF는 먼저 잠금을 해제한 뒤 이용해 주세요.":"PDF 생성 중 오류가 발생했습니다. 파일을 다시 선택한 뒤 시도해 주세요.";message(msg,"error")}finally{saveBtn.disabled=false;loading("","",false)}}
+
+    pickBtn.onclick=e=>{e.stopPropagation();pdfInput.click()};changeBtn.onclick=()=>pdfInput.click();dropzone.onclick=()=>pdfInput.click();dropzone.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pdfInput.click()}};pdfInput.onchange=()=>{const f=pdfInput.files?.[0];if(f)loadPdf(f)};["dragenter","dragover"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();dropzone.classList.add("dragover")}));["dragleave","drop"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();dropzone.classList.remove("dragover")}));dropzone.addEventListener("drop",e=>{const f=e.dataTransfer?.files?.[0];if(f)loadPdf(f)});resetBtn.onclick=resetOrder;reverseBtn.onclick=reverse;clearBtn.onclick=resetTool;previewBtn.onclick=preview;saveBtn.onclick=save;document.querySelectorAll(".faq-q").forEach(b=>b.onclick=()=>b.closest(".faq-item")?.classList.toggle("open"));
+  </script>
+
+  <script src="/webtools/layout.js"></script>
+</body>
+</html>
