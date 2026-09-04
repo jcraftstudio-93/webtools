@@ -2,191 +2,5907 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF 순서 변경 | JCraft Studio</title>
-  <meta name="description" content="PDF 페이지 순서를 드래그로 자유롭게 변경하고 필요 없는 페이지를 삭제한 뒤 새 PDF로 저장하세요. 파일은 브라우저에서 처리됩니다.">
-  <meta name="keywords" content="PDF 순서 변경, PDF 페이지 순서, PDF 페이지 재배치, PDF 페이지 삭제, PDF 편집, JCraft Studio">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="PDF 페이지 순서를 드래그로 자유롭게 변경하고 필요 없는 페이지를 삭제한 뒤 새 PDF로 저장하세요. 선택한 파일은 서버에 업로드하지 않고 브라우저에서 직접 처리합니다."
+  >
+
+  <meta
+    name="keywords"
+    content="PDF 순서 변경, PDF 페이지 순서, PDF 페이지 재배치, PDF 페이지 삭제, 무료 PDF 도구, JCraft Studio"
+  >
+
   <meta name="author" content="JCraft Studio">
   <meta name="theme-color" content="#ffffff">
 
+  <meta property="og:type" content="website">
+  <meta
+    property="og:title"
+    content="PDF 순서 변경 | JCraft Studio"
+  >
+  <meta
+    property="og:description"
+    content="PDF 페이지를 원하는 순서로 재배치하고 새 PDF로 저장하세요."
+  >
+
+  <title>PDF 순서 변경 - 무료 온라인 PDF 페이지 재배치 | JCraft Studio</title>
+
   <style>
+
+    /* ==================================================
+       기본 설정
+    ================================================== */
+
     :root {
-      --primary:#1769e0; --primary-dark:#0e54bc; --primary-soft:#edf5ff;
-      --bg:#f5f7fa; --surface:#fff; --surface-soft:#f8fafc;
-      --text:#172033; --sub:#526071; --muted:#8b96a5;
-      --border:#e2e7ed; --border-dark:#d2d9e1;
-      --danger:#d14343; --danger-soft:#fff3f3;
-      --success:#19714f; --success-soft:#eefaf5;
-      --warning:#9a6500; --warning-soft:#fff8e8;
-      --max:1240px; --radius:17px;
-      --shadow:0 8px 25px rgba(32,48,72,.07);
+      --primary: #1769e0;
+      --primary-dark: #0d54bd;
+      --primary-soft: #edf5ff;
+
+      --background: #f5f7fa;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+
+      --text-primary: #172033;
+      --text-secondary: #526071;
+      --text-muted: #8b96a5;
+
+      --border: #e2e7ed;
+      --border-dark: #d2d9e1;
+
+      --header-height: 78px;
+      --container-width: 1240px;
+
+      --shadow-small:
+        0 5px 20px rgba(32, 48, 72, 0.06);
+
+      --shadow-medium:
+        0 16px 40px rgba(32, 48, 72, 0.12);
+
+      --radius-small: 10px;
+      --radius-medium: 17px;
+      --radius-large: 26px;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{min-height:100vh;background:var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none} button,input{font:inherit} button{border:0;background:none;cursor:pointer} button:disabled{cursor:not-allowed;opacity:.55} svg{display:block}
-    .container{width:min(calc(100% - 40px),var(--max));margin:0 auto}.tool-page{padding:38px 0 78px}
-    .breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:18px;color:var(--muted);font-size:12px;font-weight:700}.breadcrumb a:hover{color:var(--primary)}.breadcrumb svg{width:14px;height:14px}
-    .hero{position:relative;overflow:hidden;padding:35px 36px;border:1px solid #cfe1f9;border-radius:24px;background:linear-gradient(135deg,#f8fbff,#edf5ff 60%,#fafcff);box-shadow:var(--shadow)}
-    .hero:after{position:absolute;top:-120px;right:-70px;width:330px;height:330px;border-radius:50%;background:rgba(23,105,224,.055);content:""}.hero-inner{position:relative;z-index:1;max-width:850px}
-    .eyebrow{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;color:var(--primary);font-size:12px;font-weight:850;letter-spacing:.4px}.eyebrow:before{width:7px;height:7px;border-radius:50%;background:var(--primary);content:""}
-    .hero h1{font-size:clamp(31px,4vw,44px);font-weight:900;line-height:1.2;letter-spacing:-1.7px}.hero p{max-width:760px;margin-top:14px;color:var(--sub);font-size:15px;line-height:1.8}
-    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.tag{padding:7px 10px;border:1px solid #cfe1f9;border-radius:999px;background:rgba(255,255,255,.8);color:#36516f;font-size:11px;font-weight:750}
-    .workspace{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:24px}.card{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
-    .main-card{overflow:hidden}.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:23px 24px;border-bottom:1px solid var(--border)}.card-title{font-size:18px;font-weight:850}.card-desc{margin-top:5px;color:var(--sub);font-size:12px}
-    .file-summary{display:none;max-width:48%;padding:7px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-summary.show{display:block}
-    .upload-wrap{padding:24px}.dropzone{display:grid;min-height:280px;place-items:center;padding:34px;border:2px dashed #c8d5e4;border-radius:16px;background:var(--surface-soft);text-align:center;transition:.2s}.dropzone:hover,.dropzone.dragover{border-color:var(--primary);background:var(--primary-soft)}
-    .drop-icon{display:grid;width:64px;height:64px;place-items:center;margin:0 auto 17px;border-radius:18px;background:#fff;color:var(--primary);box-shadow:var(--shadow)}.drop-icon svg{width:30px;height:30px}.drop-title{font-size:17px;font-weight:850}.drop-desc{margin-top:7px;color:var(--sub);font-size:12px}.pick-btn{display:inline-flex;align-items:center;justify-content:center;min-height:45px;margin-top:18px;padding:0 18px;border-radius:11px;background:var(--primary);color:#fff;font-size:13px;font-weight:850}.pick-btn:hover{background:var(--primary-dark)}.drop-note{margin-top:13px;color:var(--muted);font-size:10px}
-    .editor{display:none}.editor.show{display:block}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--border);background:var(--surface-soft)}.toolbar-group{display:flex;flex-wrap:wrap;gap:8px}
-    .tool-btn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;border:1px solid var(--border-dark);border-radius:10px;background:#fff;color:var(--sub);font-size:11px;font-weight:800}.tool-btn:hover{border-color:#bcd4f3;background:var(--primary-soft);color:var(--primary)}.tool-btn.danger:hover{border-color:#f0c7c7;background:var(--danger-soft);color:var(--danger)}.tool-btn svg{width:15px;height:15px}
-    .grid-wrap{padding:20px}.guide{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--sub);font-size:11px;font-weight:700}.guide svg{width:16px;height:16px;color:var(--primary)}
-    .page-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.page-card{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 5px 16px rgba(32,48,72,.05);transition:.2s;user-select:none}.page-card:hover{border-color:#bcd4f3;box-shadow:0 10px 22px rgba(32,48,72,.09);transform:translateY(-2px)}.page-card.dragging{opacity:.35}.page-card.drag-target{border-color:var(--primary);box-shadow:0 0 0 2px rgba(23,105,224,.13)}
-    .thumb{position:relative;display:grid;aspect-ratio:.72;place-items:center;overflow:hidden;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f5f7fa,#eef2f6)}.thumb canvas{display:block;width:100%;height:100%;object-fit:contain;background:#fff}.loading-text{color:var(--muted);font-size:11px;font-weight:700}.order-badge{position:absolute;top:9px;left:9px;display:grid;min-width:28px;height:28px;place-items:center;padding:0 7px;border-radius:8px;background:rgba(23,105,224,.94);color:#fff;font-size:11px;font-weight:900}.drag-handle{position:absolute;top:9px;right:9px;display:grid;width:29px;height:29px;place-items:center;border-radius:8px;background:rgba(255,255,255,.94);color:var(--sub);box-shadow:0 4px 10px rgba(32,48,72,.12);cursor:grab}.drag-handle svg{width:16px;height:16px}
-    .page-body{padding:11px}.page-title{font-size:12px;font-weight:850}.page-sub{margin-top:2px;color:var(--muted);font-size:10px}.page-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.page-action{display:grid;min-height:31px;place-items:center;border:1px solid var(--border);border-radius:8px;background:var(--surface-soft);color:var(--sub)}.page-action:hover{border-color:#bfd5f0;background:var(--primary-soft);color:var(--primary)}.page-action.delete:hover{border-color:#f0c7c7;background:var(--danger-soft);color:var(--danger)}.page-action svg{width:14px;height:14px}
-    .status{display:none;margin:0 20px 16px;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface-soft);color:var(--sub);font-size:11px;font-weight:700}.status.show{display:block}.status.error{border-color:#efc9c9;background:var(--danger-soft);color:#a53a3a}.status.success{border-color:#cbe8d8;background:var(--success-soft);color:var(--success)}
-    .editor-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 20px 20px;border-top:1px solid var(--border)}.editor-status{color:var(--sub);font-size:11px;font-weight:700}.editor-actions{display:flex;gap:8px}.secondary,.primary{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 17px;border-radius:11px;font-size:12px;font-weight:850}.secondary{border:1px solid var(--border-dark);background:#fff;color:var(--sub)}.secondary:hover{background:var(--primary-soft);color:var(--primary)}.primary{background:var(--primary);color:#fff}.primary:hover:not(:disabled){background:var(--primary-dark)}.secondary svg,.primary svg{width:16px;height:16px}
-    .side{display:grid;align-content:start;gap:14px}.side-card{padding:19px}.side-title{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:850}.side-icon{display:grid;width:31px;height:31px;place-items:center;border-radius:9px;background:var(--primary-soft);color:var(--primary)}.side-icon svg{width:16px;height:16px}.side-list{display:grid;gap:11px;margin-top:15px}.side-item{display:flex;align-items:flex-start;gap:9px;color:var(--sub);font-size:11px;line-height:1.65}.num{display:grid;flex:0 0 auto;width:21px;height:21px;place-items:center;margin-top:1px;border-radius:7px;background:var(--surface-soft);color:var(--primary);font-size:9px;font-weight:900}.privacy{border-color:#d6e9df;background:var(--success-soft)}.privacy .side-icon{background:#dff4e9;color:var(--success)}.notice{border-color:#f0dfb6;background:var(--warning-soft)}.notice .side-icon{background:#fff0ca;color:var(--warning)}
-    .content-section{margin-top:24px}.content-card{padding:28px}.content-title{font-size:20px;font-weight:880;letter-spacing:-.6px}.content-desc{margin-top:8px;color:var(--sub);font-size:13px;line-height:1.8}.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}.how-item{padding:18px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft)}.how-num{display:grid;width:30px;height:30px;place-items:center;border-radius:9px;background:var(--primary);color:#fff;font-size:11px;font-weight:900}.how-title{margin-top:13px;font-size:13px;font-weight:850}.how-desc{margin-top:5px;color:var(--sub);font-size:11px;line-height:1.65}
-    .faq-list{display:grid;gap:10px;margin-top:20px}.faq-item{border:1px solid var(--border);border-radius:12px}.faq-q{display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;min-height:58px;padding:0 17px;color:var(--text);font-size:12px;font-weight:820;text-align:left}.faq-q svg{width:17px;height:17px;color:var(--muted);transition:.2s}.faq-item.open .faq-q svg{transform:rotate(180deg)}.faq-a{display:none;padding:0 17px 17px;color:var(--sub);font-size:11px;line-height:1.75}.faq-item.open .faq-a{display:block}
-    .related{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.related-link{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:76px;padding:16px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft);transition:.2s}.related-link:hover{border-color:#bfd5f0;background:var(--primary-soft);transform:translateY(-2px)}.related-title{font-size:12px;font-weight:850}.related-desc{display:block;margin-top:3px;color:var(--muted);font-size:10px}.related-link svg{width:17px;height:17px;color:var(--primary)}
-    .overlay{position:fixed;inset:0;z-index:99999;display:none;place-items:center;padding:20px;background:rgba(14,25,40,.35);backdrop-filter:blur(4px)}.overlay.show{display:grid}.loading-box{width:min(100%,360px);padding:25px;border-radius:17px;background:#fff;box-shadow:0 18px 50px rgba(20,35,60,.2);text-align:center}.spinner{width:38px;height:38px;margin:0 auto;border:4px solid #d9e7f7;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}.loading-box strong{display:block;margin-top:15px;font-size:14px}.loading-box p{margin-top:6px;color:var(--sub);font-size:11px}@keyframes spin{to{transform:rotate(360deg)}}
-    @media(max-width:1050px){.workspace{grid-template-columns:1fr}.side{grid-template-columns:repeat(3,1fr)}.page-grid{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:760px){.container{width:min(calc(100% - 24px),var(--max))}.tool-page{padding-top:24px}.hero{padding:27px 22px;border-radius:18px}.hero h1{font-size:31px}.workspace{margin-top:16px}.card-head{flex-direction:column;padding:19px 18px}.file-summary{max-width:100%}.upload-wrap{padding:16px}.dropzone{min-height:245px;padding:26px 18px}.toolbar{align-items:flex-start;flex-direction:column}.toolbar-group:last-child{width:100%}.toolbar-group:last-child .tool-btn{flex:1}.grid-wrap{padding:15px}.page-grid{grid-template-columns:repeat(2,1fr);gap:10px}.editor-footer{align-items:stretch;flex-direction:column}.editor-actions{display:grid;grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr}.how-grid,.related{grid-template-columns:1fr}.content-card{padding:21px 18px}}
-    @media(max-width:420px){.page-grid{grid-template-columns:1fr}.editor-actions{grid-template-columns:1fr}}
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text-primary);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.mobile-menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    .container {
+      width: min(
+        calc(100% - 40px),
+        var(--container-width)
+      );
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .section-label {
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    .section-title {
+      font-size: clamp(27px, 3.5vw, 38px);
+      font-weight: 850;
+      line-height: 1.25;
+      letter-spacing: -1.3px;
+    }
+
+    .section-description {
+      margin-top: 10px;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .section-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 750;
+      transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .section-more:hover {
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+
+    .section-more svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ==================================================
+       헤더
+    ================================================== */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 13px;
+      background:
+        linear-gradient(
+          145deg,
+          #4a9cff,
+          var(--primary)
+        );
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow:
+        0 8px 18px rgba(23, 105, 224, 0.22);
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    /* ==================================================
+       데스크톱 메뉴
+    ================================================== */
+
+    .desktop-navigation {
+      align-self: stretch;
+      display: flex;
+      align-items: stretch;
+      margin-left: auto;
+    }
+
+    .desktop-menu {
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+    }
+
+    .desktop-menu-item {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .desktop-menu-button,
+    .desktop-menu-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 17px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 780;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .desktop-menu-button::after,
+    .desktop-menu-link::after {
+      position: absolute;
+      right: 17px;
+      bottom: -1px;
+      left: 17px;
+      height: 3px;
+      border-radius: 999px 999px 0 0;
+      background: var(--primary);
+      content: "";
+      opacity: 0;
+      transform: scaleX(0.45);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .desktop-menu-item:hover .desktop-menu-button,
+    .desktop-menu-item.active .desktop-menu-button,
+    .desktop-menu-link:hover {
+      color: var(--primary);
+    }
+
+    .desktop-menu-item:hover .desktop-menu-button::after,
+    .desktop-menu-item.active .desktop-menu-button::after,
+    .desktop-menu-link:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .menu-chevron {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .desktop-menu-item:hover .menu-chevron,
+    .desktop-menu-item.active .menu-chevron {
+      transform: rotate(180deg);
+    }
+
+    .header-store-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      align-self: center;
+      min-height: 43px;
+      margin-left: 12px;
+      padding: 0 16px;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .header-store-link:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .header-store-link svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ==================================================
+       데스크톱 메가메뉴
+    ================================================== */
+
+    .mega-menu-area {
+      position: absolute;
+      top: var(--header-height);
+      right: 0;
+      left: 0;
+      z-index: 990;
+      overflow: hidden;
+      max-height: 0;
+      border-bottom: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.985);
+      box-shadow: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-12px);
+      transition:
+        max-height 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.22s ease,
+        transform 0.32s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .mega-menu-area.open {
+      max-height: 410px;
+      border-color: var(--border);
+      box-shadow:
+        0 22px 40px rgba(31, 48, 72, 0.11);
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .mega-menu-inner {
+      min-height: 280px;
+      padding: 34px 0 38px;
+    }
+
+    .mega-panel {
+      display: none;
+      grid-template-columns: 270px 1fr;
+      gap: 48px;
+      animation: megaPanelIn 0.3s ease;
+    }
+
+    .mega-panel.active {
+      display: grid;
+    }
+
+    @keyframes megaPanelIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mega-intro {
+      padding-right: 38px;
+      border-right: 1px solid var(--border);
+    }
+
+    .mega-icon {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 15px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .mega-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .mega-title {
+      font-size: 24px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .mega-description {
+      margin-top: 10px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .mega-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 22px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mega-all-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .mega-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 20px;
+      align-content: start;
+    }
+
+    .mega-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 68px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .mega-link:hover {
+      background: var(--primary-soft);
+      transform: translateY(-2px);
+    }
+
+    .mega-link-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .mega-link:hover .mega-link-icon {
+      border-color: #bfd9ff;
+      color: var(--primary);
+    }
+
+    .mega-link-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .mega-link-title {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mega-link-description {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .mega-menu-overlay {
+      position: fixed;
+      inset: var(--header-height) 0 0;
+      z-index: 980;
+      display: none;
+      background: rgba(12, 24, 40, 0.22);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .mega-menu-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ==================================================
+       모바일 메뉴
+    ================================================== */
+
+    .mobile-menu-button {
+      display: none;
+      width: 43px;
+      height: 43px;
+      place-items: center;
+      border-radius: 11px;
+      color: var(--text-primary);
+    }
+
+    .mobile-menu-button:hover {
+      background: var(--surface-soft);
+    }
+
+    .mobile-menu-button svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .mobile-navigation {
+      position: fixed;
+      top: var(--header-height);
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 995;
+      display: none;
+      overflow-y: auto;
+      padding: 16px 16px 40px;
+      background: #ffffff;
+    }
+
+    .mobile-navigation.open {
+      display: block;
+    }
+
+    .mobile-category {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-category-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 60px;
+      padding: 0 7px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .mobile-category-button svg {
+      width: 19px;
+      height: 19px;
+      color: var(--text-muted);
+      transition: transform 0.25s ease;
+    }
+
+    .mobile-category.open .mobile-category-button {
+      color: var(--primary);
+    }
+
+    .mobile-category.open .mobile-category-button svg {
+      transform: rotate(180deg);
+    }
+
+    .mobile-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
+    }
+
+    .mobile-category.open .mobile-submenu {
+      grid-template-rows: 1fr;
+    }
+
+    .mobile-submenu-inner {
+      overflow: hidden;
+    }
+
+    .mobile-submenu-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 0 17px;
+    }
+
+    .mobile-submenu-link {
+      padding: 13px;
+      border-radius: 11px;
+      background: var(--surface-soft);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .mobile-submenu-link:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .mobile-single-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+      padding: 0 7px;
+      border-bottom: 1px solid var(--border);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .mobile-single-link svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .mobile-store-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      margin-top: 18px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    /* ==================================================
+       메인 환영 배너
+    ================================================== */
+
+    .hero {
+      padding: 34px 0 0;
+    }
+
+    .hero-slider {
+      position: relative;
+      min-height: 500px;
+      overflow: hidden;
+      border-radius: var(--radius-large);
+      background: #142c50;
+      box-shadow:
+        0 20px 48px rgba(26, 52, 89, 0.17);
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(350px, 0.92fr);
+      align-items: center;
+      padding: 65px 70px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.65s ease;
+    }
+
+    .hero-slide.active {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-slide::before,
+    .hero-slide::after {
+      position: absolute;
+      border-radius: 999px;
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero-slide::before {
+      top: -180px;
+      right: -80px;
+      width: 540px;
+      height: 540px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hero-slide::after {
+      right: 290px;
+      bottom: -280px;
+      width: 490px;
+      height: 490px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .hero-slide-one {
+      background:
+        linear-gradient(
+          120deg,
+          #0f4f9d 0%,
+          #1769e0 48%,
+          #4a9cff 100%
+        );
+    }
+
+    .hero-slide-two {
+      background:
+        linear-gradient(
+          120deg,
+          #15375f 0%,
+          #24547e 50%,
+          #3d83ad 100%
+        );
+    }
+
+    .hero-slide-three {
+      background:
+        linear-gradient(
+          120deg,
+          #263d74 0%,
+          #4e5fc5 50%,
+          #7f75e7 100%
+        );
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      color: #ffffff;
+    }
+
+    .hero-small-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 21px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .hero-small-title::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ffffff;
+      content: "";
+    }
+
+    .hero-title {
+      font-size: clamp(41px, 5vw, 61px);
+      font-weight: 900;
+      line-height: 1.17;
+      letter-spacing: -2.7px;
+    }
+
+    .hero-description {
+      max-width: 600px;
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.79);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 31px;
+    }
+
+    .hero-primary-button,
+    .hero-secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 51px;
+      padding: 0 19px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 850;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .hero-primary-button {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .hero-secondary-button {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .hero-primary-button:hover,
+    .hero-secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-secondary-button:hover {
+      background: rgba(255, 255, 255, 0.17);
+    }
+
+    .hero-primary-button svg,
+    .hero-secondary-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      min-height: 330px;
+    }
+
+    .hero-visual-board {
+      position: relative;
+      width: min(100%, 385px);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.21);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .visual-board-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 19px;
+    }
+
+    .visual-board-title {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .visual-board-status {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .visual-board-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .visual-board-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 11px 13px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .visual-board-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.17);
+      color: #ffffff;
+    }
+
+    .visual-board-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .visual-board-name {
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .visual-board-description {
+      margin-top: 1px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 9px;
+    }
+
+    .hero-slider-controls {
+      position: absolute;
+      right: 24px;
+      bottom: 22px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.4);
+      transition:
+        width 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .hero-dot.active {
+      width: 28px;
+      background: #ffffff;
+    }
+
+    .hero-slider-button {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      margin-left: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .hero-slider-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ==================================================
+       빠른 서비스 메뉴
+    ================================================== */
+
+    .quick-service-wrap {
+      position: relative;
+      z-index: 20;
+      margin-top: -34px;
+      padding: 0 28px;
+    }
+
+    .quick-service-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .quick-service {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      min-height: 91px;
+      padding: 13px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 780;
+      text-align: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .quick-service + .quick-service {
+      border-left: 1px solid var(--border);
+    }
+
+    .quick-service:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .quick-service-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--primary);
+    }
+
+    .quick-service-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ==================================================
+       주요 서비스
+    ================================================== */
+
+    .service-category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .service-category-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      background: var(--surface);
+      transition:
+        transform 0.23s ease,
+        box-shadow 0.23s ease,
+        border-color 0.23s ease;
+    }
+
+    .service-category-card:hover {
+      border-color: #c6daf5;
+      box-shadow: var(--shadow-medium);
+      transform: translateY(-4px);
+    }
+
+    .category-card-header {
+      position: relative;
+      min-height: 170px;
+      overflow: hidden;
+      padding: 26px;
+      background:
+        linear-gradient(
+          135deg,
+          #eef6ff,
+          #f8fbff
+        );
+    }
+
+    .category-card-header.random {
+      background:
+        linear-gradient(
+          135deg,
+          #f4f0ff,
+          #fbfaff
+        );
+    }
+
+    .category-card-header.calculator {
+      background:
+        linear-gradient(
+          135deg,
+          #eaf9f3,
+          #f8fdfb
+        );
+    }
+
+    .category-card-header::after {
+      position: absolute;
+      top: -80px;
+      right: -65px;
+      width: 210px;
+      height: 210px;
+      border-radius: 999px;
+      background: rgba(23, 105, 224, 0.06);
+      content: "";
+    }
+
+    .category-card-icon {
+      display: grid;
+      width: 50px;
+      height: 50px;
+      place-items: center;
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-small);
+    }
+
+    .category-card-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .category-card-title {
+      margin-top: 18px;
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.6px;
+    }
+
+    .category-card-description {
+      margin-top: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .category-card-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-card-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      padding: 0 18px;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 750;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .category-card-link:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+
+    .category-card-link:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .category-card-link svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ==================================================
+       소개 영역
+    ================================================== */
+
+    .about-section {
+      background: #eef2f7;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: 68px;
+    }
+
+    .about-visual {
+      position: relative;
+      display: grid;
+      min-height: 390px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          145deg,
+          #1769e0,
+          #4b9fff
+        );
+      box-shadow:
+        0 20px 45px rgba(23, 105, 224, 0.19);
+    }
+
+    .about-visual::before,
+    .about-visual::after {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      content: "";
+    }
+
+    .about-visual::before {
+      top: -110px;
+      right: -90px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .about-visual::after {
+      bottom: -130px;
+      left: -100px;
+      width: 330px;
+      height: 330px;
+    }
+
+    .about-logo {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      width: 150px;
+      height: 150px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 43px;
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -4px;
+      box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .about-copy .section-description {
+      max-width: 630px;
+      line-height: 1.85;
+    }
+
+    .about-points {
+      display: grid;
+      gap: 16px;
+      margin-top: 29px;
+    }
+
+    .about-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .about-check {
+      display: grid;
+      flex: 0 0 auto;
+      width: 29px;
+      height: 29px;
+      margin-top: 1px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .about-check svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .about-point-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .about-point-description {
+      margin-top: 3px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+
+    /* ==================================================
+       푸터
+    ================================================== */
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 0.7fr);
+      gap: 50px;
+      padding: 57px 0 40px;
+    }
+
+    .footer-brand-description {
+      max-width: 380px;
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .footer-title {
+      margin-bottom: 14px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 650;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 21px 0 29px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ==================================================
+       상단 이동
+    ================================================== */
+
+    .scroll-top-button {
+      position: fixed;
+      right: 21px;
+      bottom: 21px;
+      z-index: 900;
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-medium);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .scroll-top-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .scroll-top-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ==================================================
+       반응형
+    ================================================== */
+
+    @media (max-width: 1080px) {
+      .desktop-menu-button,
+      .desktop-menu-link {
+        padding: 0 11px;
+        font-size: 13px;
+      }
+
+      .desktop-menu-button::after,
+      .desktop-menu-link::after {
+        right: 11px;
+        left: 11px;
+      }
+
+      .header-store-link {
+        padding: 0 12px;
+      }
+
+      .hero-slide {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .quick-service-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .quick-service:nth-child(4) {
+        border-left: 0;
+      }
+
+      .quick-service:nth-child(n + 4) {
+        border-top: 1px solid var(--border);
+      }
+
+      .service-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --header-height: 68px;
+      }
+
+      .container {
+        width: min(
+          calc(100% - 28px),
+          var(--container-width)
+        );
+      }
+
+      .desktop-navigation,
+      .header-store-link,
+      .mega-menu-area,
+      .mega-menu-overlay {
+        display: none !important;
+      }
+
+      .mobile-menu-button {
+        display: grid;
+      }
+
+      .hero {
+        padding-top: 21px;
+      }
+
+      .hero-slider {
+        min-height: 465px;
+      }
+
+      .hero-slide {
+        padding: 53px 38px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      .about-visual {
+        min-height: 330px;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-main > div:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(
+          calc(100% - 20px),
+          var(--container-width)
+        );
+      }
+
+      .section {
+        padding: 65px 0;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand-name {
+        font-size: 17px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero-slider {
+        min-height: 500px;
+        border-radius: 19px;
+      }
+
+      .hero-slide {
+        padding: 43px 24px 65px;
+      }
+
+      .hero-title {
+        font-size: 37px;
+        letter-spacing: -2px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-primary-button,
+      .hero-secondary-button {
+        width: 100%;
+      }
+
+      .quick-service-wrap {
+        margin-top: -25px;
+        padding: 0 8px;
+      }
+
+      .quick-service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .quick-service:nth-child(odd) {
+        border-left: 0;
+      }
+
+      .quick-service:nth-child(even) {
+        border-left: 1px solid var(--border);
+      }
+
+      .quick-service:nth-child(n + 3) {
+        border-top: 1px solid var(--border);
+      }
+
+      .quick-service {
+        min-height: 78px;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 11px;
+      }
+
+      .quick-service-icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .service-category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-submenu-links {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-main > div:first-child {
+        grid-column: auto;
+      }
+
+      .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  
+    /* ==================================================
+       JCraft Studio 소개 페이지
+    ================================================== */
+
+    .about-page {
+      overflow: hidden;
+    }
+
+    .about-page-hero {
+      position: relative;
+      padding: 76px 0 92px;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          135deg,
+          #0e4f9f 0%,
+          #1769e0 48%,
+          #4d9fff 100%
+        );
+      color: #ffffff;
+    }
+
+    .about-page-hero::before,
+    .about-page-hero::after {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.075);
+      content: "";
+      pointer-events: none;
+    }
+
+    .about-page-hero::before {
+      top: -240px;
+      right: -130px;
+      width: 620px;
+      height: 620px;
+    }
+
+    .about-page-hero::after {
+      bottom: -300px;
+      left: 35%;
+      width: 560px;
+      height: 560px;
+    }
+
+    .about-hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      align-items: center;
+      gap: 72px;
+    }
+
+    .about-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.09);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .about-hero-label::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ffffff;
+      content: "";
+    }
+
+    .about-page-title {
+      max-width: 720px;
+      font-size: clamp(42px, 6vw, 66px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -3px;
+    }
+
+    .about-page-lead {
+      max-width: 680px;
+      margin-top: 23px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 17px;
+      line-height: 1.85;
+    }
+
+    .about-hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+    }
+
+    .about-hero-primary,
+    .about-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 51px;
+      padding: 0 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 850;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .about-hero-primary {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .about-hero-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .about-hero-primary:hover,
+    .about-hero-secondary:hover {
+      transform: translateY(-2px);
+    }
+
+    .about-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.17);
+    }
+
+    .about-hero-primary svg,
+    .about-hero-secondary svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .about-hero-symbol {
+      position: relative;
+      display: grid;
+      min-height: 390px;
+      place-items: center;
+    }
+
+    .about-symbol-panel {
+      position: relative;
+      display: grid;
+      width: min(100%, 385px);
+      min-height: 330px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .about-symbol-panel::before,
+    .about-symbol-panel::after {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      content: "";
+    }
+
+    .about-symbol-panel::before {
+      top: -70px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+    }
+
+    .about-symbol-panel::after {
+      bottom: -90px;
+      left: -75px;
+      width: 240px;
+      height: 240px;
+    }
+
+    .about-symbol-logo {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      width: 154px;
+      height: 154px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 44px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      font-size: 48px;
+      font-weight: 950;
+      letter-spacing: -4px;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.13);
+    }
+
+    .about-symbol-caption {
+      position: absolute;
+      right: 22px;
+      bottom: 20px;
+      z-index: 2;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .about-content-section {
+      padding: 92px 0;
+    }
+
+    .about-content-section.soft {
+      background: #eef2f7;
+    }
+
+    .about-section-heading {
+      max-width: 760px;
+      margin-bottom: 42px;
+    }
+
+    .about-section-kicker {
+      margin-bottom: 9px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.8px;
+    }
+
+    .about-section-title {
+      font-size: clamp(29px, 4vw, 42px);
+      font-weight: 880;
+      line-height: 1.28;
+      letter-spacing: -1.6px;
+    }
+
+    .about-section-text {
+      max-width: 720px;
+      margin-top: 15px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .identity-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 70px;
+    }
+
+    .identity-visual {
+      position: relative;
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          145deg,
+          #edf5ff,
+          #ffffff
+        );
+      border: 1px solid var(--border);
+    }
+
+    .identity-visual::before,
+    .identity-visual::after {
+      position: absolute;
+      border-radius: 999px;
+      content: "";
+    }
+
+    .identity-visual::before {
+      top: -110px;
+      right: -80px;
+      width: 330px;
+      height: 330px;
+      background: rgba(23, 105, 224, 0.08);
+    }
+
+    .identity-visual::after {
+      bottom: -130px;
+      left: -95px;
+      width: 350px;
+      height: 350px;
+      background: rgba(23, 105, 224, 0.055);
+    }
+
+    .identity-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(calc(100% - 64px), 330px);
+      padding: 27px;
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      border-radius: 21px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-medium);
+      transform: translate(-50%, -50%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .identity-card-mark {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .identity-card-title {
+      margin-top: 20px;
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.6px;
+    }
+
+    .identity-card-text {
+      margin-top: 9px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .identity-copy {
+      max-width: 650px;
+    }
+
+    .identity-copy p + p {
+      margin-top: 18px;
+    }
+
+    .identity-copy p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+
+    .identity-copy strong {
+      color: var(--text-primary);
+      font-weight: 850;
+    }
+
+    .principle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .principle-card {
+      min-height: 260px;
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+    }
+
+    .principle-card:hover {
+      border-color: #c7dbf5;
+      box-shadow: var(--shadow-medium);
+      transform: translateY(-4px);
+    }
+
+    .principle-number {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+    }
+
+    .principle-icon {
+      display: grid;
+      width: 50px;
+      height: 50px;
+      margin-top: 24px;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .principle-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .principle-title {
+      margin-top: 19px;
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+    }
+
+    .principle-text {
+      margin-top: 9px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field-card {
+      min-height: 185px;
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .field-icon {
+      display: grid;
+      width: 45px;
+      height: 45px;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .field-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .field-title {
+      margin-top: 17px;
+      font-size: 16px;
+      font-weight: 850;
+    }
+
+    .field-text {
+      margin-top: 7px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .platform-flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px minmax(0, 1fr);
+      align-items: stretch;
+      gap: 18px;
+    }
+
+    .platform-card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+    }
+
+    .platform-card.web {
+      background:
+        linear-gradient(
+          145deg,
+          #edf5ff,
+          #ffffff
+        );
+    }
+
+    .platform-card.app {
+      background:
+        linear-gradient(
+          145deg,
+          #f3f0ff,
+          #ffffff
+        );
+    }
+
+    .platform-badge {
+      display: inline-flex;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .platform-card.app .platform-badge {
+      background: #f0ecff;
+      color: #6e55c7;
+    }
+
+    .platform-title {
+      margin-top: 20px;
+      font-size: 25px;
+      font-weight: 880;
+      letter-spacing: -0.8px;
+    }
+
+    .platform-text {
+      margin-top: 11px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .platform-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .platform-list li {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .platform-list li::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .platform-card.app .platform-list li::before {
+      background: #765bd0;
+    }
+
+    .platform-connector {
+      display: grid;
+      place-items: center;
+    }
+
+    .platform-connector-icon {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: var(--shadow-small);
+    }
+
+    .platform-connector-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .commitment-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 52px 56px;
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          135deg,
+          #172033,
+          #263a5d
+        );
+      color: #ffffff;
+    }
+
+    .commitment-panel::before {
+      position: absolute;
+      top: -170px;
+      right: -110px;
+      width: 430px;
+      height: 430px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      content: "";
+    }
+
+    .commitment-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+    }
+
+    .commitment-title {
+      max-width: 670px;
+      font-size: clamp(27px, 4vw, 40px);
+      font-weight: 880;
+      line-height: 1.3;
+      letter-spacing: -1.3px;
+    }
+
+    .commitment-text {
+      max-width: 650px;
+      margin-top: 13px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .commitment-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      min-height: 52px;
+      padding: 0 20px;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 850;
+      transition: transform 0.2s ease;
+    }
+
+    .commitment-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .commitment-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 1020px) {
+      .about-hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-hero-symbol {
+        display: none;
+      }
+
+      .identity-grid {
+        grid-template-columns: 1fr;
+        gap: 46px;
+      }
+
+      .principle-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .field-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .about-page-hero {
+        padding: 58px 0 72px;
+      }
+
+      .about-page-title {
+        letter-spacing: -2px;
+      }
+
+      .about-page-lead {
+        font-size: 15px;
+      }
+
+      .about-content-section {
+        padding: 70px 0;
+      }
+
+      .platform-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .platform-connector {
+        min-height: 58px;
+      }
+
+      .platform-connector-icon {
+        transform: rotate(90deg);
+      }
+
+      .commitment-panel {
+        padding: 40px 30px;
+      }
+
+      .commitment-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .about-page-title {
+        font-size: 39px;
+      }
+
+      .about-hero-links {
+        flex-direction: column;
+      }
+
+      .about-hero-primary,
+      .about-hero-secondary {
+        width: 100%;
+      }
+
+      .identity-visual {
+        min-height: 360px;
+      }
+
+      .principle-grid,
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .platform-card {
+        padding: 25px;
+      }
+
+      .commitment-link {
+        width: 100%;
+      }
+    }
+
+  
+
+    /* ==================================================
+       PDF 병합 도구 페이지
+    ================================================== */
+
+    .tool-page {
+      padding-bottom: 90px;
+    }
+
+    .tool-breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 28px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tool-breadcrumb a {
+      transition: color 0.2s ease;
+    }
+
+    .tool-breadcrumb a:hover {
+      color: var(--primary);
+    }
+
+    .tool-breadcrumb svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .tool-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 40px;
+      padding: 54px 0 38px;
+    }
+
+    .tool-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    .tool-hero-label::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(38px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -2.5px;
+    }
+
+    .tool-hero h1 span {
+      color: var(--primary);
+    }
+
+    .tool-hero-description {
+      max-width: 690px;
+      margin-top: 17px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .tool-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .tool-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .tool-hero-badge svg {
+      width: 15px;
+      height: 15px;
+      color: var(--primary);
+    }
+
+    .tool-hero-icon {
+      display: grid;
+      width: 132px;
+      height: 132px;
+      place-items: center;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #4a9cff, var(--primary));
+      color: #ffffff;
+      box-shadow: 0 22px 44px rgba(23, 105, 224, 0.2);
+    }
+
+    .tool-hero-icon svg {
+      width: 58px;
+      height: 58px;
+    }
+
+    .ad-area {
+      display: flex;
+      min-height: 90px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 26px;
+      border: 1px dashed var(--border-dark);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.4px;
+    }
+
+    .tool-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      align-items: start;
+      gap: 22px;
+    }
+
+    .tool-shell {
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .drop-zone {
+      display: flex;
+      min-height: 270px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 38px 25px;
+      border: 2px dashed #bfd7f7;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #f7fbff, var(--primary-soft));
+      text-align: center;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .drop-zone.dragover {
+      border-color: var(--primary);
+      background: #e5f1ff;
+      transform: scale(1.004);
+    }
+
+    .drop-icon {
+      display: grid;
+      width: 68px;
+      height: 68px;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 20px;
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-small);
+    }
+
+    .drop-icon svg {
+      width: 31px;
+      height: 31px;
+    }
+
+    .drop-zone h2 {
+      font-size: 22px;
+      font-weight: 850;
+      letter-spacing: -0.6px;
+    }
+
+    .drop-zone p {
+      max-width: 520px;
+      margin-top: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    #pdfInput { display: none; }
+
+    .select-button,
+    .merge-button,
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 12px;
+      font-weight: 850;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .select-button {
+      min-height: 49px;
+      margin-top: 22px;
+      padding: 0 22px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14px;
+      box-shadow: 0 10px 22px rgba(23, 105, 224, 0.18);
+    }
+
+    .select-button:hover,
+    .merge-button:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .summary {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .summary.visible { display: grid; }
+
+    .summary-item {
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .summary-label {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+
+    .summary-value {
+      margin-top: 4px;
+      font-size: 20px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+    }
+
+    .files-wrapper {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .files-wrapper.visible { display: block; }
+
+    .file-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .file-header h3 {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .clear-button {
+      border: 0;
+      background: transparent;
+      color: #dc4f4f;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .file-item {
+      display: flex;
+      min-height: 76px;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .file-order {
+      display: grid;
+      flex: 0 0 auto;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .file-info { flex: 1; min-width: 0; }
+
+    .file-name {
+      overflow: hidden;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 780;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-meta {
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .file-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 6px;
+    }
+
+    .icon-button {
+      display: grid;
+      width: 35px;
+      height: 35px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-soft);
+      color: var(--text-secondary);
+      font-size: 15px;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .icon-button:hover:not(:disabled) {
+      border-color: #b9d4f7;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .icon-button.delete:hover:not(:disabled) {
+      border-color: #f1bcbc;
+      background: #fff3f3;
+      color: #dc4f4f;
+    }
+
+    .icon-button:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .merge-area {
+      display: none;
+      margin-top: 22px;
+    }
+
+    .merge-area.visible { display: block; }
+
+    .merge-button {
+      width: 100%;
+      min-height: 55px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 15px;
+      box-shadow: 0 10px 22px rgba(23, 105, 224, 0.16);
+    }
+
+    .merge-button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .progress-area {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .progress-area.visible { display: block; }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .progress-track {
+      overflow: hidden;
+      height: 7px;
+      border-radius: 999px;
+      background: #dfe7f0;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--primary);
+      transition: width 0.2s ease;
+    }
+
+    .result-box {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #bce5d2;
+      border-radius: 15px;
+      background: #f0fbf6;
+    }
+
+    .result-box.visible { display: block; }
+
+    .result-title {
+      color: #137a4d;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .result-desc {
+      margin: 6px 0 15px;
+      color: #4e6d5e;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .download-button {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid #9bd7ba;
+      background: #ffffff;
+      color: #137a4d;
+      font-size: 13px;
+    }
+
+    .download-button:hover {
+      background: #e4f8ee;
+      transform: translateY(-1px);
+    }
+
+    .privacy-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .privacy-icon {
+      display: grid;
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .privacy-icon svg { width: 17px; height: 17px; }
+
+    .privacy-notice strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .privacy-notice p {
+      margin-top: 3px;
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .tool-side-card {
+      margin-bottom: 14px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .tool-side-card h2 {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .tool-side-card > p {
+      margin-top: 7px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .side-step-list {
+      display: grid;
+      gap: 13px;
+      margin-top: 17px;
+    }
+
+    .side-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .side-step-number {
+      display: grid;
+      flex: 0 0 auto;
+      width: 25px;
+      height: 25px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .side-step strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .side-step span {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .side-related-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .side-related-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 750;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .side-related-link:hover {
+      border-color: #bfd7f7;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .side-related-link svg { width: 15px; height: 15px; }
+
+    .content-section {
+      padding: 70px 0 0;
+    }
+
+    .content-block {
+      margin-bottom: 55px;
+    }
+
+    .content-label {
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.8px;
+    }
+
+    .content-block h2 {
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: -0.9px;
+    }
+
+    .content-block > p {
+      max-width: 820px;
+      margin-top: 11px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .step {
+      padding: 19px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--surface);
+    }
+
+    .step-number {
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .step strong {
+      display: block;
+      margin-top: 11px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step p {
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .faq-list details {
+      padding: 17px 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface);
+    }
+
+    .faq-list summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 780;
+    }
+
+    .faq-list details p {
+      padding-top: 10px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .related-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 92px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--surface);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .related-card:hover {
+      border-color: #bfd7f7;
+      box-shadow: var(--shadow-small);
+      transform: translateY(-2px);
+    }
+
+    .related-card strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .related-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .related-card > svg {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      color: var(--primary);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      z-index: 9999;
+      padding: 11px 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 11px;
+      background: #172033;
+      color: #ffffff;
+      box-shadow: var(--shadow-medium);
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 18px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 980px) {
+      .tool-layout { grid-template-columns: 1fr; }
+      .tool-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .tool-side-card { margin-bottom: 0; }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .tool-hero { grid-template-columns: 1fr; padding-top: 42px; }
+      .tool-hero-icon { display: none; }
+      .tool-hero h1 { font-size: 40px; letter-spacing: -1.8px; }
+      .tool-shell { padding: 15px; border-radius: 18px; }
+      .drop-zone { min-height: 230px; padding: 28px 16px; }
+      .summary { grid-template-columns: 1fr; }
+      .tool-sidebar { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .file-item { align-items: flex-start; }
+      .file-actions { flex-direction: column; }
+      .steps { grid-template-columns: 1fr; }
+    }
+
+
+    /* ==================================================
+       PDF Splitter 전용
+    ================================================== */
+
+    #pdfInput {
+      display: none;
+    }
+
+    .single-file-summary {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .single-file-summary.visible {
+      display: flex;
+    }
+
+    .single-file-info {
+      min-width: 0;
+    }
+
+    .single-file-name {
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .single-file-meta {
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .remove-file-button {
+      flex: 0 0 auto;
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 10px;
+      background: #fff1f1;
+      color: #cf3e3e;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .split-settings {
+      display: none;
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--surface-soft);
+    }
+
+    .split-settings.visible {
+      display: block;
+    }
+
+    .split-settings h3 {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .split-settings > p {
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .split-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .split-mode-option {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .split-mode-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .split-mode-card {
+      display: block;
+      min-height: 96px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #ffffff;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .split-mode-option input:checked + .split-mode-card {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.08);
+    }
+
+    .split-mode-card strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .split-mode-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .range-field {
+      margin-top: 17px;
+    }
+
+    .range-field.hidden {
+      display: none;
+    }
+
+    .range-field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 820;
+    }
+
+    .range-field input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--border-dark);
+      border-radius: 11px;
+      background: #ffffff;
+      color: var(--text-primary);
+      outline: none;
+      font-size: 13px;
+    }
+
+    .range-field input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.1);
+    }
+
+    .range-help {
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .split-action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .split-button,
+    .reset-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .split-button {
+      flex: 1;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .split-button:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .reset-button {
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text-secondary);
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.65;
+    }
+
+    .status-box.visible {
+      display: block;
+    }
+
+    .status-box.info {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .status-box.error {
+      background: #fff1f1;
+      color: #cf3e3e;
+    }
+
+    .status-box.success {
+      background: #e9f8f0;
+      color: #148a53;
+    }
+
+    @media (max-width: 720px) {
+      .split-mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .split-action-row {
+        flex-direction: column;
+      }
+
+      .reset-button {
+        width: 100%;
+      }
+
+      .single-file-summary {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+
+    /* ==================================================
+       PDF Splitter 레이아웃 보정
+       - 선택 카드는 항상 한 줄에 하나
+       - 이용방법 영역은 sticky/fixed 없이 일반 흐름
+       - 태블릿/모바일에서도 사이드 카드는 한 줄에 하나
+    ================================================== */
+
+    .split-mode-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .tool-sidebar {
+      display: block !important;
+      position: static !important;
+      top: auto !important;
+      align-self: auto !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    .tool-side-card {
+      position: static !important;
+      top: auto !important;
+      width: 100%;
+      margin-bottom: 14px !important;
+    }
+
+    .tool-side-card:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    @media (max-width: 980px) {
+      .tool-sidebar {
+        display: block !important;
+        grid-template-columns: none !important;
+      }
+
+      .tool-side-card {
+        width: 100%;
+        margin-bottom: 14px !important;
+      }
+
+      .tool-side-card:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .tool-layout {
+        display: block;
+      }
+
+      .tool-shell {
+        width: 100%;
+      }
+
+      .tool-sidebar {
+        width: 100%;
+        margin-top: 18px;
+      }
+
+      .split-mode-card {
+        min-height: auto;
+      }
+    }
+
+  
+
+
+    /* ==================================================
+       PDF 순서 변경 전용 스타일
+       - header/footer 공통 클래스와 충돌하지 않도록
+         reorder-* 접두사 사용
+    ================================================== */
+
+    .reorder-page {
+      padding-bottom: 90px;
+    }
+
+    .reorder-breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 28px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .reorder-breadcrumb a:hover {
+      color: var(--primary);
+    }
+
+    .reorder-breadcrumb svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .reorder-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 40px;
+      padding: 54px 0 38px;
+    }
+
+    .reorder-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    .reorder-hero-label::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .reorder-hero h1 {
+      font-size: clamp(38px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -2.5px;
+    }
+
+    .reorder-hero h1 span {
+      color: var(--primary);
+    }
+
+    .reorder-hero-description {
+      max-width: 720px;
+      margin-top: 17px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .reorder-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .reorder-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 750;
+      box-shadow: var(--shadow-small);
+    }
+
+    .reorder-hero-badge svg {
+      width: 15px;
+      height: 15px;
+      color: var(--primary);
+    }
+
+    .reorder-hero-icon {
+      display: grid;
+      width: 132px;
+      height: 132px;
+      place-items: center;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #4a9cff, var(--primary));
+      color: #ffffff;
+      box-shadow: 0 22px 44px rgba(23, 105, 224, 0.2);
+    }
+
+    .reorder-hero-icon svg {
+      width: 56px;
+      height: 56px;
+    }
+
+    .reorder-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .reorder-panel,
+    .reorder-side-card,
+    .reorder-content-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .reorder-panel {
+      overflow: hidden;
+    }
+
+    .reorder-panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 23px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reorder-panel-title {
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+    }
+
+    .reorder-panel-description {
+      margin-top: 5px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .reorder-file-summary {
+      display: none;
+      max-width: 46%;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .reorder-file-summary.visible {
+      display: block;
+    }
+
+    .reorder-upload-wrap {
+      padding: 24px;
+    }
+
+    .reorder-drop-zone {
+      display: grid;
+      min-height: 285px;
+      place-items: center;
+      padding: 34px;
+      border: 2px dashed #c8d5e4;
+      border-radius: 16px;
+      background: var(--surface-soft);
+      text-align: center;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .reorder-drop-zone:hover,
+    .reorder-drop-zone.dragover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .reorder-drop-zone.dragover {
+      transform: scale(1.004);
+    }
+
+    .reorder-drop-icon {
+      display: grid;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      margin: 0 auto 17px;
+      border-radius: 18px;
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-small);
+    }
+
+    .reorder-drop-icon svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .reorder-drop-title {
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .reorder-drop-description {
+      margin-top: 7px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .reorder-pick-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 45px;
+      margin-top: 18px;
+      padding: 0 18px;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 850;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .reorder-pick-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .reorder-drop-note {
+      margin-top: 13px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .reorder-editor {
+      display: none;
+    }
+
+    .reorder-editor.visible {
+      display: block;
+    }
+
+    .reorder-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .reorder-toolbar-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .reorder-tool-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--border-dark);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 800;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .reorder-tool-button:hover {
+      border-color: #bcd4f3;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .reorder-tool-button.danger:hover {
+      border-color: #f0c7c7;
+      background: #fff3f3;
+      color: #d14343;
+    }
+
+    .reorder-tool-button svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .reorder-grid-wrap {
+      padding: 20px;
+    }
+
+    .reorder-guide {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reorder-guide svg {
+      width: 16px;
+      height: 16px;
+      color: var(--primary);
+    }
+
+    .reorder-page-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reorder-page-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 5px 16px rgba(32, 48, 72, 0.05);
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+      user-select: none;
+    }
+
+    .reorder-page-card:hover {
+      border-color: #bcd4f3;
+      box-shadow: 0 10px 22px rgba(32, 48, 72, 0.09);
+      transform: translateY(-2px);
+    }
+
+    .reorder-page-card.dragging {
+      opacity: 0.35;
+    }
+
+    .reorder-page-card.drag-target {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(23, 105, 224, 0.13);
+    }
+
+    .reorder-thumbnail {
+      position: relative;
+      display: grid;
+      aspect-ratio: 0.72;
+      place-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #f5f7fa, #eef2f6);
+    }
+
+    .reorder-thumbnail canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #ffffff;
+    }
+
+    .reorder-thumb-loading {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reorder-order-badge {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      z-index: 2;
+      display: grid;
+      min-width: 28px;
+      height: 28px;
+      place-items: center;
+      padding: 0 7px;
+      border-radius: 8px;
+      background: rgba(23, 105, 224, 0.94);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(23, 105, 224, 0.2);
+    }
+
+    .reorder-drag-handle {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      z-index: 2;
+      display: grid;
+      width: 29px;
+      height: 29px;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--text-secondary);
+      box-shadow: 0 4px 10px rgba(32, 48, 72, 0.12);
+      cursor: grab;
+    }
+
+    .reorder-drag-handle svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .reorder-page-body {
+      padding: 11px;
+    }
+
+    .reorder-page-title {
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .reorder-page-subtitle {
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .reorder-page-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .reorder-page-action {
+      display: grid;
+      min-height: 31px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-soft);
+      color: var(--text-secondary);
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .reorder-page-action:hover {
+      border-color: #bfd5f0;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .reorder-page-action.delete:hover {
+      border-color: #f0c7c7;
+      background: #fff3f3;
+      color: #d14343;
+    }
+
+    .reorder-page-action svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .reorder-status {
+      display: none;
+      margin: 0 20px 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-soft);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reorder-status.visible {
+      display: block;
+    }
+
+    .reorder-status.success {
+      border-color: #cbe8d8;
+      background: #eefaf5;
+      color: #19714f;
+    }
+
+    .reorder-status.error {
+      border-color: #efc9c9;
+      background: #fff3f3;
+      color: #a53a3a;
+    }
+
+    .reorder-editor-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .reorder-editor-status {
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reorder-editor-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .reorder-secondary-button,
+    .reorder-primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 44px;
+      padding: 0 17px;
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 850;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .reorder-secondary-button {
+      border: 1px solid var(--border-dark);
+      background: #ffffff;
+      color: var(--text-secondary);
+    }
+
+    .reorder-secondary-button:hover {
+      border-color: #bfd5f0;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .reorder-primary-button {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .reorder-primary-button:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .reorder-secondary-button svg,
+    .reorder-primary-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .reorder-side {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .reorder-side-card {
+      padding: 19px;
+    }
+
+    .reorder-side-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .reorder-side-icon {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .reorder-side-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .reorder-side-list {
+      display: grid;
+      gap: 11px;
+      margin-top: 15px;
+    }
+
+    .reorder-side-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .reorder-side-mark {
+      display: grid;
+      flex: 0 0 auto;
+      width: 21px;
+      height: 21px;
+      place-items: center;
+      margin-top: 1px;
+      border-radius: 7px;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .reorder-side-card.privacy {
+      border-color: #d6e9df;
+      background: #eefaf5;
+    }
+
+    .reorder-side-card.privacy .reorder-side-icon {
+      background: #dff4e9;
+      color: #16845b;
+    }
+
+    .reorder-side-card.notice {
+      border-color: #f0dfb6;
+      background: #fff8e8;
+    }
+
+    .reorder-side-card.notice .reorder-side-icon {
+      background: #fff0ca;
+      color: #9a6500;
+    }
+
+    .reorder-content-section {
+      margin-top: 24px;
+    }
+
+    .reorder-content-card {
+      padding: 28px;
+    }
+
+    .reorder-content-title {
+      font-size: 20px;
+      font-weight: 880;
+      letter-spacing: -0.6px;
+    }
+
+    .reorder-content-description {
+      margin-top: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .reorder-how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .reorder-how-item {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .reorder-how-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .reorder-how-title {
+      margin-top: 13px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .reorder-how-description {
+      margin-top: 5px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .reorder-faq-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .reorder-faq-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .reorder-faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      width: 100%;
+      min-height: 58px;
+      padding: 0 17px;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 820;
+      text-align: left;
+    }
+
+    .reorder-faq-question svg {
+      width: 17px;
+      height: 17px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .reorder-faq-item.open .reorder-faq-question svg {
+      transform: rotate(180deg);
+    }
+
+    .reorder-faq-answer {
+      display: none;
+      padding: 0 17px 17px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.75;
+    }
+
+    .reorder-faq-item.open .reorder-faq-answer {
+      display: block;
+    }
+
+    .reorder-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .reorder-related-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      min-height: 76px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .reorder-related-link:hover {
+      border-color: #bfd5f0;
+      background: var(--primary-soft);
+      transform: translateY(-2px);
+    }
+
+    .reorder-related-title {
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .reorder-related-description {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .reorder-related-link svg {
+      width: 17px;
+      height: 17px;
+      color: var(--primary);
+    }
+
+    .reorder-loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(14, 25, 40, 0.35);
+      backdrop-filter: blur(4px);
+    }
+
+    .reorder-loading-overlay.visible {
+      display: grid;
+    }
+
+    .reorder-loading-box {
+      width: min(100%, 360px);
+      padding: 25px;
+      border-radius: 17px;
+      background: #ffffff;
+      box-shadow: var(--shadow-medium);
+      text-align: center;
+    }
+
+    .reorder-spinner {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto;
+      border: 4px solid #d9e7f7;
+      border-top-color: var(--primary);
+      border-radius: 999px;
+      animation: reorderSpin 0.8s linear infinite;
+    }
+
+    .reorder-loading-title {
+      display: block;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .reorder-loading-description {
+      margin-top: 6px;
+      color: var(--text-secondary);
+      font-size: 11px;
+    }
+
+    @keyframes reorderSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .reorder-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .reorder-side {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .reorder-page-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .reorder-hero {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding-top: 38px;
+      }
+
+      .reorder-hero-icon {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .reorder-breadcrumb {
+        padding-top: 20px;
+      }
+
+      .reorder-hero {
+        padding: 36px 0 28px;
+      }
+
+      .reorder-hero h1 {
+        font-size: 36px;
+      }
+
+      .reorder-panel-head {
+        flex-direction: column;
+        padding: 19px 18px;
+      }
+
+      .reorder-file-summary {
+        max-width: 100%;
+      }
+
+      .reorder-upload-wrap {
+        padding: 16px;
+      }
+
+      .reorder-drop-zone {
+        min-height: 245px;
+        padding: 26px 18px;
+      }
+
+      .reorder-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .reorder-toolbar-group:last-child {
+        width: 100%;
+      }
+
+      .reorder-toolbar-group:last-child .reorder-tool-button {
+        flex: 1;
+      }
+
+      .reorder-grid-wrap {
+        padding: 15px;
+      }
+
+      .reorder-page-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .reorder-editor-footer {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .reorder-editor-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .reorder-side {
+        grid-template-columns: 1fr;
+      }
+
+      .reorder-how-grid,
+      .reorder-related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reorder-content-card {
+        padding: 21px 18px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .reorder-page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reorder-editor-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
+
 <body>
+
+  <!-- ==================================================
+       헤더
+  =================================================== -->
+
   <div id="siteHeaderContainer"></div>
 
-  <main class="tool-page">
+
+  <main class="tool-page reorder-page" id="home">
     <div class="container">
-      <nav class="breadcrumb" aria-label="현재 위치">
-        <a href="/webtools/index.html">홈</a>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-        <span>PDF 툴</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-        <strong>PDF 순서 변경</strong>
+
+      <nav class="reorder-breadcrumb" aria-label="현재 위치">
+        <a href="../index.html">홈</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+        <a href="../index.html#pdf">PDF 툴</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+        <span>PDF 순서 변경</span>
       </nav>
 
-      <section class="hero">
-        <div class="hero-inner">
-          <p class="eyebrow">PDF PAGE REORDER</p>
-          <h1>PDF 페이지 순서를<br>원하는 대로 바꿔보세요</h1>
-          <p>PDF 파일을 선택하면 각 페이지를 미리보기로 확인할 수 있습니다. 페이지 카드를 드래그해 순서를 변경하거나 필요 없는 페이지를 삭제한 뒤 새 PDF 파일로 저장하세요.</p>
-          <div class="tags"><span class="tag">드래그 순서 변경</span><span class="tag">페이지 미리보기</span><span class="tag">페이지 삭제</span><span class="tag">브라우저 로컬 처리</span></div>
+      <section class="reorder-hero">
+        <div>
+          <p class="reorder-hero-label">PDF PAGE REORDER</p>
+
+          <h1>
+            PDF 페이지를<br>
+            <span>원하는 순서대로</span> 정리하세요
+          </h1>
+
+          <p class="reorder-hero-description">
+            PDF 파일의 각 페이지를 미리보기로 확인하고,
+            드래그하여 원하는 위치로 이동할 수 있습니다.
+            필요 없는 페이지는 삭제하고 변경한 순서 그대로 새 PDF로 저장하세요.
+          </p>
+
+          <div class="reorder-hero-badges">
+            <span class="reorder-hero-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 6h8"></path>
+                <path d="M8 12h8"></path>
+                <path d="M8 18h8"></path>
+              </svg>
+              드래그 순서 변경
+            </span>
+
+            <span class="reorder-hero-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              페이지 미리보기
+            </span>
+
+            <span class="reorder-hero-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4h8v2"></path>
+                <path d="M19 6l-1 15H6L5 6"></path>
+              </svg>
+              페이지 삭제
+            </span>
+
+            <span class="reorder-hero-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              브라우저 로컬 처리
+            </span>
+          </div>
+        </div>
+
+        <div class="reorder-hero-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <rect x="5" y="3" width="11" height="15" rx="2"></rect>
+            <path d="M9 7h4"></path>
+            <path d="M9 11h4"></path>
+            <path d="M9 15h3"></path>
+            <path d="M16 8h3v13H8v-3"></path>
+          </svg>
         </div>
       </section>
 
-      <div class="workspace">
-        <section class="card main-card">
-          <div class="card-head">
-            <div><h2 class="card-title">PDF 순서 변경</h2><p class="card-desc">PDF 파일 1개를 선택한 뒤 페이지 순서를 자유롭게 재배치하세요.</p></div>
-            <span class="file-summary" id="fileSummary"></span>
+      <div class="reorder-layout">
+
+        <section class="reorder-panel">
+          <div class="reorder-panel-head">
+            <div>
+              <h2 class="reorder-panel-title">PDF 순서 변경</h2>
+              <p class="reorder-panel-description">
+                PDF 파일 1개를 선택한 뒤 페이지 카드를 원하는 순서로 이동하세요.
+              </p>
+            </div>
+
+            <span
+              class="reorder-file-summary"
+              id="reorderFileSummary"
+            ></span>
           </div>
 
-          <div class="upload-wrap" id="uploadWrap">
-            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="PDF 파일 선택">
+          <div class="reorder-upload-wrap" id="reorderUploadWrap">
+            <div
+              class="reorder-drop-zone"
+              id="reorderDropZone"
+              tabindex="0"
+              role="button"
+              aria-label="PDF 파일 선택"
+            >
               <div>
-                <span class="drop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M12 17V10"/><path d="m9 13 3-3 3 3"/></svg></span>
-                <h3 class="drop-title">PDF 파일을 여기에 놓아주세요</h3>
-                <p class="drop-desc">또는 아래 버튼을 눌러 기기에서 PDF 파일을 선택하세요.</p>
-                <button type="button" class="pick-btn" id="pickBtn">PDF 파일 선택</button>
-                <p class="drop-note">PDF 파일 1개 · 선택한 파일은 서버로 업로드되지 않습니다.</p>
+                <span class="reorder-drop-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 3h7l5 5v13H7z"></path>
+                    <path d="M14 3v5h5"></path>
+                    <path d="M12 17V10"></path>
+                    <path d="m9 13 3-3 3 3"></path>
+                  </svg>
+                </span>
+
+                <h3 class="reorder-drop-title">
+                  PDF 파일을 여기에 놓아주세요
+                </h3>
+
+                <p class="reorder-drop-description">
+                  또는 아래 버튼을 눌러 기기에서 PDF 파일을 선택하세요.
+                </p>
+
+                <button
+                  type="button"
+                  class="reorder-pick-button"
+                  id="reorderPickButton"
+                >
+                  PDF 파일 선택
+                </button>
+
+                <p class="reorder-drop-note">
+                  PDF 파일 1개 · 선택한 파일은 서버로 업로드되지 않습니다.
+                </p>
               </div>
-              <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
+
+              <input
+                type="file"
+                id="reorderPdfInput"
+                accept="application/pdf,.pdf"
+                hidden
+              >
             </div>
           </div>
 
-          <div class="editor" id="editor">
-            <div class="toolbar">
-              <div class="toolbar-group">
-                <button type="button" class="tool-btn" id="changeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>다른 PDF 선택</button>
-                <button type="button" class="tool-btn" id="resetBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>원래 순서</button>
+          <div class="reorder-editor" id="reorderEditor">
+
+            <div class="reorder-toolbar">
+              <div class="reorder-toolbar-group">
+                <button
+                  type="button"
+                  class="reorder-tool-button"
+                  id="reorderChangeButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 3h7l5 5v13H7z"></path>
+                    <path d="M14 3v5h5"></path>
+                  </svg>
+                  다른 PDF 선택
+                </button>
+
+                <button
+                  type="button"
+                  class="reorder-tool-button"
+                  id="reorderResetButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                  원래 순서
+                </button>
               </div>
-              <div class="toolbar-group">
-                <button type="button" class="tool-btn" id="reverseBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h11"/><path d="m15 4 3 3-3 3"/><path d="M17 17H6"/><path d="m9 14-3 3 3 3"/></svg>역순</button>
-                <button type="button" class="tool-btn danger" id="clearBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 15H6L5 6"/></svg>초기화</button>
+
+              <div class="reorder-toolbar-group">
+                <button
+                  type="button"
+                  class="reorder-tool-button"
+                  id="reorderReverseButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 7h11"></path>
+                    <path d="m15 4 3 3-3 3"></path>
+                    <path d="M17 17H6"></path>
+                    <path d="m9 14-3 3 3 3"></path>
+                  </svg>
+                  역순
+                </button>
+
+                <button
+                  type="button"
+                  class="reorder-tool-button danger"
+                  id="reorderClearButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18"></path>
+                    <path d="M8 6V4h8v2"></path>
+                    <path d="M19 6l-1 15H6L5 6"></path>
+                  </svg>
+                  초기화
+                </button>
               </div>
             </div>
 
-            <div class="grid-wrap">
-              <p class="guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6h6M9 12h6M9 18h6"/><path d="M5 6h.01M5 12h.01M5 18h.01"/></svg>페이지를 드래그해 원하는 위치로 이동할 수 있습니다.</p>
-              <div class="page-grid" id="pageGrid"></div>
+            <div class="reorder-grid-wrap">
+              <p class="reorder-guide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 6h6"></path>
+                  <path d="M9 12h6"></path>
+                  <path d="M9 18h6"></path>
+                  <path d="M5 6h.01"></path>
+                  <path d="M5 12h.01"></path>
+                  <path d="M5 18h.01"></path>
+                </svg>
+                페이지 카드를 드래그해 원하는 위치로 이동할 수 있습니다.
+              </p>
+
+              <div
+                class="reorder-page-grid"
+                id="reorderPageGrid"
+              ></div>
             </div>
 
-            <div class="status" id="status"></div>
+            <div
+              class="reorder-status"
+              id="reorderStatus"
+            ></div>
 
-            <div class="editor-footer">
-              <p class="editor-status" id="editorStatus">페이지 순서를 확인한 뒤 PDF를 저장하세요.</p>
-              <div class="editor-actions">
-                <button type="button" class="secondary" id="previewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>순서 확인</button>
-                <button type="button" class="primary" id="saveBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>변경된 PDF 저장</button>
+            <div class="reorder-editor-footer">
+              <p
+                class="reorder-editor-status"
+                id="reorderEditorStatus"
+              >
+                페이지 순서를 확인한 뒤 PDF를 저장하세요.
+              </p>
+
+              <div class="reorder-editor-actions">
+                <button
+                  type="button"
+                  class="reorder-secondary-button"
+                  id="reorderPreviewButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  순서 확인
+                </button>
+
+                <button
+                  type="button"
+                  class="reorder-primary-button"
+                  id="reorderSaveButton"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3v12"></path>
+                    <path d="m7 10 5 5 5-5"></path>
+                    <path d="M5 21h14"></path>
+                  </svg>
+                  변경된 PDF 저장
+                </button>
               </div>
             </div>
+
           </div>
         </section>
 
-        <aside class="side">
-          <section class="card side-card"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span>사용 방법</h2><div class="side-list"><div class="side-item"><span class="num">1</span><span>순서를 변경할 PDF 파일을 선택합니다.</span></div><div class="side-item"><span class="num">2</span><span>페이지 카드를 드래그해 원하는 순서로 이동합니다.</span></div><div class="side-item"><span class="num">3</span><span>필요한 경우 페이지를 맨 앞으로, 맨 뒤로 보내거나 삭제합니다.</span></div><div class="side-item"><span class="num">4</span><span>변경된 PDF 저장 버튼을 눌러 새 파일을 다운로드합니다.</span></div></div></section>
-          <section class="card side-card privacy"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>브라우저에서 처리</h2><div class="side-list"><div class="side-item"><span class="num">✓</span><span>선택한 PDF 자체는 JCraft Studio 서버로 업로드하지 않고 현재 브라우저에서 처리합니다.</span></div><div class="side-item"><span class="num">✓</span><span>원본 파일은 변경하지 않고 새 PDF를 생성합니다.</span></div></div></section>
-          <section class="card side-card notice"><h2 class="side-title"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5M12 18h.01"/></svg></span>큰 PDF 안내</h2><div class="side-list"><div class="side-item"><span class="num">!</span><span>페이지 수가 많거나 용량이 큰 PDF는 미리보기 생성과 저장에 시간이 더 걸릴 수 있습니다.</span></div></div></section>
+        <aside class="reorder-side">
+
+          <section class="reorder-side-card">
+            <h2 class="reorder-side-title">
+              <span class="reorder-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 8v4"></path>
+                  <path d="M12 16h.01"></path>
+                </svg>
+              </span>
+              사용 방법
+            </h2>
+
+            <div class="reorder-side-list">
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">1</span>
+                <span>순서를 변경할 PDF 파일을 선택합니다.</span>
+              </div>
+
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">2</span>
+                <span>페이지 카드를 드래그해 원하는 순서로 이동합니다.</span>
+              </div>
+
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">3</span>
+                <span>필요한 경우 페이지를 맨 앞·맨 뒤로 이동하거나 삭제합니다.</span>
+              </div>
+
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">4</span>
+                <span>변경된 PDF 저장 버튼으로 새 파일을 내려받습니다.</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="reorder-side-card privacy">
+            <h2 class="reorder-side-title">
+              <span class="reorder-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </span>
+              브라우저에서 처리
+            </h2>
+
+            <div class="reorder-side-list">
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">✓</span>
+                <span>
+                  선택한 PDF 자체는 JCraft Studio 서버로 업로드하지 않고
+                  현재 브라우저에서 처리합니다.
+                </span>
+              </div>
+
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">✓</span>
+                <span>
+                  원본 파일은 변경하지 않고 결과 PDF를 새 파일로 생성합니다.
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="reorder-side-card notice">
+            <h2 class="reorder-side-title">
+              <span class="reorder-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3 2 21h20L12 3Z"></path>
+                  <path d="M12 9v5"></path>
+                  <path d="M12 18h.01"></path>
+                </svg>
+              </span>
+              큰 PDF 안내
+            </h2>
+
+            <div class="reorder-side-list">
+              <div class="reorder-side-item">
+                <span class="reorder-side-mark">!</span>
+                <span>
+                  페이지 수가 많거나 파일 용량이 큰 PDF는
+                  미리보기와 저장에 시간이 더 걸릴 수 있습니다.
+                </span>
+              </div>
+            </div>
+          </section>
+
         </aside>
       </div>
 
-      <section class="content-section"><div class="card content-card"><h2 class="content-title">PDF 페이지 순서 변경 방법</h2><p class="content-desc">설치 프로그램 없이 웹 브라우저에서 PDF의 페이지 순서를 변경할 수 있습니다. 원본 파일은 그대로 유지되고 변경된 순서로 새 PDF 파일이 생성됩니다.</p><div class="how-grid"><article class="how-item"><span class="how-num">01</span><h3 class="how-title">PDF 선택</h3><p class="how-desc">순서를 바꿀 PDF 파일을 선택하거나 업로드 영역에 끌어다 놓습니다.</p></article><article class="how-item"><span class="how-num">02</span><h3 class="how-title">페이지 확인</h3><p class="how-desc">PDF의 각 페이지가 미리보기 카드 형태로 표시됩니다.</p></article><article class="how-item"><span class="how-num">03</span><h3 class="how-title">순서 재배치</h3><p class="how-desc">페이지를 드래그하거나 앞·뒤 이동 버튼을 사용해 순서를 정리합니다.</p></article><article class="how-item"><span class="how-num">04</span><h3 class="how-title">새 PDF 저장</h3><p class="how-desc">현재 순서대로 새 PDF를 만들어 기기에 저장합니다.</p></article></div></div></section>
+      <section class="reorder-content-section">
+        <div class="reorder-content-card">
+          <h2 class="reorder-content-title">
+            PDF 페이지 순서 변경 방법
+          </h2>
 
-      <section class="content-section"><div class="card content-card"><h2 class="content-title">자주 묻는 질문</h2><div class="faq-list">
-        <div class="faq-item"><button class="faq-q" type="button">PDF 파일이 서버에 업로드되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">아니요. PDF 파일은 브라우저에서 읽고 처리하며 선택한 PDF 자체를 JCraft Studio 서버로 전송하지 않습니다.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button">페이지를 삭제할 수도 있나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">네. 각 페이지 카드의 삭제 버튼을 누르면 해당 페이지를 결과 PDF에서 제외할 수 있습니다. 단 최소 1페이지는 남아 있어야 합니다.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button">원본 PDF 파일이 변경되나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">원본 파일은 변경하지 않습니다. 변경한 순서대로 별도의 새 PDF 파일이 생성됩니다.</div></div>
-        <div class="faq-item"><button class="faq-q" type="button">큰 PDF 파일도 사용할 수 있나요?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg></button><div class="faq-a">가능하지만 파일 크기와 페이지 수가 많을수록 브라우저 메모리 사용량이 증가하고 미리보기 및 저장 시간이 길어질 수 있습니다.</div></div>
-      </div></div></section>
+          <p class="reorder-content-description">
+            별도 프로그램을 설치하지 않고 브라우저에서 PDF의 페이지 순서를 변경할 수 있습니다.
+            원본 파일은 그대로 유지되며 변경한 순서대로 새 PDF 파일을 생성합니다.
+          </p>
 
-      <section class="content-section"><div class="card content-card"><h2 class="content-title">관련 PDF 도구</h2><p class="content-desc">PDF 문서를 정리할 때 함께 사용할 수 있는 JCraft Studio 웹 도구입니다.</p><div class="related">
-        <a class="related-link" href="/webtools/pdf/pdf_merge.html"><span><span class="related-title">PDF Merge</span><span class="related-desc">여러 PDF 파일을 하나로 합치기</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        <a class="related-link" href="/webtools/pdf/pdf_splitter.html"><span><span class="related-title">PDF Splitter</span><span class="related-desc">원하는 페이지를 분리해 저장</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        <a class="related-link" href="/webtools/pdf/pdf_watermark.html"><span><span class="related-title">PDF 워터마크</span><span class="related-desc">PDF 문서에 워터마크 추가</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-      </div></div></section>
+          <div class="reorder-how-grid">
+            <article class="reorder-how-item">
+              <span class="reorder-how-number">01</span>
+              <h3 class="reorder-how-title">PDF 선택</h3>
+              <p class="reorder-how-description">
+                순서를 변경할 PDF 파일을 선택하거나 업로드 영역에 끌어다 놓습니다.
+              </p>
+            </article>
+
+            <article class="reorder-how-item">
+              <span class="reorder-how-number">02</span>
+              <h3 class="reorder-how-title">페이지 확인</h3>
+              <p class="reorder-how-description">
+                각 페이지가 미리보기 카드 형태로 표시됩니다.
+              </p>
+            </article>
+
+            <article class="reorder-how-item">
+              <span class="reorder-how-number">03</span>
+              <h3 class="reorder-how-title">순서 재배치</h3>
+              <p class="reorder-how-description">
+                페이지를 드래그하거나 앞·뒤 이동 버튼을 이용해 순서를 정리합니다.
+              </p>
+            </article>
+
+            <article class="reorder-how-item">
+              <span class="reorder-how-number">04</span>
+              <h3 class="reorder-how-title">새 PDF 저장</h3>
+              <p class="reorder-how-description">
+                현재 페이지 순서대로 새 PDF를 만들어 기기에 저장합니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="reorder-content-section">
+        <div class="reorder-content-card">
+          <h2 class="reorder-content-title">
+            자주 묻는 질문
+          </h2>
+
+          <div class="reorder-faq-list">
+
+            <div class="reorder-faq-item">
+              <button
+                type="button"
+                class="reorder-faq-question"
+              >
+                PDF 파일이 서버에 업로드되나요?
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m7 10 5 5 5-5"></path>
+                </svg>
+              </button>
+
+              <div class="reorder-faq-answer">
+                아니요. PDF 파일은 브라우저에서 읽고 처리하며,
+                선택한 PDF 자체를 JCraft Studio 서버로 전송하지 않습니다.
+              </div>
+            </div>
+
+            <div class="reorder-faq-item">
+              <button
+                type="button"
+                class="reorder-faq-question"
+              >
+                페이지를 삭제할 수도 있나요?
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m7 10 5 5 5-5"></path>
+                </svg>
+              </button>
+
+              <div class="reorder-faq-answer">
+                네. 각 페이지 카드의 삭제 버튼을 누르면 해당 페이지를 결과 PDF에서 제외할 수 있습니다.
+                단 PDF에는 최소 1페이지가 남아 있어야 합니다.
+              </div>
+            </div>
+
+            <div class="reorder-faq-item">
+              <button
+                type="button"
+                class="reorder-faq-question"
+              >
+                원본 PDF가 변경되나요?
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m7 10 5 5 5-5"></path>
+                </svg>
+              </button>
+
+              <div class="reorder-faq-answer">
+                원본 파일은 변경하지 않습니다.
+                변경한 순서대로 별도의 새 PDF 파일이 생성됩니다.
+              </div>
+            </div>
+
+            <div class="reorder-faq-item">
+              <button
+                type="button"
+                class="reorder-faq-question"
+              >
+                큰 PDF 파일도 사용할 수 있나요?
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m7 10 5 5 5-5"></path>
+                </svg>
+              </button>
+
+              <div class="reorder-faq-answer">
+                사용할 수 있지만 파일 크기와 페이지 수가 많을수록
+                브라우저 메모리 사용량이 증가하고 미리보기 및 저장 시간이 길어질 수 있습니다.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="reorder-content-section">
+        <div class="reorder-content-card">
+          <h2 class="reorder-content-title">
+            관련 PDF 도구
+          </h2>
+
+          <p class="reorder-content-description">
+            PDF 문서를 정리할 때 함께 사용할 수 있는 JCraft Studio 웹 도구입니다.
+          </p>
+
+          <div class="reorder-related-grid">
+
+            <a
+              href="/webtools/pdf/pdf_merge.html"
+              class="reorder-related-link"
+            >
+              <span>
+                <span class="reorder-related-title">PDF Merge</span>
+                <span class="reorder-related-description">
+                  여러 PDF 파일을 하나로 합치기
+                </span>
+              </span>
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"></path>
+                <path d="m13 6 6 6-6 6"></path>
+              </svg>
+            </a>
+
+            <a
+              href="/webtools/pdf/pdf_splitter.html"
+              class="reorder-related-link"
+            >
+              <span>
+                <span class="reorder-related-title">PDF Splitter</span>
+                <span class="reorder-related-description">
+                  원하는 페이지 범위로 PDF 분할
+                </span>
+              </span>
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"></path>
+                <path d="m13 6 6 6-6 6"></path>
+              </svg>
+            </a>
+
+            <a
+              href="/webtools/pdf/pdf_watermark.html"
+              class="reorder-related-link"
+            >
+              <span>
+                <span class="reorder-related-title">PDF 워터마크</span>
+                <span class="reorder-related-description">
+                  PDF 문서에 워터마크 추가
+                </span>
+              </span>
+
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"></path>
+                <path d="m13 6 6 6-6 6"></path>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
+
   <div id="siteFooterContainer"></div>
 
-  <div class="overlay" id="overlay"><div class="loading-box"><div class="spinner"></div><strong id="loadingTitle">PDF를 불러오는 중입니다</strong><p id="loadingDesc">페이지 정보를 확인하고 있습니다.</p></div></div>
+  <script src="/webtools/layout.js"></script>
+
+
+  <div
+    class="reorder-loading-overlay"
+    id="reorderLoadingOverlay"
+    aria-live="polite"
+  >
+    <div class="reorder-loading-box">
+      <div class="reorder-spinner"></div>
+
+      <strong
+        class="reorder-loading-title"
+        id="reorderLoadingTitle"
+      >
+        PDF를 불러오는 중입니다
+      </strong>
+
+      <p
+        class="reorder-loading-description"
+        id="reorderLoadingDescription"
+      >
+        페이지 정보를 확인하고 있습니다.
+      </p>
+    </div>
+  </div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
   <script type="module">
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
-    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
 
-    const $=id=>document.getElementById(id);
-    const pdfInput=$("pdfInput"),pickBtn=$("pickBtn"),changeBtn=$("changeBtn"),dropzone=$("dropzone"),uploadWrap=$("uploadWrap"),editor=$("editor"),pageGrid=$("pageGrid"),fileSummary=$("fileSummary"),editorStatus=$("editorStatus"),resetBtn=$("resetBtn"),reverseBtn=$("reverseBtn"),clearBtn=$("clearBtn"),previewBtn=$("previewBtn"),saveBtn=$("saveBtn"),status=$("status"),overlay=$("overlay"),loadingTitle=$("loadingTitle"),loadingDesc=$("loadingDesc");
-    let sourceFile=null,sourceBytes=null,pdfDoc=null,pages=[],originalPages=[],draggedId=null;
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
 
-    const fmt=bytes=>{if(!bytes)return"0 KB";const u=["B","KB","MB","GB"],i=Math.min(Math.floor(Math.log(bytes)/Math.log(1024)),u.length-1),v=bytes/Math.pow(1024,i);return `${v.toFixed(i===0?0:1)} ${u[i]}`};
-    function loading(title,desc,on=true){loadingTitle.textContent=title;loadingDesc.textContent=desc;overlay.classList.toggle("show",on)}
-    function message(text,type=""){status.textContent=text;status.className=`status show${type?` ${type}`:""}`}
-    function hideMessage(){status.className="status";status.textContent=""}
-    function valid(file){if(!file)return false;if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf")){message("PDF 파일만 선택할 수 있습니다.","error");return false}return true}
+    const pdfInput = document.getElementById("reorderPdfInput");
+    const pickButton = document.getElementById("reorderPickButton");
+    const changeButton = document.getElementById("reorderChangeButton");
 
-    async function loadPdf(file){if(!valid(file))return;try{hideMessage();loading("PDF를 불러오는 중입니다","페이지 수와 미리보기를 확인하고 있습니다.");const buffer=await file.arrayBuffer();sourceFile=file;sourceBytes=new Uint8Array(buffer);pdfDoc=await pdfjsLib.getDocument({data:sourceBytes.slice()}).promise;pages=Array.from({length:pdfDoc.numPages},(_,i)=>({id:i+1,originalIndex:i}));originalPages=pages.map(p=>({...p}));fileSummary.textContent=`${file.name} · ${fmt(file.size)} · ${pages.length}페이지`;fileSummary.classList.add("show");uploadWrap.style.display="none";editor.classList.add("show");await renderGrid();message(`${pages.length}페이지를 불러왔습니다. 드래그해 순서를 변경하세요.`,"success")}catch(e){console.error(e);resetTool();message("PDF 파일을 읽지 못했습니다. 손상되었거나 지원되지 않는 파일인지 확인해 주세요.","error")}finally{loading("","",false)}}
+    const dropZone = document.getElementById("reorderDropZone");
+    const uploadWrap = document.getElementById("reorderUploadWrap");
+    const editor = document.getElementById("reorderEditor");
+    const pageGrid = document.getElementById("reorderPageGrid");
 
-    async function renderGrid(){pageGrid.innerHTML="";editorStatus.textContent=`현재 ${pages.length}페이지 · 드래그하여 순서를 변경할 수 있습니다.`;const frag=document.createDocumentFragment();for(let i=0;i<pages.length;i++){const p=pages[i],card=document.createElement("article");card.className="page-card";card.draggable=true;card.dataset.id=p.id;card.innerHTML=`<div class="thumb"><span class="loading-text">미리보기 생성 중...</span><span class="order-badge">${i+1}</span><span class="drag-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h.01M15 5h.01M9 12h.01M15 12h.01M9 19h.01M15 19h.01"/></svg></span></div><div class="page-body"><p class="page-title">원본 ${p.originalIndex+1}페이지</p><p class="page-sub">현재 순서 ${i+1}</p><div class="page-actions"><button class="page-action front" title="맨 앞으로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5v14M7 12h12"/><path d="m11 8-4 4 4 4"/></svg></button><button class="page-action back" title="맨 뒤로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5v14M5 12h12"/><path d="m13 8 4 4-4 4"/></svg></button><button class="page-action delete" title="삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6"/></svg></button></div></div>`;bind(card,p.id);frag.appendChild(card)}pageGrid.appendChild(frag);const cards=[...pageGrid.querySelectorAll(".page-card")];await Promise.allSettled(cards.map(card=>{const p=pages.find(x=>x.id===Number(card.dataset.id));return p?thumb(card,p.originalIndex+1):Promise.resolve()}))}
+    const fileSummary = document.getElementById("reorderFileSummary");
+    const editorStatus = document.getElementById("reorderEditorStatus");
 
-    function bind(card,id){card.addEventListener("dragstart",e=>{draggedId=id;card.classList.add("dragging");e.dataTransfer?.setData("text/plain",String(id))});card.addEventListener("dragend",()=>{draggedId=null;document.querySelectorAll(".page-card").forEach(x=>x.classList.remove("dragging","drag-target"))});card.addEventListener("dragover",e=>{e.preventDefault();if(draggedId!==null&&draggedId!==id)card.classList.add("drag-target")});card.addEventListener("dragleave",()=>card.classList.remove("drag-target"));card.addEventListener("drop",async e=>{e.preventDefault();card.classList.remove("drag-target");if(draggedId===null||draggedId===id)return;const from=pages.findIndex(p=>p.id===draggedId),to=pages.findIndex(p=>p.id===id);if(from<0||to<0)return;const [m]=pages.splice(from,1);pages.splice(to,0,m);await renderGrid()});card.querySelector(".front").onclick=async()=>{const i=pages.findIndex(p=>p.id===id);if(i<=0)return;const [m]=pages.splice(i,1);pages.unshift(m);await renderGrid()};card.querySelector(".back").onclick=async()=>{const i=pages.findIndex(p=>p.id===id);if(i<0||i===pages.length-1)return;const [m]=pages.splice(i,1);pages.push(m);await renderGrid()};card.querySelector(".delete").onclick=async()=>{if(pages.length<=1){message("PDF에는 최소 1페이지가 남아 있어야 합니다.","error");return}const i=pages.findIndex(p=>p.id===id);if(i>=0){pages.splice(i,1);hideMessage();await renderGrid()}}}
+    const resetButton = document.getElementById("reorderResetButton");
+    const reverseButton = document.getElementById("reorderReverseButton");
+    const clearButton = document.getElementById("reorderClearButton");
+    const previewButton = document.getElementById("reorderPreviewButton");
+    const saveButton = document.getElementById("reorderSaveButton");
 
-    async function thumb(card,pageNo){try{const page=await pdfDoc.getPage(pageNo),vp=page.getViewport({scale:1}),scale=360/vp.width,sv=page.getViewport({scale}),canvas=document.createElement("canvas"),ctx=canvas.getContext("2d",{alpha:false}),ratio=Math.min(window.devicePixelRatio||1,1.6);canvas.width=Math.floor(sv.width*ratio);canvas.height=Math.floor(sv.height*ratio);canvas.style.width=`${sv.width}px`;canvas.style.height=`${sv.height}px`;await page.render({canvasContext:ctx,viewport:sv,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;const holder=card.querySelector(".thumb"),txt=holder.querySelector(".loading-text");txt?.remove();holder.insertBefore(canvas,holder.firstChild)}catch(e){console.error(e);const txt=card.querySelector(".loading-text");if(txt)txt.textContent="미리보기 생성 실패"}}
+    const status = document.getElementById("reorderStatus");
 
-    async function resetOrder(){if(!sourceFile)return;pages=originalPages.map(p=>({...p}));await renderGrid();message("페이지 순서를 원래 상태로 되돌렸습니다.","success")}
-    async function reverse(){if(!sourceFile)return;pages.reverse();await renderGrid();message("페이지 순서를 역순으로 변경했습니다.","success")}
-    function resetTool(){sourceFile=null;sourceBytes=null;pdfDoc=null;pages=[];originalPages=[];pageGrid.innerHTML="";fileSummary.textContent="";fileSummary.classList.remove("show");editor.classList.remove("show");uploadWrap.style.display="block";pdfInput.value="";hideMessage()}
-    function preview(){if(!pages.length)return;const order=pages.map(p=>p.originalIndex+1).join(" → ");message(`현재 페이지 순서: ${order}`,"success");status.scrollIntoView({behavior:"smooth",block:"nearest"})}
+    const overlay = document.getElementById("reorderLoadingOverlay");
+    const loadingTitle = document.getElementById("reorderLoadingTitle");
+    const loadingDescription = document.getElementById("reorderLoadingDescription");
 
-    async function save(){if(!sourceFile||!sourceBytes||!pages.length){message("먼저 PDF 파일을 선택해 주세요.","error");return}if(!window.PDFLib){message("PDF 처리 모듈을 불러오지 못했습니다. 새로고침 후 다시 시도해 주세요.","error");return}try{saveBtn.disabled=true;loading("변경된 PDF를 만드는 중입니다","현재 페이지 순서대로 새 PDF를 생성하고 있습니다.");const src=await PDFLib.PDFDocument.load(sourceBytes.slice()),out=await PDFLib.PDFDocument.create(),idx=pages.map(p=>p.originalIndex),copies=await out.copyPages(src,idx);copies.forEach(p=>out.addPage(p));const bytes=await out.save(),blob=new Blob([bytes],{type:"application/pdf"}),base=sourceFile.name.replace(/\.pdf$/i,""),d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`,url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`${base}_reordered_${stamp}.pdf`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);message(`변경된 PDF를 저장했습니다. (${pages.length}페이지)`,"success")}catch(e){console.error(e);const msg=String(e?.message||"").toLowerCase().includes("encrypt")?"비밀번호로 보호된 PDF는 먼저 잠금을 해제한 뒤 이용해 주세요.":"PDF 생성 중 오류가 발생했습니다. 파일을 다시 선택한 뒤 시도해 주세요.";message(msg,"error")}finally{saveBtn.disabled=false;loading("","",false)}}
+    let sourceFile = null;
+    let sourceBytes = null;
+    let pdfDocument = null;
+    let pages = [];
+    let originalPages = [];
+    let draggedId = null;
 
-    pickBtn.onclick=e=>{e.stopPropagation();pdfInput.click()};changeBtn.onclick=()=>pdfInput.click();dropzone.onclick=()=>pdfInput.click();dropzone.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pdfInput.click()}};pdfInput.onchange=()=>{const f=pdfInput.files?.[0];if(f)loadPdf(f)};["dragenter","dragover"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();dropzone.classList.add("dragover")}));["dragleave","drop"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();dropzone.classList.remove("dragover")}));dropzone.addEventListener("drop",e=>{const f=e.dataTransfer?.files?.[0];if(f)loadPdf(f)});resetBtn.onclick=resetOrder;reverseBtn.onclick=reverse;clearBtn.onclick=resetTool;previewBtn.onclick=preview;saveBtn.onclick=save;document.querySelectorAll(".faq-q").forEach(b=>b.onclick=()=>b.closest(".faq-item")?.classList.toggle("open"));
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) {
+        return "0 KB";
+      }
+
+      const units = ["B", "KB", "MB", "GB"];
+
+      const index = Math.min(
+        Math.floor(Math.log(bytes) / Math.log(1024)),
+        units.length - 1
+      );
+
+      const value = bytes / Math.pow(1024, index);
+
+      return `${value.toFixed(index === 0 ? 0 : 1)} ${units[index]}`;
+    }
+
+    function setLoading(title, description, visible = true) {
+      loadingTitle.textContent = title;
+      loadingDescription.textContent = description;
+      overlay.classList.toggle("visible", visible);
+    }
+
+    function showStatus(message, type = "") {
+      status.textContent = message;
+      status.className = "reorder-status visible";
+
+      if (type) {
+        status.classList.add(type);
+      }
+    }
+
+    function hideStatus() {
+      status.textContent = "";
+      status.className = "reorder-status";
+    }
+
+    function isPdf(file) {
+      return (
+        file &&
+        (
+          file.type === "application/pdf" ||
+          file.name.toLowerCase().endsWith(".pdf")
+        )
+      );
+    }
+
+    async function loadPdf(file) {
+      if (!isPdf(file)) {
+        showStatus("PDF 파일만 선택할 수 있습니다.", "error");
+        return;
+      }
+
+      try {
+        hideStatus();
+
+        setLoading(
+          "PDF를 불러오는 중입니다",
+          "페이지 수와 미리보기를 확인하고 있습니다."
+        );
+
+        const arrayBuffer = await file.arrayBuffer();
+
+        sourceFile = file;
+        sourceBytes = new Uint8Array(arrayBuffer);
+
+        pdfDocument = await pdfjsLib.getDocument({
+          data: sourceBytes.slice()
+        }).promise;
+
+        pages = Array.from(
+          { length: pdfDocument.numPages },
+          (_, index) => ({
+            id: index + 1,
+            originalIndex: index
+          })
+        );
+
+        originalPages = pages.map((page) => ({ ...page }));
+
+        fileSummary.textContent =
+          `${file.name} · ${formatBytes(file.size)} · ${pages.length}페이지`;
+
+        fileSummary.classList.add("visible");
+
+        uploadWrap.style.display = "none";
+        editor.classList.add("visible");
+
+        await renderPageGrid();
+
+        showStatus(
+          `${pages.length}페이지를 불러왔습니다. 페이지를 드래그해 순서를 변경하세요.`,
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+
+        resetTool();
+
+        showStatus(
+          "PDF 파일을 읽지 못했습니다. 손상되었거나 지원되지 않는 PDF인지 확인해 주세요.",
+          "error"
+        );
+      } finally {
+        setLoading("", "", false);
+      }
+    }
+
+    async function renderPageGrid() {
+      pageGrid.innerHTML = "";
+
+      editorStatus.textContent =
+        `현재 ${pages.length}페이지 · 드래그하여 순서를 변경할 수 있습니다.`;
+
+      const fragment = document.createDocumentFragment();
+
+      pages.forEach((pageItem, index) => {
+        const card = document.createElement("article");
+
+        card.className = "reorder-page-card";
+        card.draggable = true;
+        card.dataset.pageId = String(pageItem.id);
+
+        card.innerHTML = `
+          <div class="reorder-thumbnail">
+            <span class="reorder-thumb-loading">미리보기 생성 중...</span>
+
+            <span class="reorder-order-badge">${index + 1}</span>
+
+            <span
+              class="reorder-drag-handle"
+              title="드래그하여 이동"
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 5h.01"></path>
+                <path d="M15 5h.01"></path>
+                <path d="M9 12h.01"></path>
+                <path d="M15 12h.01"></path>
+                <path d="M9 19h.01"></path>
+                <path d="M15 19h.01"></path>
+              </svg>
+            </span>
+          </div>
+
+          <div class="reorder-page-body">
+            <p class="reorder-page-title">
+              원본 ${pageItem.originalIndex + 1}페이지
+            </p>
+
+            <p class="reorder-page-subtitle">
+              현재 순서 ${index + 1}
+            </p>
+
+            <div class="reorder-page-actions">
+              <button
+                type="button"
+                class="reorder-page-action move-front"
+                title="맨 앞으로 이동"
+                aria-label="맨 앞으로 이동"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 5v14"></path>
+                  <path d="m11 8-4 4 4 4"></path>
+                  <path d="M7 12h12"></path>
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="reorder-page-action move-back"
+                title="맨 뒤로 이동"
+                aria-label="맨 뒤로 이동"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 5v14"></path>
+                  <path d="m13 8 4 4-4 4"></path>
+                  <path d="M5 12h12"></path>
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="reorder-page-action delete"
+                title="페이지 삭제"
+                aria-label="페이지 삭제"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M8 6V4h8v2"></path>
+                  <path d="M19 6l-1 15H6L5 6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        bindCardEvents(card, pageItem.id);
+
+        fragment.appendChild(card);
+      });
+
+      pageGrid.appendChild(fragment);
+
+      const cards = Array.from(
+        pageGrid.querySelectorAll(".reorder-page-card")
+      );
+
+      await Promise.allSettled(
+        cards.map((card) => {
+          const pageId = Number(card.dataset.pageId);
+
+          const item = pages.find(
+            (page) => page.id === pageId
+          );
+
+          if (!item) {
+            return Promise.resolve();
+          }
+
+          return renderThumbnail(
+            card,
+            item.originalIndex + 1
+          );
+        })
+      );
+    }
+
+    function bindCardEvents(card, pageId) {
+      card.addEventListener("dragstart", (event) => {
+        draggedId = pageId;
+
+        card.classList.add("dragging");
+
+        if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData(
+            "text/plain",
+            String(pageId)
+          );
+        }
+      });
+
+      card.addEventListener("dragend", () => {
+        draggedId = null;
+
+        document
+          .querySelectorAll(".reorder-page-card")
+          .forEach((item) => {
+            item.classList.remove(
+              "dragging",
+              "drag-target"
+            );
+          });
+      });
+
+      card.addEventListener("dragover", (event) => {
+        event.preventDefault();
+
+        if (
+          draggedId === null ||
+          draggedId === pageId
+        ) {
+          return;
+        }
+
+        card.classList.add("drag-target");
+
+        if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = "move";
+        }
+      });
+
+      card.addEventListener("dragleave", () => {
+        card.classList.remove("drag-target");
+      });
+
+      card.addEventListener("drop", async (event) => {
+        event.preventDefault();
+
+        card.classList.remove("drag-target");
+
+        if (
+          draggedId === null ||
+          draggedId === pageId
+        ) {
+          return;
+        }
+
+        const fromIndex = pages.findIndex(
+          (page) => page.id === draggedId
+        );
+
+        const toIndex = pages.findIndex(
+          (page) => page.id === pageId
+        );
+
+        if (
+          fromIndex < 0 ||
+          toIndex < 0
+        ) {
+          return;
+        }
+
+        const [moved] = pages.splice(
+          fromIndex,
+          1
+        );
+
+        pages.splice(
+          toIndex,
+          0,
+          moved
+        );
+
+        await renderPageGrid();
+      });
+
+      card
+        .querySelector(".move-front")
+        .addEventListener("click", async () => {
+          const index = pages.findIndex(
+            (page) => page.id === pageId
+          );
+
+          if (index <= 0) {
+            return;
+          }
+
+          const [item] = pages.splice(
+            index,
+            1
+          );
+
+          pages.unshift(item);
+
+          await renderPageGrid();
+        });
+
+      card
+        .querySelector(".move-back")
+        .addEventListener("click", async () => {
+          const index = pages.findIndex(
+            (page) => page.id === pageId
+          );
+
+          if (
+            index < 0 ||
+            index >= pages.length - 1
+          ) {
+            return;
+          }
+
+          const [item] = pages.splice(
+            index,
+            1
+          );
+
+          pages.push(item);
+
+          await renderPageGrid();
+        });
+
+      card
+        .querySelector(".delete")
+        .addEventListener("click", async () => {
+          if (pages.length <= 1) {
+            showStatus(
+              "PDF에는 최소 1페이지가 남아 있어야 합니다.",
+              "error"
+            );
+            return;
+          }
+
+          const index = pages.findIndex(
+            (page) => page.id === pageId
+          );
+
+          if (index < 0) {
+            return;
+          }
+
+          pages.splice(
+            index,
+            1
+          );
+
+          hideStatus();
+
+          await renderPageGrid();
+        });
+    }
+
+    async function renderThumbnail(card, pageNumber) {
+      try {
+        const pdfPage =
+          await pdfDocument.getPage(pageNumber);
+
+        const viewport =
+          pdfPage.getViewport({ scale: 1 });
+
+        const targetWidth = 380;
+
+        const scale =
+          targetWidth / viewport.width;
+
+        const scaledViewport =
+          pdfPage.getViewport({ scale });
+
+        const canvas =
+          document.createElement("canvas");
+
+        const context =
+          canvas.getContext(
+            "2d",
+            { alpha: false }
+          );
+
+        const pixelRatio =
+          Math.min(
+            window.devicePixelRatio || 1,
+            1.7
+          );
+
+        canvas.width =
+          Math.floor(
+            scaledViewport.width *
+            pixelRatio
+          );
+
+        canvas.height =
+          Math.floor(
+            scaledViewport.height *
+            pixelRatio
+          );
+
+        const transform =
+          pixelRatio !== 1
+            ? [
+                pixelRatio,
+                0,
+                0,
+                pixelRatio,
+                0,
+                0
+              ]
+            : null;
+
+        await pdfPage.render({
+          canvasContext: context,
+          viewport: scaledViewport,
+          transform
+        }).promise;
+
+        const thumbnail =
+          card.querySelector(
+            ".reorder-thumbnail"
+          );
+
+        const loadingText =
+          thumbnail.querySelector(
+            ".reorder-thumb-loading"
+          );
+
+        if (loadingText) {
+          loadingText.remove();
+        }
+
+        thumbnail.insertBefore(
+          canvas,
+          thumbnail.firstChild
+        );
+      } catch (error) {
+        console.error(error);
+
+        const loadingText =
+          card.querySelector(
+            ".reorder-thumb-loading"
+          );
+
+        if (loadingText) {
+          loadingText.textContent =
+            "미리보기를 만들 수 없습니다.";
+        }
+      }
+    }
+
+    async function restoreOriginalOrder() {
+      if (!sourceFile) {
+        return;
+      }
+
+      pages =
+        originalPages.map(
+          (page) => ({ ...page })
+        );
+
+      await renderPageGrid();
+
+      showStatus(
+        "페이지 순서를 원래 상태로 되돌렸습니다.",
+        "success"
+      );
+    }
+
+    async function reverseOrder() {
+      if (!sourceFile) {
+        return;
+      }
+
+      pages.reverse();
+
+      await renderPageGrid();
+
+      showStatus(
+        "페이지 순서를 역순으로 변경했습니다.",
+        "success"
+      );
+    }
+
+    function resetTool() {
+      sourceFile = null;
+      sourceBytes = null;
+      pdfDocument = null;
+      pages = [];
+      originalPages = [];
+      draggedId = null;
+
+      pageGrid.innerHTML = "";
+
+      fileSummary.textContent = "";
+      fileSummary.classList.remove("visible");
+
+      editor.classList.remove("visible");
+      uploadWrap.style.display = "block";
+
+      pdfInput.value = "";
+
+      hideStatus();
+    }
+
+    function showCurrentOrder() {
+      if (!pages.length) {
+        return;
+      }
+
+      const order = pages
+        .map(
+          (page) =>
+            page.originalIndex + 1
+        )
+        .join(" → ");
+
+      showStatus(
+        `현재 페이지 순서: ${order}`,
+        "success"
+      );
+
+      status.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    async function savePdf() {
+      if (
+        !sourceFile ||
+        !sourceBytes ||
+        pages.length === 0
+      ) {
+        showStatus(
+          "먼저 PDF 파일을 선택해 주세요.",
+          "error"
+        );
+        return;
+      }
+
+      if (!window.PDFLib) {
+        showStatus(
+          "PDF 처리 모듈을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.",
+          "error"
+        );
+        return;
+      }
+
+      try {
+        saveButton.disabled = true;
+
+        setLoading(
+          "변경된 PDF를 만드는 중입니다",
+          "현재 페이지 순서대로 새 PDF 파일을 생성하고 있습니다."
+        );
+
+        const sourcePdf =
+          await PDFLib.PDFDocument.load(
+            sourceBytes.slice()
+          );
+
+        const outputPdf =
+          await PDFLib.PDFDocument.create();
+
+        const indexes =
+          pages.map(
+            (page) => page.originalIndex
+          );
+
+        const copiedPages =
+          await outputPdf.copyPages(
+            sourcePdf,
+            indexes
+          );
+
+        copiedPages.forEach(
+          (page) => {
+            outputPdf.addPage(page);
+          }
+        );
+
+        const outputBytes =
+          await outputPdf.save();
+
+        const blob =
+          new Blob(
+            [outputBytes],
+            {
+              type: "application/pdf"
+            }
+          );
+
+        const baseName =
+          sourceFile.name.replace(
+            /\.pdf$/i,
+            ""
+          );
+
+        const now = new Date();
+
+        const stamp =
+          `${now.getFullYear()}` +
+          `${String(now.getMonth() + 1).padStart(2, "0")}` +
+          `${String(now.getDate()).padStart(2, "0")}`;
+
+        const fileName =
+          `${baseName}_reordered_${stamp}.pdf`;
+
+        const url =
+          URL.createObjectURL(blob);
+
+        const anchor =
+          document.createElement("a");
+
+        anchor.href = url;
+        anchor.download = fileName;
+
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+
+        window.setTimeout(
+          () => URL.revokeObjectURL(url),
+          2000
+        );
+
+        showStatus(
+          `변경된 PDF를 저장했습니다. (${pages.length}페이지)`,
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+
+        let message =
+          "PDF 생성 중 오류가 발생했습니다. 파일을 다시 선택한 뒤 시도해 주세요.";
+
+        if (
+          String(error?.message || "")
+            .toLowerCase()
+            .includes("encrypted")
+        ) {
+          message =
+            "비밀번호로 보호된 PDF는 먼저 잠금을 해제한 뒤 이용해 주세요.";
+        }
+
+        showStatus(
+          message,
+          "error"
+        );
+      } finally {
+        saveButton.disabled = false;
+        setLoading("", "", false);
+      }
+    }
+
+    pickButton.addEventListener(
+      "click",
+      (event) => {
+        event.stopPropagation();
+        pdfInput.click();
+      }
+    );
+
+    changeButton.addEventListener(
+      "click",
+      () => {
+        pdfInput.click();
+      }
+    );
+
+    dropZone.addEventListener(
+      "click",
+      () => {
+        pdfInput.click();
+      }
+    );
+
+    dropZone.addEventListener(
+      "keydown",
+      (event) => {
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          event.preventDefault();
+          pdfInput.click();
+        }
+      }
+    );
+
+    pdfInput.addEventListener(
+      "change",
+      async () => {
+        const file =
+          pdfInput.files?.[0];
+
+        if (file) {
+          await loadPdf(file);
+        }
+      }
+    );
+
+    [
+      "dragenter",
+      "dragover"
+    ].forEach((eventName) => {
+      dropZone.addEventListener(
+        eventName,
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          dropZone.classList.add(
+            "dragover"
+          );
+        }
+      );
+    });
+
+    [
+      "dragleave",
+      "drop"
+    ].forEach((eventName) => {
+      dropZone.addEventListener(
+        eventName,
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          dropZone.classList.remove(
+            "dragover"
+          );
+        }
+      );
+    });
+
+    dropZone.addEventListener(
+      "drop",
+      async (event) => {
+        const file =
+          event.dataTransfer?.files?.[0];
+
+        if (file) {
+          await loadPdf(file);
+        }
+      }
+    );
+
+    resetButton.addEventListener(
+      "click",
+      restoreOriginalOrder
+    );
+
+    reverseButton.addEventListener(
+      "click",
+      reverseOrder
+    );
+
+    clearButton.addEventListener(
+      "click",
+      resetTool
+    );
+
+    previewButton.addEventListener(
+      "click",
+      showCurrentOrder
+    );
+
+    saveButton.addEventListener(
+      "click",
+      savePdf
+    );
+
+    document
+      .querySelectorAll(
+        ".reorder-faq-question"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            button
+              .closest(".reorder-faq-item")
+              ?.classList.toggle("open");
+          }
+        );
+      });
   </script>
 
-  <script src="/webtools/layout.js"></script>
+
 </body>
 </html>
