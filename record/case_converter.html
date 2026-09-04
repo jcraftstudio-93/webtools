@@ -4468,7 +4468,7 @@
             <section class="cc-list-panel">
               <div class="cc-list-head">
                 <h3 class="cc-list-title" id="ccListTitle">최근 변환 기록</h3>
-                <span class="cc-list-meta" id="ccListMeta">0 / 50</span>
+                <span class="cc-list-meta" id="ccListMeta">0 / 5</span>
               </div>
 
               <div class="cc-record-list" id="ccRecordList"></div>
@@ -4528,8 +4528,8 @@
             </h2>
 
             <div class="cc-side-list">
-              <div class="cc-side-item"><span class="cc-side-mark">!</span><span>최근 기록은 최대 50개, 즐겨찾기는 최대 30개까지 보관합니다.</span></div>
-              <div class="cc-side-item"><span class="cc-side-mark">!</span><span>한도를 넘으면 가장 오래된 항목부터 자동으로 정리됩니다.</span></div>
+              <div class="cc-side-item"><span class="cc-side-mark">!</span><span>최근 기록과 즐겨찾기는 각각 최대 5개까지 보관합니다.</span></div>
+              <div class="cc-side-item"><span class="cc-side-mark">!</span><span>5개를 넘으면 가장 오래된 항목부터 자동으로 정리됩니다.</span></div>
             </div>
           </section>
 
@@ -4628,8 +4628,8 @@
 
       const HISTORY_KEY = "jcraft_case_converter_history";
       const FAVORITES_KEY = "jcraft_case_converter_favorites";
-      const HISTORY_MAX = 50;
-      const FAVORITES_MAX = 30;
+      const HISTORY_MAX = 5;
+      const FAVORITES_MAX = 5;
 
       const input = document.getElementById("ccInput");
       const output = document.getElementById("ccOutput");
