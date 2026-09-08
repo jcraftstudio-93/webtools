@@ -2,21 +2,33 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-    <!-- Main -->
+    <!-- ==================================================
+         Main
+    =================================================== -->
+
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/</loc>
-        <lastmod>2026-08-20</lastmod>
+        <lastmod>2026-09-08</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
-    <!-- Privacy -->
+
+    <!-- ==================================================
+         Privacy
+    =================================================== -->
+
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/privacy/privacy.html</loc>
         <lastmod>2026-08-20</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
+
+
+    <!-- ==================================================
+         PDF Tools
+    =================================================== -->
 
     <!-- PDF Merge -->
     <url>
@@ -46,6 +58,117 @@
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/pdf/pdf_watermark.html</loc>
         <lastmod>2026-08-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- PDF Reorder -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/pdf/pdf_reorder.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+
+    <!-- ==================================================
+         Random Tools
+    =================================================== -->
+
+    <!-- Random Team -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/random/random_team.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Random Ladder -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/random/random_ladder.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Random Tournament -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/random/random_Tournament.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Yes or No -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/random/yes_or_no.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+
+    <!-- ==================================================
+         Image Tools
+    =================================================== -->
+
+    <!-- Image Resize -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/image/image_resize.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Image Watermark -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/image/image_watermark.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Image Converter -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/image/image_converter.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Image To PDF -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/image/image_to_pdf.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+
+    <!-- ==================================================
+         Life & Record Tools
+    =================================================== -->
+
+    <!-- Case Converter -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/case_converter.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Tic Tac Toe -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/tic_tac_toe.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Omok -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/omok.html</loc>
+        <lastmod>2026-09-08</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
