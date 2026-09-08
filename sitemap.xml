@@ -181,4 +181,12 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Military Discharge Calculator -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/military_discharge_calculator.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>
