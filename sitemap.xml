@@ -173,4 +173,12 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Timer -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/timer.html</loc>
+        <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>
