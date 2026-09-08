@@ -3,16 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="브라우저에서 바로 즐기는 2인용 오목 게임입니다. 15×15 보드, 무르기, 기권, 자동 저장, 최근 전적 기록을 지원합니다.">
-  <meta name="keywords" content="오목, 오목 게임, Gomoku, 2인용 게임, 보드게임, 웹게임, JCraft Studio">
+
+  <meta
+    name="description"
+    content="브라우저에서 바로 즐기는 2인용 오목 게임입니다. 15×15 보드, 무르기, 기권, 자동 저장, 최근 전적 기록을 지원합니다."
+  >
+
+  <meta
+    name="keywords"
+    content="오목, Gomoku, 오목 게임, 2인용 게임, 보드게임, 웹게임, JCraft Studio"
+  >
+
   <meta name="author" content="JCraft Studio">
   <meta name="theme-color" content="#ffffff">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="오목 | JCraft Studio">
   <meta property="og:description" content="친구와 브라우저에서 바로 즐기는 2인용 15×15 오목 게임">
-  <title>오목 - 2인용 15×15 보드게임 | JCraft Studio</title>
-  <style>
 
+  <title>오목 - 2인용 15×15 보드게임 | JCraft Studio</title>
+
+  <style>
 
 
     /* ==================================================
@@ -4233,409 +4244,1891 @@
   
 
 
-    
-
     /* ==================================================
        오목 전용 스타일
        공통 header/footer와 충돌 방지를 위해 omok-* 사용
     ================================================== */
-    .omok-page { padding: 0 20px 72px; }
-    .omok-wrap { width: min(1180px, 100%); margin: 0 auto; }
-    .omok-breadcrumb { display:flex; gap:8px; align-items:center; padding:24px 0 10px; font-size:14px; color:var(--text-muted); }
-    .omok-breadcrumb a { color:var(--text-secondary); text-decoration:none; }
-    .omok-hero { padding:28px 0 26px; text-align:center; }
-    .omok-label { display:inline-flex; padding:7px 12px; border-radius:999px; background:var(--primary-soft); color:var(--primary); font-weight:800; font-size:13px; }
-    .omok-hero h1 { margin-top:14px; font-size:clamp(30px,5vw,48px); line-height:1.15; }
-    .omok-hero h1 span { color:var(--primary); }
-    .omok-hero p { max-width:720px; margin:14px auto 0; color:var(--text-secondary); line-height:1.75; }
-    .omok-badges { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:18px; }
-    .omok-badge { padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:#fff; font-size:13px; font-weight:700; color:var(--text-secondary); }
 
-    .omok-layout { display:grid; grid-template-columns:minmax(0, 760px) minmax(260px, 1fr); gap:20px; align-items:start; }
-    .omok-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; box-shadow:var(--shadow-small); }
-    .omok-game { padding:20px; }
-    .omok-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
-    .omok-turn { display:flex; align-items:center; gap:10px; font-weight:900; }
-    .omok-stone-mini { width:28px; height:28px; border-radius:50%; box-shadow:0 2px 6px rgba(0,0,0,.25); flex:0 0 auto; }
-    .omok-stone-mini.black { background:radial-gradient(circle at 35% 30%,#555,#080808 70%); }
-    .omok-stone-mini.white { background:radial-gradient(circle at 35% 30%,#fff,#d8d8d8 75%); border:1px solid #bbb; }
-    .omok-move-count { padding:7px 11px; border-radius:999px; background:var(--surface-soft); color:var(--text-secondary); font-size:13px; font-weight:800; }
-
-    .omok-board-shell { overflow:auto; border-radius:18px; background:#d5a45d; -webkit-overflow-scrolling:touch; }
-    .omok-board { display:block; width:100%; aspect-ratio:1; min-width:520px; touch-action:manipulation; cursor:crosshair; }
-    .omok-guide { margin:14px 0 0; text-align:center; color:var(--text-muted); font-size:13px; line-height:1.6; }
-    .omok-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px; }
-    .omok-btn { border:0; border-radius:13px; min-height:46px; padding:10px 12px; font:inherit; font-weight:850; cursor:pointer; transition:.16s ease; }
-    .omok-btn:hover { transform:translateY(-1px); }
-    .omok-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
-    .omok-btn.secondary { background:#fff; color:var(--text-primary); border:1px solid var(--border-dark); }
-    .omok-btn.primary { background:var(--primary); color:#fff; }
-    .omok-btn.danger { background:#fff1f1; color:#c73535; border:1px solid #ffd7d7; }
-
-    .omok-side { display:grid; gap:16px; }
-    .omok-panel { padding:20px; }
-    .omok-panel h2 { font-size:18px; margin-bottom:14px; }
-    .omok-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-    .omok-stat { padding:14px 8px; border-radius:15px; background:var(--surface-soft); text-align:center; }
-    .omok-stat strong { display:block; font-size:22px; }
-    .omok-stat span { display:block; margin-top:4px; color:var(--text-muted); font-size:12px; }
-    .omok-records { display:grid; gap:9px; max-height:390px; overflow:auto; }
-    .omok-record { display:flex; align-items:center; gap:10px; padding:11px 12px; border:1px solid var(--border); border-radius:14px; }
-    .omok-record-main { flex:1; min-width:0; }
-    .omok-record-title { font-weight:850; font-size:14px; }
-    .omok-record-meta { margin-top:3px; font-size:12px; color:var(--text-muted); }
-    .omok-delete { border:0; background:transparent; color:var(--text-muted); cursor:pointer; font-size:18px; }
-    .omok-empty { padding:22px 8px; text-align:center; color:var(--text-muted); font-size:13px; }
-    .omok-clear { width:100%; margin-top:12px; }
-
-    .omok-info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:22px; }
-    .omok-info { padding:24px; }
-    .omok-info h2 { font-size:20px; margin-bottom:12px; }
-    .omok-info p, .omok-info li { color:var(--text-secondary); line-height:1.75; font-size:14px; }
-    .omok-info ol, .omok-info ul { padding-left:20px; display:grid; gap:7px; }
-    .omok-faq { margin-top:22px; padding:26px; }
-    .omok-faq h2 { font-size:22px; margin-bottom:12px; }
-    .omok-faq details { border-top:1px solid var(--border); padding:14px 0; }
-    .omok-faq summary { cursor:pointer; font-weight:850; }
-    .omok-faq p { margin-top:9px; color:var(--text-secondary); line-height:1.7; font-size:14px; }
-
-    .omok-modal { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(14,25,40,.42); }
-    .omok-modal.show { display:flex; }
-    .omok-dialog { width:min(420px,100%); background:#fff; border-radius:24px; padding:26px; box-shadow:0 30px 80px rgba(0,0,0,.22); text-align:center; }
-    .omok-dialog-stone { width:66px; height:66px; margin:0 auto 16px; border-radius:50%; }
-    .omok-dialog h3 { font-size:24px; }
-    .omok-dialog p { margin-top:8px; color:var(--text-secondary); }
-    .omok-dialog-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:22px; }
-
-    @media (max-width:900px) {
-      .omok-layout { grid-template-columns:1fr; }
-      .omok-side { grid-template-columns:1fr 1fr; }
+    .omok-page {
+      padding-bottom: 90px;
     }
-    @media (max-width:640px) {
-      .omok-page { padding-left:14px; padding-right:14px; }
-      .omok-game { padding:14px; }
-      .omok-board { min-width:460px; }
-      .omok-side, .omok-info-grid { grid-template-columns:1fr; }
-      .omok-actions { grid-template-columns:1fr; }
+
+    .omok-breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 28px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .omok-breadcrumb a:hover {
+      color: var(--primary);
+    }
+
+    .omok-breadcrumb svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .omok-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 38px;
+      padding: 50px 0 34px;
+    }
+
+    .omok-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.7px;
+    }
+
+    .omok-hero-label::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .omok-hero h1 {
+      font-size: clamp(38px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -2.4px;
+    }
+
+    .omok-hero h1 span {
+      color: var(--primary);
+    }
+
+    .omok-hero-description {
+      max-width: 720px;
+      margin-top: 16px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .omok-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 21px;
+    }
+
+    .omok-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 750;
+      box-shadow: var(--shadow-small);
+    }
+
+    .omok-hero-symbol {
+      display: grid;
+      width: 134px;
+      height: 134px;
+      grid-template-columns: 1fr 1fr;
+      place-items: center;
+      gap: 5px;
+      padding: 25px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #4a9cff, var(--primary));
+      box-shadow: 0 22px 44px rgba(23,105,224,.20);
+    }
+
+    .omok-hero-symbol span {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(255,255,255,.94);
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .omok-hero-symbol .x {
+      color: #4f67e8;
+    }
+
+    .omok-hero-symbol .o {
+      color: #e99a2f;
+    }
+
+    .omok-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .omok-panel,
+    .omok-side-card,
+    .omok-content-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      background: var(--surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .omok-panel {
+      overflow: hidden;
+    }
+
+    .omok-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .omok-panel-title {
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: -0.5px;
+    }
+
+    .omok-panel-description {
+      margin-top: 4px;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .omok-autosave {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 31px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #eefaf5;
+      color: #19714f;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .omok-autosave svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .omok-game-wrap {
+      padding: 24px;
+    }
+
+    .omok-score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .omok-score {
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-soft);
+      text-align: center;
+    }
+
+    .omok-score-value {
+      display: block;
+      color: var(--text-primary);
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .omok-score-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: 9px;
+      font-weight: 750;
+    }
+
+    .omok-status-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+      padding: 14px 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #ffffff;
+    }
+
+    .omok-turn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .omok-turn-mark {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: #5067e6;
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .omok-turn-mark.o {
+      background: #fff4dd;
+      color: #df8d22;
+    }
+
+    .omok-turn-title {
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .omok-turn-sub {
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .omok-move-count {
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .omok-board-shell {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      padding: 16px;
+      border-radius: 27px;
+      background: linear-gradient(145deg, #5b76ef, #1769e0);
+      box-shadow: 0 18px 38px rgba(23,105,224,.16);
+    }
+
+    .omok-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .omok-cell {
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 19px;
+      background: #ffffff;
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(20,40,80,.06);
+      transition:
+        transform .16s ease,
+        background .16s ease,
+        box-shadow .16s ease;
+    }
+
+    .omok-cell:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: #f8fbff;
+    }
+
+    .omok-cell:disabled {
+      cursor: default;
+    }
+
+    .omok-cell.winning {
+      box-shadow: inset 0 0 0 4px #ff5a70;
+      background: #fff8fa;
+    }
+
+    .omok-mark {
+      font-size: clamp(46px, 8vw, 82px);
+      font-weight: 950;
+      line-height: 1;
+      transform: scale(.92);
+      animation: omok-pop .18s ease;
+    }
+
+    .omok-mark.x {
+      color: #5267df;
+    }
+
+    .omok-mark.o {
+      color: #e99a2f;
+    }
+
+    @keyframes omok-pop {
+      from {
+        opacity: 0;
+        transform: scale(.65);
+      }
+      to {
+        opacity: 1;
+        transform: scale(.92);
+      }
+    }
+
+    .omok-guide {
+      margin: 13px 0 0;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .omok-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .omok-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--border-dark);
+      border-radius: 11px;
+      background: #ffffff;
+      color: var(--text-secondary);
+      font-size: 10px;
+      font-weight: 850;
+      transition: all .2s ease;
+    }
+
+    .omok-action:hover:not(:disabled) {
+      border-color: #bfd5f0;
+      background: var(--primary-soft);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .omok-action.primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .omok-action.primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+      color: #ffffff;
+    }
+
+    .omok-action.danger {
+      border-color: #f0d5d9;
+      color: #b64c5c;
+    }
+
+    .omok-action:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+
+    .omok-records-box {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .omok-records-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .omok-records-title {
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .omok-records-meta {
+      color: var(--text-muted);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .omok-records-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .omok-empty {
+      padding: 18px 8px;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .omok-record {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-soft);
+    }
+
+    .omok-record-mark {
+      display: grid;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: #5267df;
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .omok-record-mark.o {
+      background: #fff4dd;
+      color: #e0932d;
+    }
+
+    .omok-record-mark.draw {
+      background: #f0f2f6;
+      color: #6f7785;
+      font-size: 13px;
+    }
+
+    .omok-record-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .omok-record-result {
+      font-size: 11px;
+      font-weight: 830;
+    }
+
+    .omok-record-sub {
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 9px;
+    }
+
+    .omok-record-delete {
+      display: grid;
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--text-muted);
+    }
+
+    .omok-record-delete:hover {
+      background: #fff0f2;
+      color: #c74b5d;
+    }
+
+    .omok-side {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .omok-side-card {
+      padding: 19px;
+    }
+
+    .omok-side-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .omok-side-icon {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .omok-side-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .omok-side-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .omok-side-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .omok-side-num {
+      display: grid;
+      flex: 0 0 auto;
+      width: 21px;
+      height: 21px;
+      place-items: center;
+      border-radius: 7px;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .omok-side-card.privacy {
+      border-color: #d6e9df;
+      background: #eefaf5;
+    }
+
+    .omok-side-card.privacy .omok-side-icon {
+      background: #dff4e9;
+      color: #16845b;
+    }
+
+    .omok-content-section {
+      margin-top: 24px;
+    }
+
+    .omok-content-card {
+      padding: 28px;
+    }
+
+    .omok-content-title {
+      font-size: 20px;
+      font-weight: 880;
+      letter-spacing: -0.6px;
+    }
+
+    .omok-content-description {
+      margin-top: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .omok-how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .omok-how-item {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-soft);
+    }
+
+    .omok-how-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary);
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .omok-how-title {
+      margin-top: 13px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .omok-how-description {
+      margin-top: 5px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .omok-result-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(13,28,48,.35);
+      backdrop-filter: blur(5px);
+    }
+
+    .omok-result-overlay.show {
+      display: grid;
+    }
+
+    .omok-result-dialog {
+      width: min(100%, 390px);
+      padding: 27px;
+      border-radius: 22px;
+      background: #ffffff;
+      box-shadow: 0 28px 70px rgba(17,38,70,.22);
+      text-align: center;
+    }
+
+    .omok-result-symbol {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: #5267df;
+      font-size: 43px;
+      font-weight: 950;
+    }
+
+    .omok-result-symbol.o {
+      background: #fff4dd;
+      color: #e99a2f;
+    }
+
+    .omok-result-symbol.draw {
+      background: #f0f2f6;
+      color: #737b88;
+      font-size: 28px;
+    }
+
+    .omok-result-title {
+      margin-top: 16px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .omok-result-text {
+      margin-top: 7px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .omok-result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 19px;
+    }
+
+    @media (max-width: 1050px) {
+      .omok-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .omok-side {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .omok-hero {
+        grid-template-columns: 1fr;
+        padding-top: 38px;
+      }
+
+      .omok-hero-symbol {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .omok-hero {
+        padding: 34px 0 27px;
+      }
+
+      .omok-hero h1 {
+        font-size: 36px;
+      }
+
+      .omok-panel-head {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 19px 18px;
+      }
+
+      .omok-game-wrap {
+        padding: 16px;
+      }
+
+      .omok-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .omok-side {
+        grid-template-columns: 1fr;
+      }
+
+      .omok-how-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .omok-content-card {
+        padding: 21px 18px;
+      }
+    }
+
+
+
+    /* 오목 보드 전용 */
+    .omok-board-shell {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: 16px;
+      border-radius: 27px;
+      background: linear-gradient(145deg, #5b76ef, #1769e0);
+      box-shadow: 0 18px 38px rgba(23,105,224,.16);
+    }
+
+    .omok-board-wrap {
+      overflow: auto;
+      border-radius: 19px;
+      background: #d5a45d;
+      box-shadow: inset 0 0 0 1px rgba(90,58,29,.18);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .omok-board {
+      display: block;
+      width: 100%;
+      min-width: 520px;
+      aspect-ratio: 1 / 1;
+      cursor: crosshair;
+      touch-action: manipulation;
+    }
+
+    .omok-record-mark.black {
+      background: #202020;
+      color: #ffffff;
+    }
+
+    .omok-record-mark.white {
+      background: #ffffff;
+      color: #202020;
+      border: 1px solid #d8dee7;
+    }
+
+    .omok-turn-mark.black {
+      background: #202020;
+      color: #ffffff;
+    }
+
+    .omok-turn-mark.white {
+      background: #ffffff;
+      color: #202020;
+      border: 1px solid #d8dee7;
+    }
+
+    .omok-result-symbol.black {
+      background: #202020;
+      color: #ffffff;
+    }
+
+    .omok-result-symbol.white {
+      background: #ffffff;
+      color: #202020;
+      border: 1px solid #d8dee7;
+    }
+
+    @media (max-width: 760px) {
+      .omok-board {
+        min-width: 460px;
+      }
     }
 
   </style>
 </head>
+
 <body>
 
   <div id="siteHeaderContainer"></div>
 
   <main class="tool-page omok-page" id="home">
-    <div class="omok-wrap">
-      <nav class="omok-breadcrumb" aria-label="breadcrumb">
-        <a href="/webtools/index.html">홈</a><span>›</span>
-        <a href="/webtools/index.html#record-tools">생활·기록</a><span>›</span>
+    <div class="container">
+
+      <nav class="omok-breadcrumb" aria-label="현재 위치">
+        <a href="/webtools/index.html">홈</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+        <a href="/webtools/index.html#record-tools">생활·기록</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
         <span>오목</span>
       </nav>
 
       <section class="omok-hero">
-        <span class="omok-label">2인용 보드게임</span>
-        <h1>브라우저에서 바로 즐기는 <span>오목</span></h1>
-        <p>15×15 바둑판에서 흑과 백이 번갈아 돌을 놓습니다. 가로·세로·대각선으로 먼저 5개를 연결하면 승리합니다.</p>
-        <div class="omok-badges">
-          <span class="omok-badge">15×15 보드</span>
-          <span class="omok-badge">2인용</span>
-          <span class="omok-badge">무르기</span>
-          <span class="omok-badge">자동 저장</span>
-          <span class="omok-badge">최근 전적</span>
+        <div>
+          <p class="omok-hero-label">GOMOKU</p>
+
+          <h1>
+            친구와 바로 즐기는<br>
+            <span>2인용 오목</span>
+          </h1>
+
+          <p class="omok-hero-description">
+            같은 화면에서 흑과 백이 번갈아 돌을 놓으며 5개를 먼저 연결하세요.
+            게임은 브라우저에 자동 저장되며, 무르기와 기권, 최근 전적 확인도 지원합니다.
+          </p>
+
+          <div class="omok-hero-badges">
+            <span class="omok-hero-badge">2인용 로컬 게임</span>
+            <span class="omok-hero-badge">15 × 15 보드</span>
+            <span class="omok-hero-badge">자동 저장</span>
+            <span class="omok-hero-badge">최근 전적</span>
+          </div>
+        </div>
+
+        <div class="omok-hero-symbol" aria-hidden="true">
+          <span class="x">●</span>
+          <span class="o">○</span>
+          <span class="o">○</span>
+          <span class="x">●</span>
         </div>
       </section>
 
-      <section class="omok-layout">
-        <article class="omok-card omok-game">
-          <div class="omok-top">
-            <div class="omok-turn">
-              <span id="turnStone" class="omok-stone-mini black"></span>
-              <span id="turnText">흑 차례</span>
+      <div class="omok-layout">
+
+        <section class="omok-panel">
+          <div class="omok-panel-head">
+            <div>
+              <h2 class="omok-panel-title">오목 게임</h2>
+              <p class="omok-panel-description">
+                흑이 먼저 시작합니다. 가로·세로·대각선으로 같은 돌을 5개 연결하면 승리합니다.
+              </p>
             </div>
-            <span id="moveCount" class="omok-move-count">0수</span>
+
+            <span class="omok-autosave">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 7 9 18l-5-5"></path>
+              </svg>
+              자동 저장
+            </span>
           </div>
 
-          <div class="omok-board-shell">
-            <canvas id="omokBoard" class="omok-board" width="900" height="900" aria-label="15x15 오목판"></canvas>
-          </div>
+          <div class="omok-game-wrap">
 
-          <p class="omok-guide">교차점을 클릭하거나 터치해 돌을 놓으세요. 흑이 먼저 시작합니다.</p>
+            <div class="omok-score-grid">
+              <div class="omok-score">
+                <span class="omok-score-value" id="omokBlackWins">0</span>
+                <span class="omok-score-label">흑 승리</span>
+              </div>
 
-          <div class="omok-actions">
-            <button id="newGameBtn" class="omok-btn secondary" type="button">새 게임</button>
-            <button id="undoBtn" class="omok-btn secondary" type="button" disabled>무르기</button>
-            <button id="resignBtn" class="omok-btn danger" type="button">기권</button>
+              <div class="omok-score">
+                <span class="omok-score-value" id="omokWhiteWins">0</span>
+                <span class="omok-score-label">백 승리</span>
+              </div>
+
+              <div class="omok-score">
+                <span class="omok-score-value" id="omokDraws">0</span>
+                <span class="omok-score-label">무승부</span>
+              </div>
+            </div>
+
+            <div class="omok-status-card">
+              <div class="omok-turn">
+                <span class="omok-turn-mark black" id="omokTurnMark">●</span>
+                <div>
+                  <p class="omok-turn-title" id="omokTurnTitle">흑 차례입니다</p>
+                  <p class="omok-turn-sub" id="omokTurnSub">원하는 교차점을 선택하세요</p>
+                </div>
+              </div>
+
+              <span class="omok-move-count" id="omokMoveCount">0수</span>
+            </div>
+
+            <div class="omok-board-shell">
+              <div class="omok-board-wrap">
+                <canvas
+                  class="omok-board"
+                  id="omokBoard"
+                  width="900"
+                  height="900"
+                  aria-label="15×15 오목판"
+                ></canvas>
+              </div>
+            </div>
+
+            <p class="omok-guide">
+              마지막 수에는 작은 점이 표시되고, 승리한 5개 돌은 빨간 테두리로 강조됩니다.
+            </p>
+
+            <div class="omok-actions">
+              <button type="button" class="omok-action" id="omokNewButton">
+                새 게임
+              </button>
+
+              <button type="button" class="omok-action" id="omokUndoButton" disabled>
+                무르기
+              </button>
+
+              <button type="button" class="omok-action danger" id="omokResignButton">
+                기권
+              </button>
+            </div>
+
+            <section class="omok-records-box">
+              <div class="omok-records-head">
+                <h3 class="omok-records-title">최근 전적</h3>
+                <span class="omok-records-meta" id="omokRecordMeta">0개</span>
+              </div>
+
+              <div class="omok-records-list" id="omokRecords"></div>
+            </section>
+
           </div>
-        </article>
+        </section>
 
         <aside class="omok-side">
-          <section class="omok-card omok-panel">
-            <h2>게임 기록</h2>
-            <div class="omok-stats">
-              <div class="omok-stat"><strong id="blackWins">0</strong><span>흑 승</span></div>
-              <div class="omok-stat"><strong id="whiteWins">0</strong><span>백 승</span></div>
-              <div class="omok-stat"><strong id="draws">0</strong><span>무승부</span></div>
+
+          <section class="omok-side-card">
+            <h2 class="omok-side-title">
+              <span class="omok-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 8v4M12 16h.01"></path>
+                </svg>
+              </span>
+              게임 방법
+            </h2>
+
+            <div class="omok-side-list">
+              <div class="omok-side-item">
+                <span class="omok-side-num">1</span>
+                <span>흑과 백이 번갈아 빈 교차점에 돌을 놓습니다.</span>
+              </div>
+
+              <div class="omok-side-item">
+                <span class="omok-side-num">2</span>
+                <span>가로, 세로, 대각선 중 한 줄을 같은 색 돌 5개로 먼저 완성하면 승리합니다.</span>
+              </div>
+
+              <div class="omok-side-item">
+                <span class="omok-side-num">3</span>
+                <span>이 웹 버전은 복잡한 금수 규칙 없이 자유룰 방식으로 판정합니다.</span>
+              </div>
             </div>
           </section>
 
-          <section class="omok-card omok-panel">
-            <h2>최근 전적</h2>
-            <div id="records" class="omok-records"></div>
-            <button id="clearRecordsBtn" class="omok-btn secondary omok-clear" type="button">전적 전체 삭제</button>
+          <section class="omok-side-card">
+            <h2 class="omok-side-title">
+              <span class="omok-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12h18"></path>
+                  <path d="m8 7-5 5 5 5"></path>
+                </svg>
+              </span>
+              편의 기능
+            </h2>
+
+            <div class="omok-side-list">
+              <div class="omok-side-item">
+                <span class="omok-side-num">↶</span>
+                <span>무르기로 바로 전 수를 되돌릴 수 있습니다.</span>
+              </div>
+
+              <div class="omok-side-item">
+                <span class="omok-side-num">⚑</span>
+                <span>기권하면 현재 차례의 상대방이 승리로 기록됩니다.</span>
+              </div>
+
+              <div class="omok-side-item">
+                <span class="omok-side-num">↻</span>
+                <span>새 게임을 누르면 보드를 비우고 흑 차례부터 다시 시작합니다.</span>
+              </div>
+            </div>
           </section>
+
+          <section class="omok-side-card privacy">
+            <h2 class="omok-side-title">
+              <span class="omok-side-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </span>
+              브라우저에만 저장
+            </h2>
+
+            <div class="omok-side-list">
+              <div class="omok-side-item">
+                <span class="omok-side-num">✓</span>
+                <span>진행 중인 게임과 전적은 현재 브라우저의 로컬 저장소에만 보관됩니다.</span>
+              </div>
+
+              <div class="omok-side-item">
+                <span class="omok-side-num">✓</span>
+                <span>별도의 회원가입이나 서버 전송 없이 바로 플레이할 수 있습니다.</span>
+              </div>
+            </div>
+          </section>
+
         </aside>
+      </div>
+
+      <section class="omok-content-section">
+        <div class="omok-content-card">
+          <h2 class="omok-content-title">오목 사용 방법</h2>
+
+          <p class="omok-content-description">
+            별도의 설치 없이 같은 화면을 보며 두 사람이 번갈아 플레이할 수 있습니다.
+            중간에 페이지를 닫더라도 진행 중이던 게임은 브라우저에 저장되어 다음 접속 때 이어서 사용할 수 있습니다.
+          </p>
+
+          <div class="omok-how-grid">
+            <article class="omok-how-item">
+              <span class="omok-how-number">01</span>
+              <h3 class="omok-how-title">흑부터 시작</h3>
+              <p class="omok-how-description">
+                첫 번째 플레이어는 흑이며 원하는 교차점을 선택해 게임을 시작합니다.
+              </p>
+            </article>
+
+            <article class="omok-how-item">
+              <span class="omok-how-number">02</span>
+              <h3 class="omok-how-title">번갈아 착수</h3>
+              <p class="omok-how-description">
+                흑과 백이 번갈아 한 수씩 놓으며 같은 색 돌을 5개 연결합니다.
+              </p>
+            </article>
+
+            <article class="omok-how-item">
+              <span class="omok-how-number">03</span>
+              <h3 class="omok-how-title">결과 확인</h3>
+              <p class="omok-how-description">
+                승리 또는 무승부가 결정되면 전적에 저장되고 바로 다시 플레이할 수 있습니다.
+              </p>
+            </article>
+          </div>
+        </div>
       </section>
 
-      <section class="omok-info-grid">
-        <article class="omok-card omok-info">
-          <h2>이용 방법</h2>
-          <ol>
-            <li>흑이 먼저 원하는 교차점을 선택합니다.</li>
-            <li>흑과 백이 한 수씩 번갈아 돌을 놓습니다.</li>
-            <li>가로, 세로 또는 대각선으로 같은 색 돌 5개를 먼저 연결하면 승리합니다.</li>
-            <li>실수했다면 게임이 끝나기 전에 무르기를 사용할 수 있습니다.</li>
-          </ol>
-        </article>
-        <article class="omok-card omok-info">
-          <h2>저장 및 개인정보</h2>
-          <p>진행 중인 게임과 최근 전적은 현재 브라우저의 로컬 저장소에만 저장됩니다. 별도의 서버로 게임 기록을 전송하지 않습니다. 브라우저 데이터를 삭제하면 저장된 게임과 전적도 함께 삭제될 수 있습니다.</p>
-        </article>
-      </section>
-
-      <section class="omok-card omok-faq">
-        <h2>자주 묻는 질문</h2>
-        <details open><summary>오목 규칙은 어떻게 적용되나요?</summary><p>이 웹툴은 가로·세로·양쪽 대각선 중 같은 색 돌이 5개 이상 연속되면 승리로 판정하는 간단한 자유룰 방식입니다.</p></details>
-        <details><summary>페이지를 닫아도 게임이 저장되나요?</summary><p>네. 게임이 끝나기 전까지 매 수마다 현재 보드와 차례를 브라우저에 자동 저장합니다.</p></details>
-        <details><summary>모바일에서도 사용할 수 있나요?</summary><p>가능합니다. 작은 화면에서는 오목판 영역을 좌우로 스크롤해 정확한 위치를 선택할 수 있습니다.</p></details>
-      </section>
     </div>
   </main>
 
-  <div id="siteFooterContainer"></div>
+  <div class="omok-result-overlay" id="omokResultOverlay" role="dialog" aria-modal="true">
+    <div class="omok-result-dialog">
+      <div class="omok-result-symbol black" id="omokResultSymbol">●</div>
+      <h2 class="omok-result-title" id="omokResultTitle">흑 승리</h2>
+      <p class="omok-result-text" id="omokResultText">게임이 종료되었습니다.</p>
 
-  <div id="resultModal" class="omok-modal" role="dialog" aria-modal="true">
-    <div class="omok-dialog">
-      <div id="resultStone" class="omok-dialog-stone omok-stone-mini black"></div>
-      <h3 id="resultTitle">흑 승리</h3>
-      <p id="resultMeta">0수 만에 게임이 종료되었습니다.</p>
-      <div class="omok-dialog-actions">
-        <button id="closeResultBtn" class="omok-btn secondary" type="button">닫기</button>
-        <button id="playAgainBtn" class="omok-btn primary" type="button">다시 하기</button>
+      <div class="omok-result-actions">
+        <button type="button" class="omok-action" id="omokCloseResult">
+          닫기
+        </button>
+
+        <button type="button" class="omok-action primary" id="omokAgain">
+          다시 하기
+        </button>
       </div>
     </div>
   </div>
 
+  <div id="siteFooterContainer"></div>
+
   <script src="/webtools/layout.js"></script>
 
-
   <script>
-  (() => {
-    const SIZE = 15;
-    const EMPTY = 0, BLACK = 1, WHITE = 2;
-    const SAVE_KEY = 'jcraft_omok_saved_game_v1';
-    const RECORD_KEY = 'jcraft_omok_records_v1';
+    (() => {
+      "use strict";
 
-    const canvas = document.getElementById('omokBoard');
-    const ctx = canvas.getContext('2d');
-    const turnStone = document.getElementById('turnStone');
-    const turnText = document.getElementById('turnText');
-    const moveCount = document.getElementById('moveCount');
-    const undoBtn = document.getElementById('undoBtn');
-    const resignBtn = document.getElementById('resignBtn');
-    const modal = document.getElementById('resultModal');
+      const SIZE = 15;
+      const EMPTY = 0;
+      const BLACK = 1;
+      const WHITE = 2;
 
-    let board, moves, turn, gameOver, winning;
+      const SAVE_KEY = "jcraft_omok_saved_game";
+      const RECORD_KEY = "jcraft_omok_records";
+      const RECORD_MAX = 10;
 
-    function fresh() {
-      board = Array.from({length:SIZE}, () => Array(SIZE).fill(EMPTY));
-      moves = [];
-      turn = BLACK;
-      gameOver = false;
-      winning = [];
-    }
+      const canvas = document.getElementById("omokBoard");
+      const ctx = canvas.getContext("2d");
 
-    function load() {
-      fresh();
-      try {
-        const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
-        if (raw && Array.isArray(raw.board) && raw.board.length === SIZE) {
-          board = raw.board;
-          moves = Array.isArray(raw.moves) ? raw.moves : [];
-          turn = raw.turn === WHITE ? WHITE : BLACK;
-        }
-      } catch (_) {}
-    }
+      const turnMark = document.getElementById("omokTurnMark");
+      const turnTitle = document.getElementById("omokTurnTitle");
+      const turnSub = document.getElementById("omokTurnSub");
+      const moveCount = document.getElementById("omokMoveCount");
 
-    function save() {
-      if (gameOver) return;
-      localStorage.setItem(SAVE_KEY, JSON.stringify({board, moves, turn}));
-    }
+      const newButton = document.getElementById("omokNewButton");
+      const undoButton = document.getElementById("omokUndoButton");
+      const resignButton = document.getElementById("omokResignButton");
 
-    function clearSave() { localStorage.removeItem(SAVE_KEY); }
+      const blackWins = document.getElementById("omokBlackWins");
+      const whiteWins = document.getElementById("omokWhiteWins");
+      const draws = document.getElementById("omokDraws");
 
-    function geometry() {
-      const w = canvas.width, h = canvas.height;
-      const pad = w * .055;
-      const spacing = (w - pad * 2) / (SIZE - 1);
-      return {w,h,pad,spacing};
-    }
+      const recordsEl = document.getElementById("omokRecords");
+      const recordMeta = document.getElementById("omokRecordMeta");
 
-    function draw() {
-      const {w,h,pad,spacing} = geometry();
-      ctx.clearRect(0,0,w,h);
-      const g = ctx.createLinearGradient(0,0,w,h);
-      g.addColorStop(0,'#e5b86d'); g.addColorStop(1,'#c99143');
-      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+      const resultOverlay = document.getElementById("omokResultOverlay");
+      const resultSymbol = document.getElementById("omokResultSymbol");
+      const resultTitle = document.getElementById("omokResultTitle");
+      const resultText = document.getElementById("omokResultText");
+      const closeResult = document.getElementById("omokCloseResult");
+      const againButton = document.getElementById("omokAgain");
 
-      ctx.strokeStyle = '#5e3d1e'; ctx.lineWidth = 2;
-      for (let i=0;i<SIZE;i++) {
-        const p = pad + spacing*i;
-        ctx.beginPath(); ctx.moveTo(pad,p); ctx.lineTo(w-pad,p); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(p,pad); ctx.lineTo(p,h-pad); ctx.stroke();
+      let board = [];
+      let moves = [];
+      let turn = BLACK;
+      let gameOver = false;
+      let winning = [];
+      let records = loadRecords();
+
+      function freshBoard() {
+        return Array.from({ length: SIZE }, () => Array(SIZE).fill(EMPTY));
       }
 
-      [[3,3],[3,11],[7,7],[11,3],[11,11]].forEach(([r,c])=>{
-        ctx.beginPath(); ctx.fillStyle='#4a2e15';
-        ctx.arc(pad+c*spacing,pad+r*spacing,spacing*.09,0,Math.PI*2); ctx.fill();
-      });
+      function safeParse(raw, fallback) {
+        try {
+          return JSON.parse(raw);
+        } catch (_) {
+          return fallback;
+        }
+      }
 
-      for (let r=0;r<SIZE;r++) for (let c=0;c<SIZE;c++) {
-        const s=board[r][c]; if (!s) continue;
-        const x=pad+c*spacing, y=pad+r*spacing, radius=spacing*.42;
-        ctx.beginPath(); ctx.fillStyle='rgba(0,0,0,.22)';
-        ctx.arc(x+spacing*.06,y+spacing*.08,radius,0,Math.PI*2); ctx.fill();
-        const rg=ctx.createRadialGradient(x-radius*.3,y-radius*.35,radius*.08,x,y,radius);
-        if(s===BLACK){rg.addColorStop(0,'#565656');rg.addColorStop(1,'#090909');}
-        else{rg.addColorStop(0,'#ffffff');rg.addColorStop(1,'#d7d7d7');}
-        ctx.beginPath();ctx.fillStyle=rg;ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill();
+      function loadRecords() {
+        const parsed = safeParse(localStorage.getItem(RECORD_KEY) || "[]", []);
+        return Array.isArray(parsed) ? parsed.slice(0, RECORD_MAX) : [];
+      }
 
-        if (winning.some(p=>p.r===r&&p.c===c)) {
-          ctx.beginPath();ctx.strokeStyle='#f04444';ctx.lineWidth=Math.max(4,spacing*.11);
-          ctx.arc(x,y,radius+spacing*.055,0,Math.PI*2);ctx.stroke();
-        } else {
-          const last=moves[moves.length-1];
-          if(last && last.r===r && last.c===c){
-            ctx.beginPath();ctx.fillStyle=s===BLACK?'#fff':'#f04444';
-            ctx.arc(x,y,spacing*.11,0,Math.PI*2);ctx.fill();
+      function saveRecords() {
+        localStorage.setItem(RECORD_KEY, JSON.stringify(records.slice(0, RECORD_MAX)));
+      }
+
+      function saveGame() {
+        if (gameOver) {
+          localStorage.removeItem(SAVE_KEY);
+          return;
+        }
+
+        localStorage.setItem(
+          SAVE_KEY,
+          JSON.stringify({ board, moves, turn })
+        );
+      }
+
+      function restoreGame() {
+        board = freshBoard();
+
+        const raw = safeParse(localStorage.getItem(SAVE_KEY) || "null", null);
+
+        if (
+          !raw ||
+          !Array.isArray(raw.board) ||
+          raw.board.length !== SIZE ||
+          !Array.isArray(raw.moves)
+        ) {
+          return;
+        }
+
+        const validBoard = raw.board.every(
+          (row) => Array.isArray(row) && row.length === SIZE
+        );
+
+        if (!validBoard) {
+          return;
+        }
+
+        board = raw.board.map((row) =>
+          row.map((value) =>
+            value === BLACK || value === WHITE ? value : EMPTY
+          )
+        );
+
+        moves = raw.moves
+          .filter((move) =>
+            move &&
+            Number.isInteger(move.row) &&
+            Number.isInteger(move.column) &&
+            move.row >= 0 &&
+            move.row < SIZE &&
+            move.column >= 0 &&
+            move.column < SIZE &&
+            (move.stone === BLACK || move.stone === WHITE)
+          )
+          .map((move) => ({
+            row: move.row,
+            column: move.column,
+            stone: move.stone
+          }));
+
+        turn = raw.turn === WHITE ? WHITE : BLACK;
+      }
+
+      function geometry() {
+        const pad = canvas.width * 0.055;
+        const spacing = (canvas.width - pad * 2) / (SIZE - 1);
+        return { pad, spacing };
+      }
+
+      function point(row, column) {
+        const { pad, spacing } = geometry();
+        return {
+          x: pad + column * spacing,
+          y: pad + row * spacing
+        };
+      }
+
+      function drawBoard() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const { pad, spacing } = geometry();
+
+        ctx.clearRect(0, 0, width, height);
+
+        const bg = ctx.createLinearGradient(0, 0, width, height);
+        bg.addColorStop(0, "#e5b86d");
+        bg.addColorStop(1, "#c99143");
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.strokeStyle = "#5e3d1e";
+        ctx.lineWidth = 2;
+
+        for (let i = 0; i < SIZE; i++) {
+          const p = pad + spacing * i;
+
+          ctx.beginPath();
+          ctx.moveTo(pad, p);
+          ctx.lineTo(width - pad, p);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(p, pad);
+          ctx.lineTo(p, height - pad);
+          ctx.stroke();
+        }
+
+        const stars = [
+          [3, 3],
+          [3, 11],
+          [7, 7],
+          [11, 3],
+          [11, 11]
+        ];
+
+        stars.forEach(([row, column]) => {
+          const center = point(row, column);
+          ctx.beginPath();
+          ctx.fillStyle = "#4a2e15";
+          ctx.arc(center.x, center.y, spacing * 0.09, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        for (let row = 0; row < SIZE; row++) {
+          for (let column = 0; column < SIZE; column++) {
+            const stone = board[row][column];
+            if (stone === EMPTY) continue;
+
+            const center = point(row, column);
+            const radius = spacing * 0.42;
+
+            ctx.beginPath();
+            ctx.fillStyle = "rgba(0,0,0,.22)";
+            ctx.arc(
+              center.x + spacing * 0.06,
+              center.y + spacing * 0.08,
+              radius,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
+
+            const gradient = ctx.createRadialGradient(
+              center.x - radius * 0.35,
+              center.y - radius * 0.4,
+              radius * 0.08,
+              center.x,
+              center.y,
+              radius
+            );
+
+            if (stone === BLACK) {
+              gradient.addColorStop(0, "#565656");
+              gradient.addColorStop(1, "#090909");
+            } else {
+              gradient.addColorStop(0, "#ffffff");
+              gradient.addColorStop(1, "#d7d7d7");
+            }
+
+            ctx.beginPath();
+            ctx.fillStyle = gradient;
+            ctx.arc(center.x, center.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (
+              winning.some(
+                (position) =>
+                  position.row === row &&
+                  position.column === column
+              )
+            ) {
+              ctx.beginPath();
+              ctx.strokeStyle = "#f04444";
+              ctx.lineWidth = Math.max(4, spacing * 0.11);
+              ctx.arc(
+                center.x,
+                center.y,
+                radius + spacing * 0.055,
+                0,
+                Math.PI * 2
+              );
+              ctx.stroke();
+            } else {
+              const last = moves[moves.length - 1];
+
+              if (
+                last &&
+                last.row === row &&
+                last.column === column
+              ) {
+                ctx.beginPath();
+                ctx.fillStyle =
+                  stone === BLACK
+                    ? "#ffffff"
+                    : "#f04444";
+                ctx.arc(
+                  center.x,
+                  center.y,
+                  spacing * 0.11,
+                  0,
+                  Math.PI * 2
+                );
+                ctx.fill();
+              }
+            }
           }
         }
       }
-      updateUI();
-    }
 
-    function updateUI() {
-      turnStone.className='omok-stone-mini '+(turn===BLACK?'black':'white');
-      turnText.textContent=turn===BLACK?'흑 차례':'백 차례';
-      moveCount.textContent=`${moves.length}수`;
-      undoBtn.disabled=gameOver || moves.length===0;
-      resignBtn.disabled=gameOver;
-    }
+      function getBoardPosition(event) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
 
-    function hit(clientX,clientY) {
-      const rect=canvas.getBoundingClientRect();
-      const sx=canvas.width/rect.width, sy=canvas.height/rect.height;
-      const x=(clientX-rect.left)*sx, y=(clientY-rect.top)*sy;
-      const {pad,spacing}=geometry();
-      const c=Math.round((x-pad)/spacing), r=Math.round((y-pad)/spacing);
-      if(r<0||r>=SIZE||c<0||c>=SIZE) return null;
-      const cx=pad+c*spacing, cy=pad+r*spacing;
-      if(Math.hypot(x-cx,y-cy)>spacing*.48) return null;
-      return {r,c};
-    }
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
 
-    function findWin(r,c,stone) {
-      for(const [dr,dc] of [[0,1],[1,0],[1,1],[1,-1]]) {
-        const line=[{r,c}];
-        let rr=r-dr, cc=c-dc;
-        while(rr>=0&&rr<SIZE&&cc>=0&&cc<SIZE&&board[rr][cc]===stone){line.unshift({r:rr,c:cc});rr-=dr;cc-=dc;}
-        rr=r+dr;cc=c+dc;
-        while(rr>=0&&rr<SIZE&&cc>=0&&cc<SIZE&&board[rr][cc]===stone){line.push({r:rr,c:cc});rr+=dr;cc+=dc;}
-        if(line.length>=5){
-          const idx=line.findIndex(p=>p.r===r&&p.c===c);
-          let start=Math.max(0,idx-4);
-          if(start+5>line.length) start=line.length-5;
-          return line.slice(start,start+5);
+        const { pad, spacing } = geometry();
+
+        const column = Math.round((x - pad) / spacing);
+        const row = Math.round((y - pad) / spacing);
+
+        if (
+          row < 0 ||
+          row >= SIZE ||
+          column < 0 ||
+          column >= SIZE
+        ) {
+          return null;
         }
+
+        const center = point(row, column);
+
+        if (
+          Math.hypot(
+            x - center.x,
+            y - center.y
+          ) > spacing * 0.48
+        ) {
+          return null;
+        }
+
+        return { row, column };
       }
-      return [];
-    }
 
-    function place(r,c) {
-      if(gameOver || board[r][c]!==EMPTY) return;
-      const stone=turn;
-      board[r][c]=stone; moves.push({r,c,stone});
-      const win=findWin(r,c,stone);
-      if(win.length){winning=win;gameOver=true;clearSave();addRecord(stone,'normal');draw();showResult(stone,'normal');return;}
-      if(moves.length===SIZE*SIZE){gameOver=true;clearSave();addRecord(EMPTY,'draw');draw();showResult(EMPTY,'draw');return;}
-      turn=turn===BLACK?WHITE:BLACK; save(); draw();
-    }
+      function findWinningPositions(row, column, stone) {
+        const directions = [
+          [0, 1],
+          [1, 0],
+          [1, 1],
+          [1, -1]
+        ];
 
-    function records() {
-      try { return JSON.parse(localStorage.getItem(RECORD_KEY)||'[]'); } catch(_) { return []; }
-    }
-    function addRecord(winner,type) {
-      const list=records();
-      list.unshift({id:Date.now(),winner,type,moveCount:moves.length,finishedAt:new Date().toISOString()});
-      localStorage.setItem(RECORD_KEY,JSON.stringify(list.slice(0,30)));
-      renderRecords();
-    }
-    function resultLabel(r) {
-      if(r.type==='draw') return '무승부';
-      if(r.type==='resign') return r.winner===BLACK?'백 기권 · 흑 승':'흑 기권 · 백 승';
-      return r.winner===BLACK?'흑 승리':'백 승리';
-    }
-    function renderRecords() {
-      const list=records();
-      document.getElementById('blackWins').textContent=list.filter(r=>r.winner===BLACK).length;
-      document.getElementById('whiteWins').textContent=list.filter(r=>r.winner===WHITE).length;
-      document.getElementById('draws').textContent=list.filter(r=>r.type==='draw').length;
-      const el=document.getElementById('records');
-      if(!list.length){el.innerHTML='<div class="omok-empty">아직 저장된 전적이 없습니다.</div>';return;}
-      el.innerHTML=list.slice(0,10).map(r=>`
-        <div class="omok-record">
-          <span class="omok-stone-mini ${r.winner===WHITE?'white':'black'}"></span>
-          <div class="omok-record-main">
-            <div class="omok-record-title">${resultLabel(r)}</div>
-            <div class="omok-record-meta">${r.moveCount}수 · ${new Date(r.finishedAt).toLocaleString('ko-KR')}</div>
-          </div>
-          <button class="omok-delete" data-id="${r.id}" aria-label="전적 삭제">×</button>
-        </div>`).join('');
-      el.querySelectorAll('.omok-delete').forEach(b=>b.onclick=()=>{
-        localStorage.setItem(RECORD_KEY,JSON.stringify(records().filter(r=>String(r.id)!==b.dataset.id)));
+        for (const [dr, dc] of directions) {
+          const connected = [{ row, column }];
+
+          let r = row - dr;
+          let c = column - dc;
+
+          while (
+            r >= 0 &&
+            r < SIZE &&
+            c >= 0 &&
+            c < SIZE &&
+            board[r][c] === stone
+          ) {
+            connected.unshift({ row: r, column: c });
+            r -= dr;
+            c -= dc;
+          }
+
+          r = row + dr;
+          c = column + dc;
+
+          while (
+            r >= 0 &&
+            r < SIZE &&
+            c >= 0 &&
+            c < SIZE &&
+            board[r][c] === stone
+          ) {
+            connected.push({ row: r, column: c });
+            r += dr;
+            c += dc;
+          }
+
+          if (connected.length >= 5) {
+            const lastMoveIndex = connected.findIndex(
+              (position) =>
+                position.row === row &&
+                position.column === column
+            );
+
+            let startIndex = Math.max(0, lastMoveIndex - 4);
+
+            if (startIndex + 5 > connected.length) {
+              startIndex = connected.length - 5;
+            }
+
+            return connected.slice(startIndex, startIndex + 5);
+          }
+        }
+
+        return [];
+      }
+
+      function place(row, column) {
+        if (
+          gameOver ||
+          board[row][column] !== EMPTY
+        ) {
+          return;
+        }
+
+        const playedStone = turn;
+
+        board[row][column] = playedStone;
+        moves.push({ row, column, stone: playedStone });
+
+        const line = findWinningPositions(
+          row,
+          column,
+          playedStone
+        );
+
+        if (line.length) {
+          winning = line;
+          gameOver = true;
+          addRecord(playedStone, "normal");
+          localStorage.removeItem(SAVE_KEY);
+          renderAll();
+          showResult(playedStone, "normal");
+          return;
+        }
+
+        if (moves.length === SIZE * SIZE) {
+          gameOver = true;
+          addRecord(EMPTY, "draw");
+          localStorage.removeItem(SAVE_KEY);
+          renderAll();
+          showResult(EMPTY, "draw");
+          return;
+        }
+
+        turn =
+          playedStone === BLACK
+            ? WHITE
+            : BLACK;
+
+        saveGame();
+        renderAll();
+      }
+
+      function undo() {
+        if (
+          gameOver ||
+          moves.length === 0
+        ) {
+          return;
+        }
+
+        const last = moves.pop();
+
+        board[last.row][last.column] = EMPTY;
+        turn = last.stone;
+        winning = [];
+
+        saveGame();
+        renderAll();
+      }
+
+      function resign() {
+        if (gameOver) {
+          return;
+        }
+
+        const confirmed = confirm(
+          "현재 차례의 플레이어가 기권할까요?"
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        const winner =
+          turn === BLACK
+            ? WHITE
+            : BLACK;
+
+        gameOver = true;
+        addRecord(winner, "resign");
+        localStorage.removeItem(SAVE_KEY);
+
+        renderAll();
+        showResult(winner, "resign");
+      }
+
+      function resetGame() {
+        board = freshBoard();
+        moves = [];
+        turn = BLACK;
+        gameOver = false;
+        winning = [];
+
+        saveGame();
+        renderAll();
+      }
+
+      function addRecord(winner, type) {
+        records.unshift({
+          id:
+            Date.now().toString() +
+            Math.random().toString(16).slice(2),
+          winner,
+          type,
+          moveCount: moves.length,
+          finishedAt: new Date().toISOString()
+        });
+
+        records = records.slice(0, RECORD_MAX);
+        saveRecords();
+      }
+
+      function deleteRecord(id) {
+        records = records.filter(
+          (record) => record.id !== id
+        );
+
+        saveRecords();
+        renderStats();
         renderRecords();
-      });
-    }
+      }
 
-    function showResult(winner,type) {
-      const stone=document.getElementById('resultStone');
-      stone.style.display=type==='draw'?'none':'block';
-      stone.className='omok-dialog-stone omok-stone-mini '+(winner===WHITE?'white':'black');
-      document.getElementById('resultTitle').textContent=type==='draw'?'무승부':winner===BLACK?'흑 승리':'백 승리';
-      document.getElementById('resultMeta').textContent=`${moves.length}수 만에 게임이 종료되었습니다.`;
-      modal.classList.add('show');
-    }
-    function resetGame() { fresh(); save(); draw(); modal.classList.remove('show'); }
-    function newGame() {
-      if(moves.length && !gameOver && !confirm('현재 진행 중인 게임을 종료하고 새 게임을 시작할까요?')) return;
-      resetGame();
-    }
+      function formatDate(value) {
+        const date = new Date(value);
 
-    canvas.addEventListener('click',e=>{const p=hit(e.clientX,e.clientY);if(p)place(p.r,p.c);});
-    document.getElementById('newGameBtn').onclick=newGame;
-    undoBtn.onclick=()=>{if(!moves.length||gameOver)return;const m=moves.pop();board[m.r][m.c]=EMPTY;turn=m.stone;winning=[];save();draw();};
-    resignBtn.onclick=()=>{
-      if(gameOver||!confirm('현재 차례의 플레이어가 기권할까요?'))return;
-      const winner=turn===BLACK?WHITE:BLACK;gameOver=true;clearSave();addRecord(winner,'resign');draw();showResult(winner,'resign');
-    };
-    document.getElementById('playAgainBtn').onclick=resetGame;
-    document.getElementById('closeResultBtn').onclick=()=>modal.classList.remove('show');
-    document.getElementById('clearRecordsBtn').onclick=()=>{
-      if(records().length && confirm('저장된 전적을 모두 삭제할까요?')){localStorage.removeItem(RECORD_KEY);renderRecords();}
-    };
+        if (Number.isNaN(date.getTime())) {
+          return "";
+        }
 
-    load(); draw(); renderRecords();
-  })();
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const d = String(date.getDate()).padStart(2, "0");
+        const h = String(date.getHours()).padStart(2, "0");
+        const min = String(date.getMinutes()).padStart(2, "0");
+
+        return `${y}.${m}.${d} ${h}:${min}`;
+      }
+
+      function renderStatus() {
+        const isBlack = turn === BLACK;
+
+        turnMark.textContent = isBlack ? "●" : "○";
+        turnMark.className =
+          `omok-turn-mark ${isBlack ? "black" : "white"}`;
+
+        if (gameOver) {
+          turnTitle.textContent = "게임 종료";
+          turnSub.textContent =
+            "새 게임을 시작할 수 있습니다.";
+        } else {
+          turnTitle.textContent =
+            `${isBlack ? "흑" : "백"} 차례입니다`;
+
+          turnSub.textContent =
+            "원하는 교차점을 선택하세요";
+        }
+
+        moveCount.textContent =
+          `${moves.length}수`;
+
+        undoButton.disabled =
+          gameOver ||
+          moves.length === 0;
+
+        resignButton.disabled =
+          gameOver;
+      }
+
+      function renderStats() {
+        blackWins.textContent =
+          records.filter(
+            (record) =>
+              record.winner === BLACK
+          ).length;
+
+        whiteWins.textContent =
+          records.filter(
+            (record) =>
+              record.winner === WHITE
+          ).length;
+
+        draws.textContent =
+          records.filter(
+            (record) =>
+              record.type === "draw"
+          ).length;
+      }
+
+      function renderRecords() {
+        recordMeta.textContent =
+          `${records.length}개`;
+
+        recordsEl.innerHTML = "";
+
+        if (records.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "omok-empty";
+          empty.textContent =
+            "아직 완료된 게임이 없습니다.";
+          recordsEl.appendChild(empty);
+          return;
+        }
+
+        records.forEach((record) => {
+          const item = document.createElement("article");
+          item.className = "omok-record";
+
+          const mark = document.createElement("span");
+          mark.className = "omok-record-mark";
+
+          if (record.type === "draw") {
+            mark.classList.add("draw");
+            mark.textContent = "무";
+          } else if (record.winner === BLACK) {
+            mark.classList.add("black");
+            mark.textContent = "●";
+          } else {
+            mark.classList.add("white");
+            mark.textContent = "○";
+          }
+
+          const info = document.createElement("div");
+          info.className = "omok-record-info";
+
+          const result = document.createElement("p");
+          result.className = "omok-record-result";
+
+          if (record.type === "draw") {
+            result.textContent = "무승부";
+          } else if (record.type === "resign") {
+            result.textContent =
+              `${record.winner === BLACK ? "흑" : "백"} 승리 · 상대 기권`;
+          } else {
+            result.textContent =
+              `${record.winner === BLACK ? "흑" : "백"} 승리`;
+          }
+
+          const sub = document.createElement("p");
+          sub.className = "omok-record-sub";
+          sub.textContent =
+            `${formatDate(record.finishedAt)} · ${record.moveCount}수`;
+
+          info.append(result, sub);
+
+          const del = document.createElement("button");
+          del.type = "button";
+          del.className = "omok-record-delete";
+          del.setAttribute(
+            "aria-label",
+            "전적 삭제"
+          );
+          del.textContent = "×";
+          del.addEventListener(
+            "click",
+            () => deleteRecord(record.id)
+          );
+
+          item.append(
+            mark,
+            info,
+            del
+          );
+
+          recordsEl.appendChild(item);
+        });
+      }
+
+      function renderAll() {
+        drawBoard();
+        renderStatus();
+        renderStats();
+        renderRecords();
+      }
+
+      function showResult(winner, type) {
+        resultSymbol.className =
+          "omok-result-symbol";
+
+        if (type === "draw") {
+          resultSymbol.classList.add("draw");
+          resultSymbol.textContent = "무";
+          resultTitle.textContent = "무승부";
+          resultText.textContent =
+            `${moves.length}수 만에 게임이 종료되었습니다.`;
+        } else {
+          const isBlack =
+            winner === BLACK;
+
+          resultSymbol.classList.add(
+            isBlack ? "black" : "white"
+          );
+
+          resultSymbol.textContent =
+            isBlack ? "●" : "○";
+
+          resultTitle.textContent =
+            `${isBlack ? "흑" : "백"} 승리`;
+
+          resultText.textContent =
+            type === "resign"
+              ? `상대 플레이어가 기권했습니다.`
+              : `${moves.length}수 만에 같은 색 돌 5개를 연결했습니다.`;
+        }
+
+        resultOverlay.classList.add("show");
+      }
+
+      function hideResult() {
+        resultOverlay.classList.remove("show");
+      }
+
+      canvas.addEventListener(
+        "click",
+        (event) => {
+          const position =
+            getBoardPosition(event);
+
+          if (position) {
+            place(
+              position.row,
+              position.column
+            );
+          }
+        }
+      );
+
+      newButton.addEventListener(
+        "click",
+        () => {
+          if (
+            moves.length > 0 &&
+            !gameOver
+          ) {
+            const ok = confirm(
+              "현재 진행 중인 게임을 종료하고 새 게임을 시작할까요?"
+            );
+
+            if (!ok) {
+              return;
+            }
+          }
+
+          resetGame();
+        }
+      );
+
+      undoButton.addEventListener(
+        "click",
+        undo
+      );
+
+      resignButton.addEventListener(
+        "click",
+        resign
+      );
+
+      closeResult.addEventListener(
+        "click",
+        hideResult
+      );
+
+      againButton.addEventListener(
+        "click",
+        () => {
+          hideResult();
+          resetGame();
+        }
+      );
+
+      resultOverlay.addEventListener(
+        "click",
+        (event) => {
+          if (
+            event.target === resultOverlay
+          ) {
+            hideResult();
+          }
+        }
+      );
+
+      restoreGame();
+      renderAll();
+    })();
   </script>
 
 </body>
