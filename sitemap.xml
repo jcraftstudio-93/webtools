@@ -8,7 +8,7 @@
 
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/</loc>
-        <lastmod>2026-09-08</lastmod>
+        <lastmod>2026-09-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -192,6 +192,14 @@
     <!-- Scoreboard -->
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/record/scoreboard.html</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Color Palette & Picker -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/record/color_palette_picker.html</loc>
         <lastmod>2026-09-09</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
