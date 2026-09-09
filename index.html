@@ -1051,7 +1051,7 @@
 
     .service-category-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
     }
 
@@ -1184,6 +1184,121 @@
     .category-card-link svg {
       width: 15px;
       height: 15px;
+    }
+
+
+    /* ==================================================
+       주요 서비스 카드 페이지 이동
+    ================================================== */
+
+    .category-card-body {
+      position: relative;
+    }
+
+    .category-card-page {
+      display: none;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-card-page.active {
+      display: grid;
+    }
+
+    .category-card-controls {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 8px 14px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .category-card-controls.visible {
+      display: flex;
+    }
+
+    .category-card-nav-button {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .category-card-nav-button:hover:not(:disabled) {
+      border-color: #bfd9ff;
+      background: var(--primary-soft);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .category-card-nav-button:disabled {
+      opacity: 0.38;
+      cursor: default;
+    }
+
+    .category-card-nav-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .category-card-page-indicator {
+      min-width: 42px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .category-card-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 116px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .category-card-header.calculator {
+      background:
+        linear-gradient(
+          135deg,
+          #eef3ff,
+          #fafbff
+        );
+    }
+
+    .category-card-header.file {
+      background:
+        linear-gradient(
+          135deg,
+          #f1f4f7,
+          #fbfcfd
+        );
+    }
+
+    @media (max-width: 600px) {
+      .category-card-page {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card-link:nth-child(odd) {
+        border-right: 0;
+      }
     }
 
     /* ==================================================
@@ -2191,308 +2306,153 @@
 
         <div class="service-category-grid">
 
-          <!-- PDF -->
-
           <article class="service-category-card" id="pdf-tools">
-
             <div class="category-card-header">
-
               <div class="category-card-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M7 3h7l5 5v13H7z"></path>
                   <path d="M14 3v5h5"></path>
                 </svg>
               </div>
 
-              <h3 class="category-card-title">
-                PDF 툴
-              </h3>
+              <h3 class="category-card-title">PDF 툴</h3>
 
               <p class="category-card-description">
                 PDF 파일을 간편하게 관리하는 도구
               </p>
             </div>
 
-            <div class="category-card-links">
-
-              <a
-                href="/webtools/pdf/pdf_merge.html"
-                class="category-card-link"
-              >
+            <div class="category-card-body" data-category-slider>
+              <div class="category-card-page active" data-card-page="0">
+              <a href="/webtools/pdf/pdf_merge.html" class="category-card-link">
                 PDF Merge
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/pdf/pdf_splitter.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/pdf/pdf_splitter.html" class="category-card-link">
                 PDF Splitter
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/pdf/pdf_unlock.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/pdf/pdf_unlock.html" class="category-card-link">
                 PDF Unlock
-              
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/pdf/pdf_watermark.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/pdf/pdf_watermark.html" class="category-card-link">
                 PDF 워터마크
-              
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
+              </div>
 
             </div>
           </article>
 
-          <!-- 랜덤 -->
-
           <article class="service-category-card" id="random-tools">
-
             <div class="category-card-header random">
-
               <div class="category-card-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M4 7h5l2 3 2-3h7"></path>
                   <path d="m17 4 3 3-3 3"></path>
                   <path d="M4 17h5l2-3 2 3h7"></path>
                 </svg>
               </div>
 
-              <h3 class="category-card-title">
-                랜덤 툴
-              </h3>
+              <h3 class="category-card-title">랜덤 툴</h3>
 
               <p class="category-card-description">
                 팀, 순서와 선택을 무작위로 결정
               </p>
             </div>
 
-            <div class="category-card-links">
-
-              <a
-                href="/webtools/random/random_team.html"
-                class="category-card-link"
-              >
+            <div class="category-card-body" data-category-slider>
+              <div class="category-card-page active" data-card-page="0">
+              <a href="/webtools/random/random_team.html" class="category-card-link">
                 랜덤 팀
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-              <a 
-                href="/webtools/random/yes_or_no.html" 
-                class="category-card-link" 
-              > 
+              <a href="/webtools/random/yes_or_no.html" class="category-card-link">
                 Yes or No
-
-                <svg 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  stroke-width="2" 
-                > 
-                  <path d="m9 18 6-6-6-6"></path> 
-                </svg> 
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
               </a>
-              <a
-                href="/webtools/random/random_ladder.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/random/random_ladder.html" class="category-card-link">
                 사다리타기
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/random/random_Tournament.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/random/random_Tournament.html" class="category-card-link">
                 토너먼트
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
+              </div>
 
             </div>
           </article>
 
-          <!-- 이미지 툴 -->
-
           <article class="service-category-card" id="image-tools">
-
             <div class="category-card-header image">
-
               <div class="category-card-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="3" width="18" height="18" rx="3"></rect>
                   <circle cx="9" cy="9" r="2"></circle>
                   <path d="m21 15-5-5L5 21"></path>
                 </svg>
               </div>
 
-              <h3 class="category-card-title">
-                이미지 툴
-              </h3>
+              <h3 class="category-card-title">이미지 툴</h3>
 
               <p class="category-card-description">
                 이미지 크기, 워터마크, 확장자와 PDF 변환 도구
               </p>
             </div>
 
-            <div class="category-card-links">
-
-              <a
-                href="/webtools/image/image_resize.html"
-                class="category-card-link"
-              >
+            <div class="category-card-body" data-category-slider>
+              <div class="category-card-page active" data-card-page="0">
+              <a href="/webtools/image/image_resize.html" class="category-card-link">
                 이미지 크기 조절
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/image/image_watermark.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/image/image_watermark.html" class="category-card-link">
                 이미지 워터마크
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/image/image_converter.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/image/image_converter.html" class="category-card-link">
                 이미지 컨버터
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/image/image_to_pdf.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/image/image_to_pdf.html" class="category-card-link">
                 이미지 PDF 변환
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
+              </div>
 
             </div>
           </article>
 
-
-          <!-- 생활·기록 -->
-
           <article class="service-category-card" id="record-tools">
-
             <div class="category-card-header record">
-
               <div class="category-card-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="4" width="18" height="17" rx="3"></rect>
                   <path d="M8 2v4"></path>
                   <path d="M16 2v4"></path>
@@ -2500,115 +2460,131 @@
                 </svg>
               </div>
 
-              <h3 class="category-card-title">
-                생활·기록
-              </h3>
+              <h3 class="category-card-title">생활·기록</h3>
 
               <p class="category-card-description">
                 일상에서 간편하게 사용할 수 있는 생활·기록 도구
               </p>
             </div>
 
-            <div class="category-card-links">
-
-              <a
-                href="/webtools/record/case_converter.html"
-                class="category-card-link"
-              >
+            <div class="category-card-body" data-category-slider>
+              <div class="category-card-page active" data-card-page="0">
+              <a href="/webtools/record/case_converter.html" class="category-card-link">
                 대소문자 변환기
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/record/tic_tac_toe.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/record/tic_tac_toe.html" class="category-card-link">
                 틱택토
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/record/omok.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/record/omok.html" class="category-card-link">
                 오목
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/record/timer.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/record/timer.html" class="category-card-link">
                 타이머
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-
-              <a
-                href="/webtools/record/military_discharge_calculator.html"
-                class="category-card-link"
-              >
+              </div>
+              <div class="category-card-page" data-card-page="1">
+              <a href="/webtools/record/military_discharge_calculator.html" class="category-card-link">
                 전역계산기
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
-              
-              <a
-                href="/webtools/record/scoreboard.html"
-                class="category-card-link"
-              >
+              <a href="/webtools/record/scoreboard.html" class="category-card-link">
                 점수판
-
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
+              </div>
+
+            <div class="category-card-controls visible" data-card-controls>
+              <button type="button" class="category-card-nav-button" data-card-prev aria-label="생활·기록 이전 목록">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m15 18-6-6 6-6"></path>
+                </svg>
+              </button>
+
+              <span class="category-card-page-indicator" data-card-indicator>
+                1 / 2
+              </span>
+
+              <button type="button" class="category-card-nav-button" data-card-next aria-label="생활·기록 다음 목록">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </button>
+            </div>
+            </div>
+          </article>
+
+          <article class="service-category-card" id="calculator-tools">
+            <div class="category-card-header calculator">
+              <div class="category-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="3" width="16" height="18" rx="3"></rect>
+                  <path d="M8 7h8"></path>
+                  <path d="M8 11h2"></path>
+                  <path d="M14 11h2"></path>
+                  <path d="M8 15h2"></path>
+                  <path d="M14 15h2"></path>
+                </svg>
+              </div>
+
+              <h3 class="category-card-title">계산기 툴</h3>
+
+              <p class="category-card-description">
+                날짜와 생활 정보를 간편하게 계산하는 도구
+              </p>
+            </div>
+
+            <div class="category-card-body" data-category-slider>
+              <div class="category-card-page active" data-card-page="0">
+              <a href="/webtools/record/military_discharge_calculator.html" class="category-card-link">
+                전역계산기
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+              </div>
 
             </div>
           </article>
+
+          <article class="service-category-card" id="file-tools">
+            <div class="category-card-header file">
+              <div class="category-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 3h7l5 5v13H7z"></path>
+                  <path d="M14 3v5h5"></path>
+                  <path d="M9 13h6"></path>
+                  <path d="M9 17h6"></path>
+                </svg>
+              </div>
+
+              <h3 class="category-card-title">파일 툴</h3>
+
+              <p class="category-card-description">
+                파일 관리와 변환에 필요한 기능을 모아 제공
+              </p>
+            </div>
+
+            <div class="category-card-empty">
+              새 파일 도구를 준비하고 있습니다.
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -2856,6 +2832,67 @@
       );
 
       startHeroSlider();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const sliders = document.querySelectorAll("[data-category-slider]");
+
+      sliders.forEach((slider) => {
+        const pages = Array.from(
+          slider.querySelectorAll("[data-card-page]")
+        );
+
+        if (pages.length <= 1) {
+          return;
+        }
+
+        const prevButton = slider.querySelector("[data-card-prev]");
+        const nextButton = slider.querySelector("[data-card-next]");
+        const indicator = slider.querySelector("[data-card-indicator]");
+
+        let currentPage = 0;
+
+        const renderPage = () => {
+          pages.forEach((page, index) => {
+            page.classList.toggle("active", index === currentPage);
+          });
+
+          if (indicator) {
+            indicator.textContent =
+              `${currentPage + 1} / ${pages.length}`;
+          }
+
+          if (prevButton) {
+            prevButton.disabled = currentPage === 0;
+          }
+
+          if (nextButton) {
+            nextButton.disabled = currentPage === pages.length - 1;
+          }
+        };
+
+        prevButton?.addEventListener("click", () => {
+          if (currentPage <= 0) {
+            return;
+          }
+
+          currentPage -= 1;
+          renderPage();
+        });
+
+        nextButton?.addEventListener("click", () => {
+          if (currentPage >= pages.length - 1) {
+            return;
+          }
+
+          currentPage += 1;
+          renderPage();
+        });
+
+        renderPage();
+      });
     })();
   </script>
 
