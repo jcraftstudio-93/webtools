@@ -108,6 +108,50 @@
 
           <li
             class="desktop-menu-item"
+            data-mega-target="megaCalculator"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              계산기 툴
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
+            data-mega-target="megaFile"
+          >
+            <button
+              type="button"
+              class="desktop-menu-button"
+            >
+              파일 툴
+
+              <svg
+                class="menu-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </button>
+          </li>
+
+          <li
+            class="desktop-menu-item"
             data-mega-target="megaApps"
           >
             <button
@@ -925,6 +969,121 @@
           </div>
         </div>
 
+
+        <!-- 계산기 툴 메뉴 -->
+
+        <div class="mega-panel" id="megaCalculator">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="4" y="3" width="16" height="18" rx="3"></rect>
+                <path d="M8 7h8"></path>
+                <path d="M8 11h2"></path>
+                <path d="M14 11h2"></path>
+                <path d="M8 15h2"></path>
+                <path d="M14 15h2"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">계산기 툴</h2>
+
+            <p class="mega-description">
+              날짜와 생활 정보를 빠르게 계산할 수 있는
+              실용적인 계산 도구를 확인하세요.
+            </p>
+          </div>
+
+          <div class="mega-links">
+
+            <a href="/webtools/record/military_discharge_calculator.html" class="mega-link">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  전역계산기
+                </span>
+
+                <span class="mega-link-description">
+                  입영일 기준 예상 전역일 계산
+                </span>
+              </span>
+            </a>
+
+          </div>
+        </div>
+
+
+        <!-- 파일 툴 메뉴 -->
+
+        <div class="mega-panel" id="megaFile">
+
+          <div class="mega-intro">
+            <div class="mega-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 3h7l5 5v13H7z"></path>
+                <path d="M14 3v5h5"></path>
+                <path d="M9 13h6"></path>
+                <path d="M9 17h6"></path>
+              </svg>
+            </div>
+
+            <h2 class="mega-title">파일 툴</h2>
+
+            <p class="mega-description">
+              파일 관리와 변환에 필요한 기능을
+              간편하게 사용할 수 있도록 준비하고 있습니다.
+            </p>
+          </div>
+
+          <div class="mega-links">
+            <div class="mega-link" aria-disabled="true">
+              <span class="mega-link-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 3h7l5 5v13H7z"></path>
+                  <path d="M14 3v5h5"></path>
+                </svg>
+              </span>
+
+              <span>
+                <span class="mega-link-title">
+                  파일 도구 준비 중
+                </span>
+
+                <span class="mega-link-description">
+                  새로운 파일 기능을 추가할 예정입니다
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
         <!-- Android 앱 메뉴: 개별 앱 대신 고정 카테고리 중심 -->
         <div class="mega-panel" id="megaApps">
 
@@ -1346,6 +1505,72 @@
         </div>
       </div>
     </div>
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        계산기 툴
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+
+            <a
+              href="/webtools/record/military_discharge_calculator.html"
+              class="mobile-submenu-link"
+            >
+              전역계산기
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="mobile-category">
+      <button
+        type="button"
+        class="mobile-category-button"
+      >
+        파일 툴
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m7 10 5 5 5-5"></path>
+        </svg>
+      </button>
+
+      <div class="mobile-submenu">
+        <div class="mobile-submenu-inner">
+          <div class="mobile-submenu-links">
+
+            <span class="mobile-submenu-link" aria-disabled="true">
+              파일 도구 준비 중
+            </span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 <!-- Android 앱 일단은 전체주석처리 
     <div class="mobile-category">
       <button
