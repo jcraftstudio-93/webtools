@@ -197,4 +197,17 @@
         <priority>0.8</priority>
     </url>
 
+
+    <!-- ==================================================
+         File Tools
+    =================================================== -->
+
+    <!-- Simple File ZIP -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/file/simple_file_zip.html</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>
