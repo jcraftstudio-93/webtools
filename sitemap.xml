@@ -8,7 +8,7 @@
 
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/</loc>
-        <lastmod>2026-09-11</lastmod>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -103,6 +103,14 @@
     <url>
         <loc>https://jcraftstudio-93.github.io/webtools/random/yes_or_no.html</loc>
         <lastmod>2026-09-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Random Number Picker -->
+    <url>
+        <loc>https://jcraftstudio-93.github.io/webtools/random/random_number_picker.html</loc>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
