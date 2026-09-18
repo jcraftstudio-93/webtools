@@ -4254,6 +4254,33 @@
 
   
     .score-confirm-overlay{position:fixed;inset:0;z-index:2300;display:grid;place-items:center;padding:20px;background:rgba(13,24,40,.42);opacity:0;pointer-events:none;transition:opacity .2s ease}.score-confirm-overlay.show{opacity:1;pointer-events:auto}.score-confirm-dialog{width:min(100%,400px);padding:28px;border-radius:20px;background:#fff;box-shadow:0 25px 60px rgba(20,36,58,.24)}.score-confirm-title{font-size:20px;font-weight:900;letter-spacing:-.5px}.score-confirm-text{margin-top:8px;color:var(--text-secondary);font-size:12px;line-height:1.7}.score-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}
+
+    /* ==================================================
+       점수판 상세 안내 콘텐츠
+    ================================================== */
+    .score-guide-section{margin-top:22px}
+    .score-guide-card{padding:30px;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:var(--shadow-small)}
+    .score-guide-card+.score-guide-card{margin-top:16px}
+    .score-guide-title{font-size:19px;font-weight:850;letter-spacing:-.5px}
+    .score-guide-lead{max-width:900px;margin-top:9px;color:var(--text-secondary);font-size:12px;line-height:1.85}
+    .score-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+    .score-guide-item{padding:20px;border:1px solid var(--border);border-radius:14px;background:var(--surface-soft)}
+    .score-guide-item h3{font-size:13px;font-weight:850}
+    .score-guide-item p{margin-top:7px;color:var(--text-muted);font-size:10px;line-height:1.75}
+    .score-detail-list{display:grid;gap:11px;margin-top:20px}
+    .score-detail-item{display:flex;align-items:flex-start;gap:10px;color:var(--text-secondary);font-size:11px;line-height:1.75}
+    .score-detail-mark{display:grid;flex:0 0 auto;width:24px;height:24px;place-items:center;border-radius:8px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:900}
+    .score-faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+    .score-faq-item{padding:19px;border:1px solid var(--border);border-radius:14px;background:var(--surface-soft)}
+    .score-faq-item h3{font-size:12px;font-weight:850;line-height:1.6}
+    .score-faq-item p{margin-top:7px;color:var(--text-secondary);font-size:10px;line-height:1.75}
+    .score-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+    .score-related-link{display:block;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--surface-soft);transition:.2s}
+    .score-related-link:hover{border-color:#bfd9ff;background:var(--primary-soft);transform:translateY(-2px)}
+    .score-related-link strong{display:block;font-size:12px;font-weight:850}
+    .score-related-link span{display:block;margin-top:5px;color:var(--text-muted);font-size:10px;line-height:1.65}
+    @media(max-width:700px){.score-guide-grid,.score-faq-grid,.score-related-grid{grid-template-columns:1fr}.score-guide-card{padding:22px}}
+
 </style>
 </head>
 <body>
@@ -4266,6 +4293,65 @@
       <aside class="score-side"><section class="score-side-card"><h2 class="score-side-title"><span class="score-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4z"></path><path d="M8 10h3"></path><path d="M13 10h3"></path></svg></span>사용 방법</h2><div class="score-side-list"><div class="score-side-item"><span class="score-side-num">1</span><span>2~8개 사이에서 사용할 팀 수를 선택합니다.</span></div><div class="score-side-item"><span class="score-side-num">2</span><span>팀 이름을 입력하고 점수판 시작 버튼을 누릅니다.</span></div><div class="score-side-item"><span class="score-side-num">3</span><span>각 팀의 ±1, ±10 버튼으로 점수를 조절합니다.</span></div></div></section><section class="score-side-card"><h2 class="score-side-title"><span class="score-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18H6z"></path><path d="M9 8h6"></path><path d="M9 12h6"></path></svg></span>경기 기록<span class="score-record-count" id="recordCount">0</span></h2><div class="score-record-list" id="recordList"></div><button type="button" class="score-record-clear" id="clearRecordsButton">전체 기록 삭제</button></section><section class="score-side-card"><h2 class="score-side-title"><span class="score-side-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"></path><path d="m9 12 2 2 4-4"></path></svg></span>개인정보 걱정 없이</h2><div class="score-side-list"><div class="score-side-item"><span class="score-side-num">✓</span><span>팀 이름과 경기 기록은 서버가 아닌 현재 브라우저의 로컬 저장소에만 저장됩니다.</span></div><div class="score-side-item"><span class="score-side-num">✓</span><span>회원가입이나 별도 프로그램 설치 없이 바로 사용할 수 있습니다.</span></div></div></section></aside>
     </div>
     <section class="score-content-section"><div class="score-content-card"><h2 class="score-content-title">온라인 점수판 이용 방법</h2><p class="score-content-description">체육 경기, 보드게임, 퀴즈, 팀 활동 등 여러 사람이 점수를 기록해야 하는 상황에서 간단한 스코어보드로 활용할 수 있습니다.</p><div class="score-how-grid"><article class="score-how-item"><span class="score-how-number">01</span><h3 class="score-how-title">팀 구성</h3><p class="score-how-description">경기나 활동에 참여하는 팀 수와 각 팀 이름을 입력합니다.</p></article><article class="score-how-item"><span class="score-how-number">02</span><h3 class="score-how-title">점수 관리</h3><p class="score-how-description">±1과 ±10 버튼을 사용해 상황에 맞게 점수를 빠르게 변경합니다.</p></article><article class="score-how-item"><span class="score-how-number">03</span><h3 class="score-how-title">기록 저장</h3><p class="score-how-description">경기가 끝나면 결과를 저장해 최종 점수와 승리 팀을 다시 확인할 수 있습니다.</p></article></div></div></section>
+
+    <section class="score-guide-section" aria-label="점수판 상세 안내">
+      <div class="score-guide-card">
+        <h2 class="score-guide-title">온라인 점수판 활용 예시</h2>
+        <p class="score-guide-lead">이 점수판은 여러 참가자나 팀의 점수를 한 화면에서 계속 변경해야 하는 상황에 맞춰 사용할 수 있습니다. 팀 이름을 직접 입력할 수 있어 경기 종목에 한정하지 않고 수업, 모임, 게임 등에도 활용할 수 있습니다.</p>
+        <div class="score-guide-grid">
+          <article class="score-guide-item"><h3>스포츠·체육 활동</h3><p>농구, 배드민턴, 탁구 등 경기 진행 중 팀별 점수를 빠르게 올리거나 내리면서 현재 상황을 확인할 수 있습니다.</p></article>
+          <article class="score-guide-item"><h3>퀴즈·수업 활동</h3><p>조별 퀴즈나 교실 게임처럼 정답과 미션 결과에 따라 팀 점수를 계속 기록해야 할 때 사용할 수 있습니다.</p></article>
+          <article class="score-guide-item"><h3>보드게임·모임</h3><p>여러 참가자가 경쟁하는 보드게임이나 친목 활동에서 점수를 누적하고 최종 순위를 확인하는 용도로 활용할 수 있습니다.</p></article>
+        </div>
+      </div>
+
+      <div class="score-guide-card">
+        <h2 class="score-guide-title">점수·순위·변경 내역은 이렇게 동작합니다</h2>
+        <p class="score-guide-lead">점수판을 시작하면 각 팀은 0점에서 출발하며 -10, -1, +1, +10 버튼으로 점수를 조절합니다. 점수가 변경될 때마다 현재 점수를 기준으로 순위와 선두 팀 정보가 다시 계산됩니다.</p>
+        <div class="score-detail-list">
+          <div class="score-detail-item"><span class="score-detail-mark">1</span><span>최고 점수가 같은 팀이 둘 이상이면 한 팀을 임의로 선택하지 않고 공동 1위로 표시합니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">2</span><span>점수 변경 내역은 현재 경기에서 최대 50개까지 관리하며 화면에는 최근 변경 내역 10개를 표시합니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">3</span><span>점수 초기화는 현재 팀 구성을 그대로 유지한 채 모든 팀의 점수를 0점으로 되돌립니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">4</span><span>새 경기를 시작하면 팀 수와 팀 이름을 다시 설정할 수 있습니다. 진행 중인 점수나 변경 내역이 있으면 확인 절차를 거칩니다.</span></div>
+        </div>
+      </div>
+
+      <div class="score-guide-card">
+        <h2 class="score-guide-title">경기 기록 저장 방식과 주의사항</h2>
+        <p class="score-guide-lead">경기 기록 저장 버튼을 누르면 저장 시점의 팀별 점수, 승리 팀, 저장 시간이 현재 브라우저의 로컬 저장소에 기록됩니다. 최근 경기 기록은 최대 20개까지 유지되며 한도를 넘으면 오래된 기록부터 제외됩니다.</p>
+        <div class="score-detail-list">
+          <div class="score-detail-item"><span class="score-detail-mark">✓</span><span>팀 이름과 경기 기록은 별도의 JCraft Studio 계정이나 서버에 저장하는 방식이 아니라 현재 브라우저의 로컬 저장소를 사용합니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">✓</span><span>브라우저의 사이트 데이터나 저장 데이터를 삭제하면 보관했던 경기 기록도 함께 사라질 수 있습니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">✓</span><span>다른 브라우저나 다른 기기로 경기 기록이 자동 동기화되지는 않습니다.</span></div>
+          <div class="score-detail-item"><span class="score-detail-mark">✓</span><span>저장한 기록은 개별 삭제할 수 있고 필요하면 전체 기록 삭제 기능으로 한 번에 정리할 수 있습니다.</span></div>
+        </div>
+      </div>
+
+      <div class="score-guide-card">
+        <h2 class="score-guide-title">자주 묻는 질문</h2>
+        <div class="score-faq-grid">
+          <article class="score-faq-item"><h3>몇 팀까지 점수를 관리할 수 있나요?</h3><p>한 경기에서 최소 2팀부터 최대 8팀까지 설정할 수 있습니다.</p></article>
+          <article class="score-faq-item"><h3>팀 이름은 직접 바꿀 수 있나요?</h3><p>네. 점수판 시작 전에 각 팀 이름을 직접 입력할 수 있으며 팀 이름은 서로 다르게 설정해야 합니다.</p></article>
+          <article class="score-faq-item"><h3>점수는 어떤 단위로 변경할 수 있나요?</h3><p>각 팀 카드에서 -10, -1, +1, +10 버튼을 사용해 상황에 맞게 점수를 조절할 수 있습니다.</p></article>
+          <article class="score-faq-item"><h3>동점이면 순위는 어떻게 표시되나요?</h3><p>최고 점수가 같은 팀이 여러 개라면 해당 팀들을 공동 1위로 표시합니다.</p></article>
+          <article class="score-faq-item"><h3>경기 기록은 몇 개까지 저장되나요?</h3><p>현재 브라우저의 로컬 저장소에 최근 경기 기록을 최대 20개까지 보관합니다.</p></article>
+          <article class="score-faq-item"><h3>브라우저를 닫아도 저장 기록이 남나요?</h3><p>일반적으로 사이트의 로컬 저장소가 유지되는 동안 남아 있습니다. 브라우저 데이터 삭제 시에는 함께 삭제될 수 있습니다.</p></article>
+          <article class="score-faq-item"><h3>다른 기기에서도 저장 기록을 볼 수 있나요?</h3><p>현재 기능에는 계정 기반 동기화가 없으므로 다른 브라우저나 다른 기기에 자동으로 전달되지 않습니다.</p></article>
+          <article class="score-faq-item"><h3>회원가입이나 설치가 필요한가요?</h3><p>아니요. 별도 회원가입이나 프로그램 설치 없이 웹 브라우저에서 바로 사용할 수 있습니다.</p></article>
+        </div>
+      </div>
+
+      <div class="score-guide-card">
+        <h2 class="score-guide-title">함께 사용하기 좋은 도구</h2>
+        <p class="score-guide-lead">팀 구성이나 경기 진행 전에 랜덤 도구를 함께 사용하면 참가자 배정과 대진 구성을 더 간단하게 준비할 수 있습니다.</p>
+        <div class="score-related-grid">
+          <a class="score-related-link" href="/webtools/random/random_team.html"><strong>랜덤 팀 생성기</strong><span>참가자 목록을 여러 팀으로 무작위 배정할 때 사용할 수 있습니다.</span></a>
+          <a class="score-related-link" href="/webtools/random/random_Tournament.html"><strong>토너먼트 생성기</strong><span>참가자나 팀의 토너먼트 대진 구성을 만들 때 사용할 수 있습니다.</span></a>
+          <a class="score-related-link" href="/webtools/random/number_picker.html"><strong>랜덤 숫자 뽑기</strong><span>지정한 숫자 범위에서 무작위 값을 선택할 때 사용할 수 있습니다.</span></a>
+        </div>
+      </div>
+    </section>
+
   </div></main>
 
   <div class="score-confirm-overlay" id="confirmOverlay" aria-hidden="true">
