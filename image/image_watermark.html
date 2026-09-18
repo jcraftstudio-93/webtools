@@ -4101,6 +4101,26 @@
     @media(max-width:760px){ .resize-page{padding-top:20px}.resize-hero{grid-template-columns:1fr;padding:34px 25px}.resize-hero-visual{display:none}.selected-image{grid-template-columns:70px minmax(0,1fr) auto}.selected-thumb{width:70px;height:58px}.preview-canvas-wrap{min-height:330px;padding:14px}.history-item{grid-template-columns:50px minmax(0,1fr)}.history-actions{grid-column:1/-1}.related-grid{grid-template-columns:1fr} }
     @media(max-width:480px){ .size-row{grid-template-columns:1fr 28px 1fr}.tool-panel-body{padding:16px}.stats{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr 1fr} }
 
+  
+    /* ==================================================
+       워터마크 정보 콘텐츠
+    ================================================== */
+    .guide-section { margin-top: 28px; }
+    .guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+    .guide-card { padding:24px; border:1px solid var(--border); border-radius:17px; background:var(--surface); box-shadow:var(--shadow-small); }
+    .guide-card.wide { grid-column:1 / -1; }
+    .guide-card h2 { font-size:21px; font-weight:850; letter-spacing:-.6px; }
+    .guide-card h3 { margin-top:18px; font-size:15px; font-weight:820; }
+    .guide-card p, .guide-card li { color:var(--text-secondary); font-size:13px; line-height:1.85; }
+    .guide-card p { margin-top:10px; }
+    .guide-card ol, .guide-card ul { margin-top:13px; padding-left:20px; }
+    .guide-card li + li { margin-top:7px; }
+    .faq-list { display:grid; gap:12px; margin-top:16px; }
+    .faq-item { padding:17px 18px; border:1px solid var(--border); border-radius:13px; background:var(--surface-soft); }
+    .faq-item strong { display:block; font-size:13px; font-weight:850; }
+    .faq-item p { margin-top:6px; }
+    @media (max-width:760px) { .guide-grid { grid-template-columns:1fr; } .guide-card.wide { grid-column:auto; } .guide-card { padding:20px; } }
+
   </style>
 
 <style>
@@ -4406,6 +4426,62 @@ linear-gradient(45deg,#edf0f4 25%,#f6f7f9 25%) 9px -9px/18px 18px}
           <div class="history-list" id="historyList">
             <div class="history-empty">저장된 작업이 없습니다.</div>
           </div>
+        </div>
+      </section>
+
+
+      <section class="guide-section" aria-label="이미지 워터마크 사용 안내">
+        <div class="guide-grid">
+          <article class="guide-card">
+            <h2>이미지 워터마크 사용 방법</h2>
+            <ol>
+              <li>워터마크를 넣을 이미지를 선택하거나 파일을 드래그해 추가합니다.</li>
+              <li>표시할 텍스트를 입력하고 왼쪽 위, 가운데, 오른쪽 위, 왼쪽 아래, 오른쪽 아래 또는 전체 반복 패턴 중 위치를 선택합니다.</li>
+              <li>투명도, 글자 크기와 회전 각도를 조절하면서 미리보기에서 결과를 확인합니다.</li>
+              <li>설정이 끝나면 <strong>워터마크 이미지 만들기</strong>를 눌러 결과 이미지를 저장합니다.</li>
+            </ol>
+          </article>
+
+          <article class="guide-card">
+            <h2>어떤 상황에서 사용할 수 있나요?</h2>
+            <p>사진이나 작업 이미지에 작성자명, 브랜드명, 간단한 출처 문구처럼 식별용 텍스트를 표시할 때 사용할 수 있습니다.</p>
+            <ul>
+              <li>블로그나 커뮤니티에 올릴 이미지에 이름 표시</li>
+              <li>작업 시안이나 공유용 이미지에 임시 문구 추가</li>
+              <li>여러 위치에 반복되는 텍스트 패턴 적용</li>
+              <li>이미지 내용은 유지하면서 눈에 덜 띄는 반투명 문구 추가</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h2>위치·투명도·회전 설정</h2>
+            <p>한쪽 모서리에 작은 표시가 필요하면 모서리 위치를, 이미지 전체에 반복 표시가 필요하면 전체 반복 패턴을 선택할 수 있습니다. 투명도를 낮추면 원본 내용을 덜 가리고, 글자 크기와 회전을 조절하면 이미지 비율과 구성에 맞게 배치할 수 있습니다.</p>
+            <p>이미지마다 밝기와 배경이 다르므로 저장하기 전에 미리보기에서 문구가 너무 강하거나 약하지 않은지 확인하는 것이 좋습니다.</p>
+          </article>
+
+          <article class="guide-card">
+            <h2>파일 처리와 최근 작업</h2>
+            <p>선택한 이미지는 서버로 전송하지 않고 현재 브라우저 안에서 처리합니다. 생성한 최근 결과는 이 브라우저에 저장되며, 최근 작업 영역에서 다시 확인하거나 삭제할 수 있습니다.</p>
+            <p>브라우저 데이터 삭제, 시크릿 모드 사용 또는 저장 공간 정리 등에 따라 최근 작업 기록은 사라질 수 있습니다.</p>
+          </article>
+
+          <article class="guide-card wide">
+            <h2>사용 전 알아두면 좋은 점</h2>
+            <p>이 도구는 이미지 위에 텍스트 워터마크를 추가하는 용도입니다. 워터마크가 저작권 등록이나 소유권을 자동으로 증명하는 것은 아니며, 다른 사람이 만든 이미지에는 해당 이미지의 이용 조건과 권리를 확인한 뒤 사용해야 합니다.</p>
+            <p>결과 품질은 원본 이미지의 크기와 브라우저가 처리할 수 있는 메모리 환경에 영향을 받을 수 있습니다. 큰 이미지를 사용할 때는 저장 전에 미리보기를 확인해 주세요.</p>
+          </article>
+
+          <article class="guide-card wide">
+            <h2>자주 묻는 질문</h2>
+            <div class="faq-list">
+              <div class="faq-item"><strong>Q. 원본 이미지가 변경되나요?</strong><p>아니요. 브라우저에서 별도의 결과 이미지를 생성하므로 선택한 원본 파일 자체를 수정하지 않습니다.</p></div>
+              <div class="faq-item"><strong>Q. 워터마크를 이미지 전체에 반복할 수 있나요?</strong><p>네. 위치 설정에서 전체 반복 패턴을 선택하면 텍스트가 이미지 전체에 반복되도록 적용할 수 있습니다.</p></div>
+              <div class="faq-item"><strong>Q. 워터마크를 흐리게 만들 수 있나요?</strong><p>네. 투명도 슬라이더를 조절해 원본 이미지가 잘 보이도록 워터마크의 강도를 변경할 수 있습니다.</p></div>
+              <div class="faq-item"><strong>Q. 글자를 기울일 수 있나요?</strong><p>네. 회전 설정을 이용해 -45도부터 45도 범위에서 텍스트 각도를 조절할 수 있습니다.</p></div>
+              <div class="faq-item"><strong>Q. 선택한 이미지가 서버에 업로드되나요?</strong><p>아니요. 이미지 선택, 미리보기와 결과 생성은 현재 브라우저 안에서 처리됩니다.</p></div>
+              <div class="faq-item"><strong>Q. 최근 작업은 다른 기기에서도 보이나요?</strong><p>아니요. 최근 작업은 현재 브라우저에 저장되는 기록이므로 다른 기기나 다른 브라우저와 자동으로 동기화되지 않습니다.</p></div>
+            </div>
+          </article>
         </div>
       </section>
 
