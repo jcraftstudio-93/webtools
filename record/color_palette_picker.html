@@ -4908,6 +4908,31 @@
       }
     }
 
+  
+
+    /* ==================================================
+       컬러 피커 정보 가이드
+    ================================================== */
+    .color-guide-section { margin-top: 22px; }
+    .color-guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .color-guide-card { padding:25px; border:1px solid var(--border); border-radius:18px; background:var(--surface); }
+    .color-guide-card.wide { grid-column:1 / -1; }
+    .color-guide-card h2 { font-size:20px; font-weight:850; letter-spacing:-.5px; }
+    .color-guide-card h3 { font-size:14px; font-weight:850; margin-bottom:7px; }
+    .color-guide-card > p, .color-guide-card li { color:var(--text-secondary); font-size:12px; line-height:1.8; }
+    .color-guide-card ul, .color-guide-card ol { margin-top:14px; padding-left:20px; }
+    .color-guide-card li + li { margin-top:8px; }
+    .color-guide-card strong { color:var(--text-primary); }
+    .color-faq-list { display:grid; gap:10px; margin-top:16px; }
+    .color-faq-item { padding:17px 18px; border:1px solid var(--border); border-radius:14px; background:var(--surface-soft); }
+    .color-faq-item p { color:var(--text-secondary); font-size:11px; line-height:1.75; }
+    .color-related-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:16px; }
+    .color-related-link { padding:16px; border:1px solid var(--border); border-radius:13px; background:var(--surface-soft); transition:.2s ease; }
+    .color-related-link:hover { border-color:#bfd9ff; background:var(--primary-soft); transform:translateY(-1px); }
+    .color-related-link strong { display:block; font-size:13px; }
+    .color-related-link span { display:block; margin-top:4px; color:var(--text-muted); font-size:10px; line-height:1.55; }
+    @media (max-width:760px) { .color-guide-grid,.color-related-links { grid-template-columns:1fr; } .color-guide-card.wide { grid-column:auto; } }
+
   </style>
 </head>
 
@@ -5138,6 +5163,76 @@
               <p>색상(Hue), 채도(Saturation), 밝기(Lightness)를 기준으로 색을 표현합니다.</p>
             </article>
           </div>
+        </div>
+      </section>
+
+
+      <section class="color-guide-section" aria-label="컬러 피커 사용 안내">
+        <div class="color-guide-grid">
+          <article class="color-guide-card">
+            <h2>색상표·컬러 피커 사용 방법</h2>
+            <ol>
+              <li><strong>색상표에서 고르기:</strong> 색상 계열과 명도를 살펴본 뒤 원하는 색상 칸을 클릭합니다.</li>
+              <li><strong>이미지에서 추출하기:</strong> ‘이미지에서 추출’ 탭에서 이미지를 불러오거나 작업 영역으로 끌어다 놓습니다.</li>
+              <li><strong>원하는 지점 선택:</strong> 이미지의 특정 지점을 클릭하면 해당 픽셀의 색상 값이 표시됩니다.</li>
+              <li><strong>값 복사:</strong> HEX, RGB, HSL 옆 복사 버튼을 눌러 필요한 형식을 클립보드에 복사합니다.</li>
+            </ol>
+          </article>
+
+          <article class="color-guide-card">
+            <h2>이런 작업에 활용할 수 있습니다</h2>
+            <ul>
+              <li>웹 페이지나 앱 UI에 사용할 색상 코드 확인</li>
+              <li>사진·스크린샷·디자인 시안에서 특정 색상 추출</li>
+              <li>HEX 색상을 RGB 또는 HSL 형식으로 함께 확인</li>
+              <li>비슷한 계열의 밝고 어두운 색상을 색상표에서 비교</li>
+              <li>CSS나 디자인 도구에 붙여 넣을 색상 값 빠르게 복사</li>
+            </ul>
+          </article>
+
+          <article class="color-guide-card">
+            <h2>이미지 색상은 어떻게 추출되나요?</h2>
+            <p>선택한 이미지는 브라우저의 FileReader로 읽은 뒤 Canvas에 표시합니다. 이미지가 매우 큰 경우 화면에서 다루기 쉽도록 긴 변 기준 최대 1600픽셀 범위로 축소해 Canvas에 그린 다음, 클릭한 위치의 픽셀 RGB 값을 읽어 HEX와 HSL로 변환합니다.</p>
+            <p style="margin-top:10px;">따라서 이 도구의 목적은 화면에 표시된 이미지에서 색상을 빠르게 확인하는 것입니다. 원본 이미지 자체를 편집하거나 저장하지 않습니다.</p>
+          </article>
+
+          <article class="color-guide-card">
+            <h2>이미지는 어디에서 처리되나요?</h2>
+            <p>이미지 색상 추출은 현재 브라우저 안에서 처리되며, 이 도구의 색상 추출 기능을 위해 이미지 파일을 서버로 업로드하지 않습니다. 페이지를 닫거나 새 이미지를 선택하면 현재 작업 화면의 이미지도 교체됩니다.</p>
+            <p style="margin-top:10px;">공용 기기에서는 작업 후 페이지를 닫고, 브라우저 자체의 다운로드·캐시·기록 정책이 필요한 경우 별도로 확인하는 것이 좋습니다.</p>
+          </article>
+
+          <article class="color-guide-card wide">
+            <h2>색상 값을 사용할 때 알아두면 좋은 점</h2>
+            <ul>
+              <li><strong>HEX</strong>는 웹/CSS에서 간결하게 사용하기 좋고, <strong>RGB</strong>는 빨강·초록·파랑 채널 값을 직접 확인할 때 편리합니다.</li>
+              <li><strong>HSL</strong>은 색상·채도·밝기를 기준으로 표현하므로 같은 계열의 색을 조정할 때 이해하기 쉽습니다.</li>
+              <li>이미지의 경계, 그림자, 반투명 영역, 압축 노이즈가 있는 부분은 인접 픽셀과 색상 값이 달라질 수 있습니다. 필요한 경우 주변 지점을 몇 번 비교해 보세요.</li>
+              <li>모니터 설정, 색상 프로필, 브라우저 렌더링 환경에 따라 사람이 화면에서 느끼는 색과 숫자로 읽은 픽셀 값의 인상이 다를 수 있습니다.</li>
+            </ul>
+          </article>
+
+          <article class="color-guide-card wide">
+            <h2>자주 묻는 질문</h2>
+            <div class="color-faq-list">
+              <div class="color-faq-item"><h3>이미지를 업로드하면 서버에 저장되나요?</h3><p>이 페이지의 이미지 색상 추출은 브라우저 안에서 처리하며, 색상 추출을 위해 선택한 이미지를 서버로 전송하지 않습니다.</p></div>
+              <div class="color-faq-item"><h3>어떤 이미지 파일을 사용할 수 있나요?</h3><p>파일 선택창은 image/* 형식을 받으며, 실제 사용 가능 여부는 현재 브라우저가 해당 이미지 형식을 표시할 수 있는지에 따라 달라집니다. 일반적인 JPG, PNG, WEBP 등을 사용할 수 있습니다.</p></div>
+              <div class="color-faq-item"><h3>이미지를 클릭하면 어떤 색을 읽나요?</h3><p>Canvas에 표시된 이미지에서 클릭한 위치에 대응하는 픽셀의 RGB 값을 읽고 HEX와 HSL 값을 함께 계산합니다.</p></div>
+              <div class="color-faq-item"><h3>색상 값은 바로 복사할 수 있나요?</h3><p>네. HEX, RGB, HSL 각 결과 옆의 복사 버튼으로 해당 값을 클립보드에 복사할 수 있습니다.</p></div>
+              <div class="color-faq-item"><h3>원본 이미지가 변경되나요?</h3><p>아니요. 이 도구는 브라우저에서 이미지를 읽어 색상을 확인할 뿐 원본 이미지 파일을 수정하지 않습니다.</p></div>
+              <div class="color-faq-item"><h3>큰 이미지는 원본 크기 그대로 분석하나요?</h3><p>항상 그렇지는 않습니다. 코드상 긴 변이 1600픽셀을 넘는 이미지는 비율을 유지해 축소한 뒤 Canvas에서 색상을 읽습니다.</p></div>
+            </div>
+          </article>
+
+          <article class="color-guide-card wide">
+            <h2>함께 사용할 수 있는 이미지 도구</h2>
+            <p>색상을 확인한 뒤 이미지 크기 변경, 형식 변환, 워터마크 작업이 필요하다면 아래 도구를 이어서 사용할 수 있습니다.</p>
+            <div class="color-related-links">
+              <a class="color-related-link" href="/webtools/image/image_resize.html"><strong>이미지 크기 조절</strong><span>이미지의 가로·세로 크기를 원하는 값으로 변경합니다.</span></a>
+              <a class="color-related-link" href="/webtools/image/image_converter.html"><strong>이미지 형식 변환</strong><span>지원되는 이미지 형식을 다른 형식으로 변환합니다.</span></a>
+              <a class="color-related-link" href="/webtools/image/image_watermark.html"><strong>이미지 워터마크</strong><span>이미지에 텍스트 워터마크를 추가합니다.</span></a>
+            </div>
+          </article>
         </div>
       </section>
 
