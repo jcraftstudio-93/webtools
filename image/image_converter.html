@@ -5317,6 +5317,53 @@
       </div>
     </section>
 
+
+    <section class="converter-panel" style="margin-top:24px;">
+      <header class="converter-panel-header"><div><h2 class="converter-panel-title">이미지 컨버터 사용 가이드</h2><p class="converter-panel-subtitle">형식별 특징과 변환 시 알아두면 좋은 내용을 확인하세요.</p></div></header>
+      <div class="converter-panel-body">
+        <div class="converter-support-grid">
+          <span class="converter-support-item"><strong>1. 이미지 선택</strong><br>JPG, JPEG, PNG, WEBP, BMP, HEIC 또는 HEIF 파일을 선택하거나 끌어다 놓습니다.</span>
+          <span class="converter-support-item"><strong>2. 출력 형식 선택</strong><br>JPG, PNG, BMP 중 필요한 결과 형식을 선택합니다.</span>
+          <span class="converter-support-item"><strong>3. 품질 설정</strong><br>JPG를 선택한 경우 품질 값을 조절해 화질과 파일 크기의 균형을 맞출 수 있습니다.</span>
+          <span class="converter-support-item"><strong>4. 변환 및 저장</strong><br>변환 버튼을 누르면 브라우저에서 처리한 뒤 결과 파일을 다운로드합니다.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="converter-panel" style="margin-top:24px;">
+      <header class="converter-panel-header"><div><h2 class="converter-panel-title">어떤 형식으로 변환하면 좋을까요?</h2><p class="converter-panel-subtitle">사용 목적에 따라 출력 형식을 선택할 수 있습니다.</p></div></header>
+      <div class="converter-panel-body">
+        <div class="converter-support-grid">
+          <span class="converter-support-item"><strong>JPG</strong><br>사진처럼 색상이 많은 이미지에 일반적으로 적합합니다. 품질 설정에 따라 파일 크기가 달라질 수 있으며 투명 배경은 유지되지 않습니다.</span>
+          <span class="converter-support-item"><strong>PNG</strong><br>투명 배경이나 선명한 그래픽을 다룰 때 유용합니다. 이미지에 따라 JPG보다 파일 크기가 커질 수 있습니다.</span>
+          <span class="converter-support-item"><strong>BMP</strong><br>비트맵 형식이 필요한 작업에서 사용할 수 있습니다. 결과 파일의 용량이 비교적 커질 수 있습니다.</span>
+          <span class="converter-support-item"><strong>HEIC / HEIF 입력</strong><br>지원되는 파일은 브라우저용 변환 라이브러리를 거쳐 읽습니다. 브라우저와 파일 종류에 따라 처리되지 않을 수 있습니다.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="converter-panel" style="margin-top:24px;">
+      <header class="converter-panel-header"><div><h2 class="converter-panel-title">사용 전 알아두세요</h2></div></header>
+      <div class="converter-panel-body">
+        <p class="converter-panel-subtitle" style="font-size:14px;line-height:1.9;">이미지 형식을 변경한다고 해서 원본에 없던 화질이나 세부 정보가 새로 만들어지는 것은 아닙니다. JPG처럼 손실 압축을 사용하는 형식으로 저장하면 설정한 품질에 따라 이미지 품질이 달라질 수 있습니다. PNG의 투명 영역을 JPG로 변환하면 투명도를 그대로 유지할 수 없습니다. 매우 큰 이미지나 HEIC·HEIF 파일은 기기 성능, 메모리, 브라우저 지원 상태에 따라 처리 시간이 길어지거나 변환이 제한될 수 있습니다.</p>
+        <p class="converter-panel-subtitle" style="font-size:14px;line-height:1.9;margin-top:14px;">선택한 이미지는 일반 변환 과정에서 외부 서버로 업로드하지 않고 현재 브라우저에서 처리합니다. 최근 변환 결과는 다시 다운로드할 수 있도록 이 브라우저의 IndexedDB에 최대 10개까지 저장되며, 페이지의 ‘전체 삭제’ 기능으로 지울 수 있습니다. HEIC·HEIF 처리를 위해 페이지에 포함된 브라우저용 라이브러리는 별도로 로드됩니다.</p>
+      </div>
+    </section>
+
+    <section class="converter-panel" style="margin-top:24px;">
+      <header class="converter-panel-header"><div><h2 class="converter-panel-title">자주 묻는 질문</h2><p class="converter-panel-subtitle">이미지 형식 변환과 관련해 자주 확인하는 내용을 정리했습니다.</p></div></header>
+      <div class="converter-panel-body">
+        <div class="converter-support-grid">
+          <span class="converter-support-item"><strong>WEBP를 JPG로 바꿀 수 있나요?</strong><br>네. 브라우저가 해당 WEBP 이미지를 읽을 수 있다면 JPG를 출력 형식으로 선택해 변환할 수 있습니다.</span>
+          <span class="converter-support-item"><strong>HEIC 파일도 변환할 수 있나요?</strong><br>HEIC·HEIF 입력을 지원하지만 브라우저와 파일 특성에 따라 변환되지 않는 경우가 있습니다.</span>
+          <span class="converter-support-item"><strong>PNG를 JPG로 바꾸면 투명 배경은 유지되나요?</strong><br>아니요. JPG는 투명도를 지원하지 않으므로 PNG의 투명 영역은 그대로 보존되지 않습니다.</span>
+          <span class="converter-support-item"><strong>JPG 품질은 무엇인가요?</strong><br>JPG 저장 시 적용하는 품질 설정입니다. 높은 값을 사용하면 일반적으로 세부 표현을 더 유지하지만 결과 용량도 커질 수 있습니다.</span>
+          <span class="converter-support-item"><strong>원본 이미지가 변경되나요?</strong><br>아니요. 원본 파일 자체를 수정하지 않고 별도의 결과 파일을 생성해 다운로드합니다.</span>
+          <span class="converter-support-item"><strong>최근 변환 기록은 어디에 저장되나요?</strong><br>최근 결과는 현재 브라우저의 로컬 저장소인 IndexedDB에 최대 10개까지 보관됩니다. 전체 삭제 버튼으로 기록을 지울 수 있습니다.</span>
+        </div>
+      </div>
+    </section>
+
     <section class="related-section">
       <h2 class="related-title">다른 이미지 도구</h2>
 
